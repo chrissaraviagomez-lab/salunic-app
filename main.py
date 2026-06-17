@@ -33,8 +33,8 @@ class SalunicApp:
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
         
-        # Mostrar splash screen primero
-        self.show_frame(SplashScreen)
+        # Mostrar HomeScreen directamente para cargar el panel profesional
+        self.show_frame(HomeScreen)
     
     def show_frame(self, cont):
         frame = self.frames[cont]
