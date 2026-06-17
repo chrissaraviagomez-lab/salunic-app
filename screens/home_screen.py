@@ -77,7 +77,7 @@ class HomeScreen(tk.Frame):
     def create_health_stats(self):
         self.canvas.create_rectangle(
             18, 102, 357, 167,
-            fill="#3379c8",
+            fill="#215ba8",
             outline="",
             width=0
         )
@@ -172,10 +172,10 @@ class HomeScreen(tk.Frame):
             (193.5, 379.8, "👤", "Mi Perfil", "Editar datos", "#F7DC6F", "#fcf4d1"),
         ]
         
-        for x, y, icon, title, subtitle, color, subtitle_color in services:
+        for x, y, icon, title, subtitle, background_color, subtitle_color in services:
             self.canvas.create_rectangle(
                 x, y, x + 163.5, y + 121.8,
-                fill=color,
+                fill=background_color,
                 outline="",
                 width=0
             )
