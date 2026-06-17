@@ -21,17 +21,6 @@ class HomeScreen(tk.Frame):
         self.create_upcoming_appointments()
         self.create_today_medications()
         self.create_bottom_navigation()
-
-    @staticmethod
-    def _blend_with_white(base_hex, alpha):
-        base_hex = base_hex.lstrip("#")
-        r = int(base_hex[0:2], 16)
-        g = int(base_hex[2:4], 16)
-        b = int(base_hex[4:6], 16)
-        out_r = round(alpha * 255 + (1 - alpha) * r)
-        out_g = round(alpha * 255 + (1 - alpha) * g)
-        out_b = round(alpha * 255 + (1 - alpha) * b)
-        return f"#{out_r:02x}{out_g:02x}{out_b:02x}"
     
     def create_header(self):
         self.canvas.create_rectangle(
@@ -88,7 +77,7 @@ class HomeScreen(tk.Frame):
     def create_health_stats(self):
         self.canvas.create_rectangle(
             18, 102, 357, 167,
-            fill=self._blend_with_white("#1565c0", 0.13),
+            fill="#3379c8",
             outline="",
             width=0
         )
@@ -177,13 +166,13 @@ class HomeScreen(tk.Frame):
         )
         
         services = [
-            (18, 226, "📅", "Citas Médicas", "2 próximas citas", "#FF6B6B"),
-            (193.5, 226, "💊", "Medicamentos", "2 tomas hoy", "#4ECDC4"),
-            (18, 379.8, "📋", "Historial Médico", "Ver registros", "#95E1D3"),
-            (193.5, 379.8, "👤", "Mi Perfil", "Editar datos", "#F7DC6F"),
+            (18, 226, "📅", "Citas Médicas", "2 próximas citas", "#FF6B6B", "#ffd0d0"),
+            (193.5, 226, "💊", "Medicamentos", "2 tomas hoy", "#4ECDC4", "#c6efec"),
+            (18, 379.8, "📋", "Historial Médico", "Ver registros", "#95E1D3", "#ddf5f1"),
+            (193.5, 379.8, "👤", "Mi Perfil", "Editar datos", "#F7DC6F", "#fcf4d1"),
         ]
         
-        for x, y, icon, title, subtitle, color in services:
+        for x, y, icon, title, subtitle, color, subtitle_color in services:
             self.canvas.create_rectangle(
                 x, y, x + 163.5, y + 121.8,
                 fill=color,
@@ -211,7 +200,7 @@ class HomeScreen(tk.Frame):
                 x + 14, y + 88.8,
                 text=subtitle,
                 font=("Nunito", 11, "bold"),
-                fill=self._blend_with_white(color, 0.68),
+                fill=subtitle_color,
                 anchor="nw"
             )
     
