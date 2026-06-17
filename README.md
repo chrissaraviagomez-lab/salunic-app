@@ -170,3 +170,29 @@ Este proyecto es parte de un trabajo académico de la UNAN Managua.
 **Estado**: En desarrollo 🚧
 
 **Última actualización**: Junio 17, 2026
+
+## ✅ Verificación de archivos
+
+Todos los archivos necesarios están presentes en el repositorio:
+
+| Archivo | Estado |
+|---|---|
+| `main.py` | ✅ |
+| `screens/__init__.py` | ✅ |
+| `screens/splash_screen.py` | ✅ |
+| `screens/inicio_screen.py` | ✅ |
+| `screens/home_screen.py` | ✅ |
+| `screens/forms/__init__.py` | ✅ |
+| `screens/forms/form_registro.py` | ✅ |
+| `screens/forms/form_cita.py` | ✅ |
+| `screens/forms/form_medicamento.py` | ✅ |
+| `screens/password_reset/__init__.py` | ✅ |
+| `screens/password_reset/screen_1_email.py` | ✅ |
+| `screens/password_reset/screen_2_otp.py` | ✅ |
+| `screens/password_reset/screen_3_password.py` | ✅ |
+
+Para ejecutar la aplicación después de descargar o hacer `git pull`:
+
+```bash
+python main.py
+```
