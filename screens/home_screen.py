@@ -21,6 +21,17 @@ class HomeScreen(tk.Frame):
         self.create_upcoming_appointments()
         self.create_today_medications()
         self.create_bottom_navigation()
+
+    @staticmethod
+    def _blend_with_white(base_hex, alpha):
+        base_hex = base_hex.lstrip("#")
+        r = int(base_hex[0:2], 16)
+        g = int(base_hex[2:4], 16)
+        b = int(base_hex[4:6], 16)
+        out_r = round(alpha * 255 + (1 - alpha) * r)
+        out_g = round(alpha * 255 + (1 - alpha) * g)
+        out_b = round(alpha * 255 + (1 - alpha) * b)
+        return f"#{out_r:02x}{out_g:02x}{out_b:02x}"
     
     def create_header(self):
         self.canvas.create_rectangle(
@@ -77,7 +88,7 @@ class HomeScreen(tk.Frame):
     def create_health_stats(self):
         self.canvas.create_rectangle(
             18, 102, 357, 167,
-            fill="#3379c8",
+            fill=self._blend_with_white("#1565c0", 0.13),
             outline="",
             width=0
         )
@@ -200,7 +211,7 @@ class HomeScreen(tk.Frame):
                 x + 14, y + 88.8,
                 text=subtitle,
                 font=("Nunito", 11, "bold"),
-                fill="#ffffff",
+                fill=self._blend_with_white(color, 0.68),
                 anchor="nw"
             )
     
