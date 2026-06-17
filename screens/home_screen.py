@@ -33,7 +33,7 @@ class HomeScreen(tk.Frame):
             22, 30,
             text="9:41",
             font=("Nunito", 12, "bold"),
-            fill="#d9e8f7",
+            fill="#dce8f6",
             anchor="w"
         )
         
@@ -41,7 +41,7 @@ class HomeScreen(tk.Frame):
             345, 32,
             text="100%",
             font=("Nunito", 12, "bold"),
-            fill="#d9e8f7",
+            fill="#dce8f6",
             anchor="e"
         )
         
@@ -77,7 +77,7 @@ class HomeScreen(tk.Frame):
     def create_health_stats(self):
         self.canvas.create_rectangle(
             18, 102, 357, 167,
-            fill="#3378c4",
+            fill="#3379c8",
             outline="",
             width=0
         )
@@ -200,7 +200,7 @@ class HomeScreen(tk.Frame):
                 x + 14, y + 88.8,
                 text=subtitle,
                 font=("Nunito", 11, "bold"),
-                fill="#d9f6f2",
+                fill="#ffffff",
                 anchor="nw"
             )
     
