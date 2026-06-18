@@ -16,7 +16,7 @@ class InicioScreen(tk.Frame):
         self.canvas.create_text(
             28,
             112,
-            text="Tu app de salud para controlar citas, medicamentos y bienestar.",
+            text="Tu aplicacion de salud para controlar citas, medicamentos y bienestar.",
             font=("Nunito", 12),
             fill="#ffffff",
             anchor="w",
