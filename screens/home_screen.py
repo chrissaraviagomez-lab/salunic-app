@@ -47,7 +47,7 @@ class HomeScreen(tk.Frame):
         
         self.canvas.create_text(
             22, 63,
-            text="Buenos días",
+            text="Buenos dias",
             font=("Nunito", 13, "bold"),
             fill="#cccccc",
             anchor="nw"
@@ -55,7 +55,7 @@ class HomeScreen(tk.Frame):
         
         self.canvas.create_text(
             22, 88,
-            text="María González",
+            text="Maria Gonzalez",
             font=("Nunito", 20, "bold"),
             fill="#ffffff",
             anchor="nw"
@@ -84,7 +84,7 @@ class HomeScreen(tk.Frame):
         
         self.canvas.create_text(
             46, 122,
-            text="37°C",
+            text="37C",
             font=("Nunito", 14, "bold"),
             fill="#ffffff"
         )
@@ -160,32 +160,24 @@ class HomeScreen(tk.Frame):
         self.canvas.create_text(
             18, 200,
             text="SERVICIOS PRINCIPALES",
-            font=("Nunito", 10.5, "bold"),
+            font=("Nunito", 10, "bold"),
             fill="#9aa0b2",
             anchor="nw"
         )
         
         services = [
-            (18, 226, "📅", "Citas Médicas", "2 próximas citas", "#FF6B6B"),
-            (193.5, 226, "💊", "Medicamentos", "2 tomas hoy", "#4ECDC4"),
-            (18, 379.8, "📋", "Historial Médico", "Ver registros", "#95E1D3"),
-            (193.5, 379.8, "👤", "Mi Perfil", "Editar datos", "#F7DC6F"),
+            (18, 226, "Citas Medicas", "2 proximas citas", "#FF6B6B"),
+            (193.5, 226, "Medicamentos", "2 tomas hoy", "#4ECDC4"),
+            (18, 379.8, "Historial Medico", "Ver registros", "#95E1D3"),
+            (193.5, 379.8, "Mi Perfil", "Editar datos", "#F7DC6F"),
         ]
         
-        for x, y, icon, title, subtitle, color in services:
+        for x, y, title, subtitle, color in services:
             self.canvas.create_rectangle(
                 x, y, x + 163.5, y + 121.8,
                 fill=color,
                 outline="",
                 width=0
-            )
-            
-            self.canvas.create_text(
-                x + 14, y + 18,
-                text=icon,
-                font=("Arial", 28),
-                fill="#000000",
-                anchor="nw"
             )
             
             self.canvas.create_text(
@@ -197,7 +189,7 @@ class HomeScreen(tk.Frame):
             )
             
             self.canvas.create_text(
-                x + 14, y + 88.8,
+                x + 14, y + 88,
                 text=subtitle,
                 font=("Nunito", 11, "bold"),
                 fill="#dddddd",
@@ -207,15 +199,15 @@ class HomeScreen(tk.Frame):
     def create_upcoming_appointments(self):
         self.canvas.create_text(
             18, 535,
-            text="PRÓXIMAS CITAS",
-            font=("Nunito", 10.5, "bold"),
+            text="PROXIMAS CITAS",
+            font=("Nunito", 10, "bold"),
             fill="#9aa0b2",
             anchor="nw"
         )
         
         appointments = [
             (561, "15", "JUN", "Dr. Carlos Ruiz", "Medicina General", "10:30 AM - Hospital Militar"),
-            (650, "22", "JUN", "Dra. Ana López", "Cardiología", "2:00 PM - Hospital Militar"),
+            (650, "22", "JUN", "Dra. Ana Lopez", "Cardiologia", "2:00 PM - Hospital Militar"),
         ]
         
         for y, day, month, doctor, specialty, time in appointments:
@@ -281,7 +273,7 @@ class HomeScreen(tk.Frame):
         self.canvas.create_text(
             18, 739,
             text="MEDICAMENTOS DE HOY",
-            font=("Nunito", 10.5, "bold"),
+            font=("Nunito", 10, "bold"),
             fill="#9aa0b2",
             anchor="nw"
         )
@@ -297,13 +289,6 @@ class HomeScreen(tk.Frame):
             32, 776, 74, 818,
             fill="#e8f5e9",
             outline=""
-        )
-        
-        self.canvas.create_text(
-            53, 783.5,
-            text="💊",
-            font=("Arial", 20),
-            fill="#000000"
         )
         
         self.canvas.create_text(
@@ -346,21 +331,14 @@ class HomeScreen(tk.Frame):
         )
         
         nav_items = [
-            (39, "🏠", "INICIO", "#1565c0", True),
-            (108, "📅", "CITAS", "#bbbbbb", False),
-            (179, "💊", "MEDIC", "#bbbbbb", False),
-            (259, "📋", "HISTORIAL", "#bbbbbb", False),
-            (337, "👤", "PERFIL", "#bbbbbb", False),
+            (39, "INICIO", "#1565c0", True),
+            (108, "CITAS", "#bbbbbb", False),
+            (179, "MEDIC", "#bbbbbb", False),
+            (259, "HISTORIAL", "#bbbbbb", False),
+            (337, "PERFIL", "#bbbbbb", False),
         ]
         
-        for x, icon, label, color, is_active in nav_items:
-            self.canvas.create_text(
-                x, 750,
-                text=icon,
-                font=("Arial", 22),
-                fill="#000000"
-            )
-            
+        for x, label, color, is_active in nav_items:
             self.canvas.create_text(
                 x, 788.5 if is_active else 793,
                 text=label,
