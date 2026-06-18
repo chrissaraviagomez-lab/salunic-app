@@ -115,11 +115,7 @@ salunic-app/
 ## 🔄 Flujo de la aplicación
 
 ```
-Splash Screen → Inicio Screen → Home Screen
-                    ↓
-        Recuperación de Contraseña (3 pasos)
-                    ↓
-        Formularios (Registro, Cita, Medicamento)
+Splash Screen → Inicio Screen → Login Screen → Form Registro → Home Screen
 ```
 
 ## 📋 Requisitos de usuario
@@ -157,7 +153,7 @@ Splash Screen → Inicio Screen → Home Screen
 
 ### Consideraciones técnicas
 - Todas las pantallas utilizan Canvas de Tkinter para mayor flexibilidad visual
-- Los colores utilizan notación RGBA para transparencia
+- Los colores utilizan notación HEX
 - Las fuentes utilizan "Nunito" como familia principal
 - Responsive design basado en proporciones
 
