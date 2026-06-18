@@ -1,147 +1,157 @@
 import tkinter as tk
-from tkinter import Canvas, messagebox
+from tkinter import messagebox
 
 class RegistroScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="#ffffff")
         self.controller = controller
-        self.parent = parent
-        
-        self.canvas = Canvas(
-            self,
-            width=375,
-            height=812,
-            bg="#ffffff",
-            highlightthickness=0
-        )
-        self.canvas.pack()
-        
-        self.nombre_var = tk.StringVar()
-        self.email_var = tk.StringVar()
-        self.password_var = tk.StringVar()
-        self.confirm_password_var = tk.StringVar()
-        
-        self.create_background()
-        self.create_header()
-        self.create_form()
-        self.create_buttons()
+        self.create_widgets()
     
-    def create_background(self):
-        self.canvas.create_rectangle(
-            0, 0, 375, 812,
-            fill="#f4f6fb",
-            outline=""
-        )
+    def create_widgets(self):
+        # Encabezado
+        header = tk.Frame(self, bg="#1565c0", height=80)
+        header.pack(fill="x")
         
-        self.canvas.create_rectangle(
-            0, 0, 375, 100,
-            fill="#1565c0",
-            outline=""
-        )
-    
-    def create_header(self):
-        self.canvas.create_text(
-            187, 50,
+        title = tk.Label(
+            header,
             text="Crear Cuenta",
-            font=("Nunito", 28, "bold"),
-            fill="#ffffff"
+            font=("Nunito", 24, "bold"),
+            fg="#ffffff",
+            bg="#1565c0"
         )
+        title.pack(pady=20)
+        
+        # Contenido scrollable
+        canvas = tk.Canvas(self, bg="#ffffff", highlightthickness=0)
+        scrollbar = tk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg="#ffffff")
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Campos del formulario
+        self.create_form_fields(scrollable_frame)
     
-    def create_form(self):
-        fields = [
-            {"label": "Nombre Completo", "var": self.nombre_var, "y": 130},
-            {"label": "Email", "var": self.email_var, "y": 220},
-            {"label": "Contraseña", "var": self.password_var, "y": 310, "show": "*"},
-            {"label": "Confirmar Contraseña", "var": self.confirm_password_var, "y": 400, "show": "*"}
-        ]
-        
-        for field in fields:
-            self.canvas.create_text(
-                20, field["y"],
-                text=field["label"],
-                font=("Nunito", 12, "bold"),
-                fill="#333333",
-                anchor="nw"
-            )
-            
-            entry = tk.Entry(
-                self,
-                textvariable=field["var"],
-                font=("Nunito", 12),
-                bg="#ffffff",
-                fg="#333333",
-                relief=tk.FLAT,
-                bd=0,
-                show=field.get("show", "")
-            )
-            self.canvas.create_window(
-                187, field["y"] + 40,
-                window=entry,
-                width=335,
-                height=45
-            )
-            
-            self.canvas.create_rectangle(
-                20, field["y"] + 30, 355, field["y"] + 75,
-                fill="#ffffff",
-                outline="#e0e0e0",
-                width=1
-            )
-    
-    def create_buttons(self):
-        self.registrar_button = self.canvas.create_rectangle(
-            20, 530, 355, 580,
-            fill="#2ecc71",
-            outline=""
-        )
-        
-        self.canvas.create_text(
-            187, 555,
-            text="Registrarse",
-            font=("Nunito", 16, "bold"),
-            fill="#ffffff"
-        )
-        
-        self.canvas.tag_bind(self.registrar_button, "<Button-1>", self.on_register)
-        
-        self.volver_button = self.canvas.create_text(
-            187, 620,
-            text="¿Ya tienes cuenta? Inicia sesion",
+    def create_form_fields(self, parent):
+        # Nombre
+        tk.Label(
+            parent,
+            text="Nombre Completo:",
             font=("Nunito", 11),
-            fill="#1565c0"
+            fg="#333333",
+            bg="#ffffff"
+        ).pack(anchor="w", padx=20, pady=(20, 5))
+        
+        self.name_entry = tk.Entry(
+            parent,
+            font=("Nunito", 11),
+            width=30,
+            bg="#f5f5f5"
         )
+        self.name_entry.pack(fill="x", padx=20, pady=(0, 15))
         
-        self.canvas.tag_bind(self.volver_button, "<Button-1>", self.on_back_to_login)
+        # Email
+        tk.Label(
+            parent,
+            text="Email:",
+            font=("Nunito", 11),
+            fg="#333333",
+            bg="#ffffff"
+        ).pack(anchor="w", padx=20, pady=(0, 5))
+        
+        self.email_entry = tk.Entry(
+            parent,
+            font=("Nunito", 11),
+            width=30,
+            bg="#f5f5f5"
+        )
+        self.email_entry.pack(fill="x", padx=20, pady=(0, 15))
+        
+        # Contraseña
+        tk.Label(
+            parent,
+            text="Contraseña:",
+            font=("Nunito", 11),
+            fg="#333333",
+            bg="#ffffff"
+        ).pack(anchor="w", padx=20, pady=(0, 5))
+        
+        self.password_entry = tk.Entry(
+            parent,
+            font=("Nunito", 11),
+            width=30,
+            bg="#f5f5f5",
+            show="*"
+        )
+        self.password_entry.pack(fill="x", padx=20, pady=(0, 15))
+        
+        # Confirmar Contraseña
+        tk.Label(
+            parent,
+            text="Confirmar Contraseña:",
+            font=("Nunito", 11),
+            fg="#333333",
+            bg="#ffffff"
+        ).pack(anchor="w", padx=20, pady=(0, 5))
+        
+        self.confirm_password_entry = tk.Entry(
+            parent,
+            font=("Nunito", 11),
+            width=30,
+            bg="#f5f5f5",
+            show="*"
+        )
+        self.confirm_password_entry.pack(fill="x", padx=20, pady=(0, 15))
+        
+        # Botón Registrar
+        btn_register = tk.Button(
+            parent,
+            text="Crear Cuenta",
+            font=("Nunito", 12, "bold"),
+            bg="#2ecc71",
+            fg="#ffffff",
+            command=self.register
+        )
+        btn_register.pack(fill="x", padx=20, pady=20)
+        
+        # Botón Volver
+        btn_back = tk.Button(
+            parent,
+            text="Volver",
+            font=("Nunito", 11),
+            bg="#ffffff",
+            fg="#1565c0",
+            relief="flat",
+            command=lambda: self.controller.show_screen("Inicio")
+        )
+        btn_back.pack(fill="x", padx=20, pady=(0, 20))
     
-    def on_register(self, event):
-        nombre = self.nombre_var.get().strip()
-        email = self.email_var.get().strip()
-        password = self.password_var.get().strip()
-        confirm_password = self.confirm_password_var.get().strip()
+    def register(self):
+        name = self.name_entry.get()
+        email = self.email_entry.get()
+        password = self.password_entry.get()
+        confirm_password = self.confirm_password_entry.get()
         
-        if not all([nombre, email, password, confirm_password]):
+        if not all([name, email, password, confirm_password]):
             messagebox.showerror("Error", "Por favor completa todos los campos")
-            return
-        
-        if "@" not in email:
-            messagebox.showerror("Error", "Email invalido")
-            return
-        
-        if len(password) < 6:
-            messagebox.showerror("Error", "La contraseña debe tener al menos 6 caracteres")
             return
         
         if password != confirm_password:
             messagebox.showerror("Error", "Las contraseñas no coinciden")
             return
         
-        if email == "usuario@salunic.com":
-            messagebox.showerror("Error", "Este email ya esta registrado")
+        if len(password) < 6:
+            messagebox.showerror("Error", "La contraseña debe tener al menos 6 caracteres")
             return
         
-        messagebox.showinfo("Exito", "Cuenta creada exitosamente!")
         self.controller.logged_in_user = email
+        messagebox.showinfo("Éxito", "Cuenta creada correctamente")
         self.controller.show_screen("Home")
-    
-    def on_back_to_login(self, event):
-        self.controller.show_screen("Login")
