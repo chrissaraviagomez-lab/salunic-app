@@ -1,15 +1,12 @@
-# Entorno virtual
-venv/
-env/
-ENV/
-.venv
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+env/
+venv/
+ENV/
 build/
 develop-eggs/
 dist/
@@ -22,12 +19,9 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # IDE
 .vscode/
@@ -37,25 +31,10 @@ MANIFEST
 *~
 .DS_Store
 
-# Archivos de sistema
-.DS_Store
-Thumbs.db
-
-# Archivos temporales
-*.tmp
-*.bak
-*.log
-
-# Archivos específicos del proyecto
-config.local.py
-.env
-.env.local
-
-# Archivos de prueba
-test_output/
-coverage/
+# Testing
 .pytest_cache/
+.coverage
+htmlcov/
 
-# Compilados
-*.pyc
-*.pyo
+# Tkinter
+*.tkm
