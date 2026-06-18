@@ -33,7 +33,7 @@ class HomeScreen(tk.Frame):
             22, 30,
             text="9:41",
             font=("Nunito", 12, "bold"),
-            fill="rgba(255, 255, 255, 0.85)",
+            fill="#ffffff",
             anchor="w"
         )
         
@@ -41,7 +41,7 @@ class HomeScreen(tk.Frame):
             345, 32,
             text="100%",
             font=("Nunito", 12, "bold"),
-            fill="rgba(255, 255, 255, 0.85)",
+            fill="#ffffff",
             anchor="e"
         )
         
@@ -49,7 +49,7 @@ class HomeScreen(tk.Frame):
             22, 63,
             text="Buenos días",
             font=("Nunito", 13, "bold"),
-            fill="rgba(255, 255, 255, 0.62)",
+            fill="#cccccc",
             anchor="nw"
         )
         
@@ -77,7 +77,7 @@ class HomeScreen(tk.Frame):
     def create_health_stats(self):
         self.canvas.create_rectangle(
             18, 102, 357, 167,
-            fill="rgba(255, 255, 255, 0.13)",
+            fill="#555555",
             outline="",
             width=0
         )
@@ -93,12 +93,12 @@ class HomeScreen(tk.Frame):
             46, 150,
             text="TEMP",
             font=("Nunito", 9, "bold"),
-            fill="rgba(255, 255, 255, 0.52)"
+            fill="#999999"
         )
         
         self.canvas.create_line(
             85.26, 130.5, 85.26, 164.5,
-            fill="rgba(255, 255, 255, 0.18)",
+            fill="#666666",
             width=1
         )
         
@@ -113,12 +113,12 @@ class HomeScreen(tk.Frame):
             128, 150,
             text="PULSO",
             font=("Nunito", 9, "bold"),
-            fill="rgba(255, 255, 255, 0.52)"
+            fill="#999999"
         )
         
         self.canvas.create_line(
             169.13, 130.5, 169.13, 164.5,
-            fill="rgba(255, 255, 255, 0.18)",
+            fill="#666666",
             width=1
         )
         
@@ -133,12 +133,12 @@ class HomeScreen(tk.Frame):
             209, 150,
             text="CITAS",
             font=("Nunito", 9, "bold"),
-            fill="rgba(255, 255, 255, 0.52)"
+            fill="#999999"
         )
         
         self.canvas.create_line(
             248.66, 130.5, 248.66, 164.5,
-            fill="rgba(255, 255, 255, 0.18)",
+            fill="#666666",
             width=1
         )
         
@@ -153,7 +153,7 @@ class HomeScreen(tk.Frame):
             298, 150,
             text="MEDIC",
             font=("Nunito", 9, "bold"),
-            fill="rgba(255, 255, 255, 0.52)"
+            fill="#999999"
         )
     
     def create_services(self):
@@ -200,7 +200,7 @@ class HomeScreen(tk.Frame):
                 x + 14, y + 88.8,
                 text=subtitle,
                 font=("Nunito", 11, "bold"),
-                fill="rgba(255, 255, 255, 0.68)",
+                fill="#dddddd",
                 anchor="nw"
             )
     
@@ -243,7 +243,7 @@ class HomeScreen(tk.Frame):
                 56, y + 47,
                 text=month,
                 font=("Nunito", 9, "bold"),
-                fill="rgba(255, 255, 255, 0.78)"
+                fill="#ffffff"
             )
             
             self.canvas.create_text(
@@ -295,7 +295,7 @@ class HomeScreen(tk.Frame):
         
         self.canvas.create_oval(
             32, 776, 74, 818,
-            fill="rgba(46, 204, 113, 0.1)",
+            fill="#e8f5e9",
             outline=""
         )
         
@@ -324,7 +324,7 @@ class HomeScreen(tk.Frame):
         
         self.canvas.create_rectangle(
             281.75, 786.5, 342.98, 807.5,
-            fill="rgba(46, 204, 113, 0.1)",
+            fill="#e8f5e9",
             outline="",
             width=0
         )
@@ -340,7 +340,7 @@ class HomeScreen(tk.Frame):
     def create_bottom_navigation(self):
         self.canvas.create_rectangle(
             0, 738, 375, 812,
-            fill="rgba(255, 255, 255, 0.96)",
+            fill="#f8f8f8",
             outline="",
             width=0
         )
