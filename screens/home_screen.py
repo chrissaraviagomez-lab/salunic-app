@@ -1,354 +1,197 @@
 import tkinter as tk
-from tkinter import Canvas
+from tkinter import Canvas, messagebox
+from datetime import datetime
 
 class HomeScreen(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, bg="#f4f6fb")
+        tk.Frame.__init__(self, parent, bg="#ffffff")
         self.controller = controller
+        self.parent = parent
         
         self.canvas = Canvas(
             self,
             width=375,
             height=812,
-            bg="#f4f6fb",
+            bg="#ffffff",
             highlightthickness=0
         )
         self.canvas.pack()
         
+        self.create_background()
         self.create_header()
-        self.create_health_stats()
-        self.create_services()
-        self.create_upcoming_appointments()
-        self.create_today_medications()
-        self.create_bottom_navigation()
+        self.create_user_info()
+        self.create_dashboard()
+        self.create_bottom_menu()
+    
+    def create_background(self):
+        self.canvas.create_rectangle(
+            0, 0, 375, 812,
+            fill="#f4f6fb",
+            outline=""
+        )
     
     def create_header(self):
         self.canvas.create_rectangle(
-            0, 0, 375, 181,
+            0, 0, 375, 80,
             fill="#1565c0",
             outline=""
         )
         
         self.canvas.create_text(
-            22, 30,
-            text="9:41",
-            font=("Nunito", 12, "bold"),
-            fill="#ffffff",
-            anchor="w"
-        )
-        
-        self.canvas.create_text(
-            345, 32,
-            text="100%",
-            font=("Nunito", 12, "bold"),
-            fill="#ffffff",
-            anchor="e"
-        )
-        
-        self.canvas.create_text(
-            22, 63,
-            text="Buenos dias",
-            font=("Nunito", 13, "bold"),
-            fill="#cccccc",
-            anchor="nw"
-        )
-        
-        self.canvas.create_text(
-            22, 88,
-            text="Maria Gonzalez",
-            font=("Nunito", 20, "bold"),
+            20, 30,
+            text="SALUNIC",
+            font=("Nunito", 24, "bold"),
             fill="#ffffff",
             anchor="nw"
         )
         
-        self.canvas.create_oval(
-            307, 43, 353, 89,
-            fill="#2ecc71",
-            outline=""
-        )
-        
+        user_email = self.controller.logged_in_user if hasattr(self.controller, 'logged_in_user') else "usuario@salunic.com"
         self.canvas.create_text(
-            330, 66,
-            text="MG",
-            font=("Nunito", 16, "bold"),
-            fill="#ffffff"
-        )
-    
-    def create_health_stats(self):
-        self.canvas.create_rectangle(
-            18, 102, 357, 167,
-            fill="#555555",
-            outline="",
-            width=0
-        )
-        
-        self.canvas.create_text(
-            46, 122,
-            text="37C",
-            font=("Nunito", 14, "bold"),
-            fill="#ffffff"
-        )
-        
-        self.canvas.create_text(
-            46, 150,
-            text="TEMP",
-            font=("Nunito", 9, "bold"),
-            fill="#999999"
-        )
-        
-        self.canvas.create_line(
-            85.26, 130.5, 85.26, 164.5,
-            fill="#666666",
-            width=1
-        )
-        
-        self.canvas.create_text(
-            128, 122,
-            text="72",
-            font=("Nunito", 14, "bold"),
-            fill="#ffffff"
-        )
-        
-        self.canvas.create_text(
-            128, 150,
-            text="PULSO",
-            font=("Nunito", 9, "bold"),
-            fill="#999999"
-        )
-        
-        self.canvas.create_line(
-            169.13, 130.5, 169.13, 164.5,
-            fill="#666666",
-            width=1
-        )
-        
-        self.canvas.create_text(
-            209, 122,
-            text="2",
-            font=("Nunito", 14, "bold"),
-            fill="#ffffff"
-        )
-        
-        self.canvas.create_text(
-            209, 150,
-            text="CITAS",
-            font=("Nunito", 9, "bold"),
-            fill="#999999"
-        )
-        
-        self.canvas.create_line(
-            248.66, 130.5, 248.66, 164.5,
-            fill="#666666",
-            width=1
-        )
-        
-        self.canvas.create_text(
-            298, 122,
-            text="22",
-            font=("Nunito", 14, "bold"),
-            fill="#ffffff"
-        )
-        
-        self.canvas.create_text(
-            298, 150,
-            text="MEDIC",
-            font=("Nunito", 9, "bold"),
-            fill="#999999"
-        )
-    
-    def create_services(self):
-        self.canvas.create_text(
-            18, 200,
-            text="SERVICIOS PRINCIPALES",
-            font=("Nunito", 10, "bold"),
-            fill="#9aa0b2",
+            20, 55,
+            text=f"Bienvenido: {user_email}",
+            font=("Nunito", 10),
+            fill="#e0e0e0",
             anchor="nw"
         )
-        
-        services = [
-            (18, 226, "Citas Medicas", "2 proximas citas", "#FF6B6B"),
-            (193.5, 226, "Medicamentos", "2 tomas hoy", "#4ECDC4"),
-            (18, 379.8, "Historial Medico", "Ver registros", "#95E1D3"),
-            (193.5, 379.8, "Mi Perfil", "Editar datos", "#F7DC6F"),
-        ]
-        
-        for x, y, title, subtitle, color in services:
-            self.canvas.create_rectangle(
-                x, y, x + 163.5, y + 121.8,
-                fill=color,
-                outline="",
-                width=0
-            )
-            
-            self.canvas.create_text(
-                x + 14, y + 64,
-                text=title,
-                font=("Nunito", 14, "bold"),
-                fill="#ffffff",
-                anchor="nw"
-            )
-            
-            self.canvas.create_text(
-                x + 14, y + 88,
-                text=subtitle,
-                font=("Nunito", 11, "bold"),
-                fill="#dddddd",
-                anchor="nw"
-            )
     
-    def create_upcoming_appointments(self):
+    def create_user_info(self):
+        today = datetime.now().strftime("%d de %B de %Y")
         self.canvas.create_text(
-            18, 535,
-            text="PROXIMAS CITAS",
-            font=("Nunito", 10, "bold"),
-            fill="#9aa0b2",
-            anchor="nw"
-        )
-        
-        appointments = [
-            (561, "15", "JUN", "Dr. Carlos Ruiz", "Medicina General", "10:30 AM - Hospital Militar"),
-            (650, "22", "JUN", "Dra. Ana Lopez", "Cardiologia", "2:00 PM - Hospital Militar"),
-        ]
-        
-        for y, day, month, doctor, specialty, time in appointments:
-            self.canvas.create_rectangle(
-                18, y, 357, y + 79,
-                fill="#ffffff",
-                outline="",
-                width=0
-            )
-            
-            self.canvas.create_oval(
-                33, y + 16.5, 79, y + 62.5,
-                fill="#2ecc71",
-                outline=""
-            )
-            
-            self.canvas.create_text(
-                56, y + 32,
-                text=day,
-                font=("Nunito", 16, "bold"),
-                fill="#ffffff"
-            )
-            
-            self.canvas.create_text(
-                56, y + 47,
-                text=month,
-                font=("Nunito", 9, "bold"),
-                fill="#ffffff"
-            )
-            
-            self.canvas.create_text(
-                88, y + 23,
-                text=doctor,
-                font=("Nunito", 13, "bold"),
-                fill="#1a1a2e",
-                anchor="nw"
-            )
-            
-            self.canvas.create_text(
-                88, y + 43,
-                text=specialty,
-                font=("Nunito", 11),
-                fill="#9aa0b2",
-                anchor="nw"
-            )
-            
-            self.canvas.create_text(
-                88, y + 61,
-                text=time,
-                font=("Nunito", 11, "bold"),
-                fill="#4fc3f7",
-                anchor="nw"
-            )
-            
-            self.canvas.create_text(
-                324, y + 41,
-                text=">",
-                font=("Nunito", 20),
-                fill="#dddddd"
-            )
-    
-    def create_today_medications(self):
-        self.canvas.create_text(
-            18, 739,
-            text="MEDICAMENTOS DE HOY",
-            font=("Nunito", 10, "bold"),
-            fill="#9aa0b2",
-            anchor="nw"
-        )
-        
-        self.canvas.create_rectangle(
-            18, 765, 357, 829,
-            fill="#ffffff",
-            outline="",
-            width=0
-        )
-        
-        self.canvas.create_oval(
-            32, 776, 74, 818,
-            fill="#e8f5e9",
-            outline=""
-        )
-        
-        self.canvas.create_text(
-            81, 780.5,
-            text="Metformina 500mg",
-            font=("Nunito", 13, "bold"),
-            fill="#1a1a2e",
-            anchor="nw"
-        )
-        
-        self.canvas.create_text(
-            81, 800.5,
-            text="1 tableta con desayuno",
+            20, 110,
+            text=f"Hoy: {today}",
             font=("Nunito", 11),
-            fill="#9aa0b2",
+            fill="#666666",
             anchor="nw"
         )
         
         self.canvas.create_rectangle(
-            281.75, 786.5, 342.98, 807.5,
-            fill="#e8f5e9",
-            outline="",
-            width=0
+            20, 150, 355, 220,
+            fill="#ffffff",
+            outline="#e0e0e0",
+            width=1
         )
         
         self.canvas.create_text(
-            311.87, 797,
-            text="8:00 AM",
-            font=("Nunito", 11, "bold"),
-            fill="#2ecc71",
-            anchor="center"
+            40, 165,
+            text="Estado de Salud",
+            font=("Nunito", 14, "bold"),
+            fill="#1565c0",
+            anchor="nw"
+        )
+        
+        self.canvas.create_text(
+            40, 190,
+            text="Presión: 120/80 mmHg • Pulso: 72 bpm",
+            font=("Nunito", 10),
+            fill="#333333",
+            anchor="nw"
         )
     
-    def create_bottom_navigation(self):
-        self.canvas.create_rectangle(
-            0, 738, 375, 812,
-            fill="#f8f8f8",
-            outline="",
-            width=0
-        )
-        
-        nav_items = [
-            (39, "INICIO", "#1565c0", True),
-            (108, "CITAS", "#bbbbbb", False),
-            (179, "MEDIC", "#bbbbbb", False),
-            (259, "HISTORIAL", "#bbbbbb", False),
-            (337, "PERFIL", "#bbbbbb", False),
+    def create_dashboard(self):
+        menu_items = [
+            {
+                "title": "Citas Medicas",
+                "icon": "📅",
+                "y": 250,
+                "action": "citas"
+            },
+            {
+                "title": "Medicamentos",
+                "icon": "💊",
+                "y": 330,
+                "action": "medicamentos"
+            },
+            {
+                "title": "Historial Medico",
+                "icon": "📋",
+                "y": 410,
+                "action": "historial"
+            },
+            {
+                "title": "Contactos de Emergencia",
+                "icon": "🆘",
+                "y": 490,
+                "action": "emergencia"
+            }
         ]
         
-        for x, label, color, is_active in nav_items:
-            self.canvas.create_text(
-                x, 788.5 if is_active else 793,
-                text=label,
-                font=("Nunito", 9, "bold"),
-                fill=color
+        for item in menu_items:
+            button_id = self.canvas.create_rectangle(
+                20, item["y"], 355, item["y"] + 60,
+                fill="#ffffff",
+                outline="#e0e0e0",
+                width=1
             )
             
-            if is_active:
-                self.canvas.create_oval(
-                    x - 2.5, 809, x + 2.5, 814,
-                    fill=color,
-                    outline=""
-                )
+            self.canvas.create_text(
+                50, item["y"] + 15,
+                text=item["icon"],
+                font=("Nunito", 24),
+                fill="#1565c0",
+                anchor="w"
+            )
+            
+            self.canvas.create_text(
+                90, item["y"] + 15,
+                text=item["title"],
+                font=("Nunito", 14, "bold"),
+                fill="#333333",
+                anchor="nw"
+            )
+            
+            self.canvas.create_text(
+                90, item["y"] + 38,
+                text="Tap para ver detalles →",
+                font=("Nunito", 9),
+                fill="#999999",
+                anchor="nw"
+            )
+            
+            self.canvas.tag_bind(button_id, "<Button-1>", lambda e, action=item["action"]: self.on_menu_click(action))
+    
+    def create_bottom_menu(self):
+        self.canvas.create_rectangle(
+            0, 740, 375, 812,
+            fill="#ffffff",
+            outline="#e0e0e0",
+            width=1
+        )
+        
+        buttons = [
+            {"text": "Inicio", "x": 30, "action": "inicio"},
+            {"text": "Perfil", "x": 130, "action": "perfil"},
+            {"text": "Configuracion", "x": 250, "action": "config"},
+            {"text": "Salir", "x": 320, "action": "logout"}
+        ]
+        
+        for btn in buttons:
+            button_id = self.canvas.create_text(
+                btn["x"], 770,
+                text=btn["text"],
+                font=("Nunito", 10, "bold"),
+                fill="#1565c0"
+            )
+            
+            self.canvas.tag_bind(button_id, "<Button-1>", lambda e, action=btn["action"]: self.on_bottom_click(action))
+    
+    def on_menu_click(self, action):
+        if action == "citas":
+            messagebox.showinfo("Citas Medicas", "Tus proximas citas:\n\n• Dr. Juan Rodriguez\n  Consulta General\n  15/07/2026 - 10:00 AM")
+        elif action == "medicamentos":
+            messagebox.showinfo("Medicamentos", "Tus medicamentos actuales:\n\n• Aspirina 500mg - 1 vez al dia\n• Vitamina C - 2 veces al dia")
+        elif action == "historial":
+            messagebox.showinfo("Historial Medico", "Historial reciente:\n\n• Consulta General - 10/06/2026\n• Analisis de sangre - 05/06/2026")
+        elif action == "emergencia":
+            messagebox.showinfo("Emergencia", "Contactos de emergencia:\n\n• Mama: +505 1234-5678\n• Papa: +505 8765-4321\n• Hospital IMSS: 2222-0000")
+    
+    def on_bottom_click(self, action):
+        if action == "logout":
+            if messagebox.askyesno("Confirmar", "¿Deseas cerrar sesion?"):
+                self.controller.logged_in_user = None
+                self.controller.show_screen("Inicio")
+        elif action == "perfil":
+            messagebox.showinfo("Perfil", f"Email: {self.controller.logged_in_user}\n\nEditar perfil disponible pronto")
+        elif action == "config":
+            messagebox.showinfo("Configuracion", "Opciones de configuracion:\n\n• Notificaciones\n• Privacidad\n• Tema")
+        elif action == "inicio":
+            self.controller.show_screen("Inicio")
