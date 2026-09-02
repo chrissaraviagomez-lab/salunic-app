@@ -40,17 +40,36 @@ python main.py
 
 ```
 salunic-app/
-├── main.py                    # Archivo principal de la aplicación
+├── main.py                    # Archivo principal de la aplicación / controlador de pantallas
 ├── requirements.txt           # Dependencias del proyecto
 ├── .gitignore                 # Archivos a ignorar en Git
 ├── README.md                  # Este archivo
+├── shoot.py                   # Utilidad de captura de pantalla para desarrollo
+├── DIAGRAMAS.md               # Documentación de Diagramas de Flujo de Datos (DFD)
+├── diagramas_img/             # Imágenes de los DFD del proyecto
+├── files/                     # Prototipos HTML de referencia (Figma/Figma Guide)
+├── data/                      # Módulo de datos del usuario
+│   ├── __init__.py
+│   └── users_data.py          # Persistencia de usuarios (JSON)
 └── screens/                   # Módulo de pantallas
     ├── __init__.py
+    ├── styles.py              # Colores, dimensiones y helpers de UI (create_rounded_rect, gradiente)
     ├── splash_screen.py       # Pantalla de inicio animada
-    ├── inicio_screen.py       # Pantalla de bienvenida
+    ├── inicio_screen.py       # Pantalla de bienvenida (Estado 2 - tarjeta sobre gradiente)
     ├── login_screen.py        # Pantalla de inicio de sesión
     ├── registro_screen.py     # Pantalla de registro de usuario
-    └── home_screen.py         # Pantalla principal del dashboard
+    ├── home_screen.py         # Dashboard principal (scroll + footer de navegación)
+    ├── citas_screen.py        # Lista de citas médicas
+    ├── historial_screen.py    # Historial médico
+    ├── medicamentos_screen.py # Lista de medicamentos / tomas de hoy
+    ├── estadisticas_screen.py # Estadísticas de salud
+    ├── forms/                 # Formularios
+    │   ├── __init__.py
+    │   ├── form_registro.py   # Editar Perfil (campo por campo sobre gradiente)
+    │   └── form_medicamento.py# Agregar Medicamento
+    └── password_reset/        # Recuperación de contraseña
+        ├── __init__.py
+        └── screen_2_otp.py    # Verificación de código OTP
 ```
 
 ## 🎨 Pantallas
@@ -80,7 +99,34 @@ salunic-app/
 - Avatar del usuario
 - Servicios principales: Citas, Medicamentos, Historial, Perfil
 - Próximas citas con detalles del médico
-- Menú inferior de navegación
+- Menú inferior de navegación (Inicio / Estadísticas / Perfil / Salir)
+
+### 6. Citas
+- Lista de citas médicas como tarjetas individuales sobre el gradiente
+- Botón "VOLVER AL INICIO"
+
+### 7. Historial
+- Registros médicos como tarjetas individuales sobre el gradiente
+- Botón "VOLVER AL INICIO"
+
+### 8. Medicamentos
+- Lista de "tomas de hoy" como tarjetas sobre el gradiente
+- Botón "AGREGAR MEDICAMENTO" que lleva al formulario
+
+### 9. Estadísticas de Salud
+- Resumen de temperatura, pulso, presión y citas
+- Tarjetas individuales sobre el gradiente
+
+### 10. Editar Perfil (FormRegistro)
+- Formulario de campos individuales sobre el gradiente
+- Pre-rellena los datos del usuario actual
+
+### 11. Agregar Medicamento (FormMedicamento)
+- Formulario de medicamentos sobre el gradiente
+
+### 12. Recuperar Contraseña (OTP)
+- Verificación de código de 6 dígitos
+- Campo sobre tarjeta redondeada
 
 ## 🎯 Credenciales de Prueba
 
@@ -90,11 +136,17 @@ salunic-app/
 ## 🛠️ Desarrollo
 
 ### Colores Utilizados
-- Azul Primario: #1565c0
-- Verde Secundario: #2ecc71
-- Rojo Alertas: #e74c3c
-- Blanco: #ffffff
-- Gris Fondo: #f5f5f5
+- Verde: #2ECC71
+- Fucsia: #E91E8C
+- Rosado: #F48FB1
+- Azul: #1565C0 (azul primario)
+- Celeste: #4FC3F7
+- Amarillo (ámbar): #F9A825
+- Naranja: #FF7043
+- Blanco: #FFFFFF
+- Azul Noche (fondo): #0A2342
+- Texto oscuro: #333333 / gris: #777777 / claro: #999999
+- Gradiente de fondo: #0A2342 → #0D3B7A → #0A4D2E → #062A1A
 
 ### Fuentes
 - Font: Nunito (requiere instalación del sistema o uso de fuentes predeterminadas)

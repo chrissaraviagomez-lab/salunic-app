@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaluNiC – Guía de Diseño para Figma</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #0f0f1a;
+    color: #e8e8f0;
+    padding: 40px 20px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(90deg,#2ECC71,#4FC3F7);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: #FFD600; }
+  .header p {
+    color: rgba(255,255,255,.5);
+    font-size: 15px;
+  }
+
+  /* ── Section ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto 52px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #4FC3F7;
+    margin-bottom: 20px;
+  }
+  .section-title::after {
+    content:'';
+    flex:1;
+    height:1px;
+    background: rgba(79,195,247,.25);
+  }
+
+  /* ── Canvas info box ── */
+  .info-box {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+    gap: 16px;
+  }
+  .info-item { }
+  .info-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+    margin-bottom: 6px;
+  }
+  .info-value {
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .info-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,.4);
+    margin-top: 2px;
+  }
+
+  /* ── Color palette ── */
+  .colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+    gap: 14px;
+  }
+  .color-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .color-swatch {
+    height: 80px;
+    position: relative;
+  }
+  .color-swatch-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px;
+  }
+  .color-info {
+    background: rgba(0,0,0,.4);
+    backdrop-filter: blur(8px);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    font-family: monospace;
+    width: 100%;
+    text-align: center;
+    letter-spacing: .5px;
+  }
+  .color-meta {
+    background: rgba(255,255,255,.05);
+    padding: 10px 12px;
+  }
+  .color-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .color-usage {
+    font-size: 10px;
+    color: rgba(255,255,255,.4);
+    line-height: 1.4;
+  }
+
+  /* ── Gradient card ── */
+  .gradient-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+    gap: 14px;
+  }
+  .gradient-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .gradient-swatch {
+    height: 70px;
+  }
+  .gradient-meta {
+    background: rgba(255,255,255,.05);
+    padding: 14px 16px;
+  }
+  .gradient-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .gradient-code {
+    font-family: monospace;
+    font-size: 11px;
+    color: #4FC3F7;
+    background: rgba(79,195,247,.1);
+    padding: 8px 10px;
+    border-radius: 8px;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+  .gradient-usage {
+    font-size: 10px;
+    color: rgba(255,255,255,.4);
+    margin-top: 8px;
+  }
+
+  /* ── Typography ── */
+  .type-grid {
+    display: grid;
+    gap: 16px;
+  }
+  .type-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .type-preview {
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .type-preview.display { font-family: 'Playfair Display', serif; }
+  .type-specs { }
+  .type-spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: 12px;
+  }
+  .type-spec-row:last-child { border:none; }
+  .spec-key { color: rgba(255,255,255,.4); }
+  .spec-val { color: #fff; font-weight: 700; font-family: monospace; }
+
+  /* ── Layer table ── */
+  .layer-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .layer-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .layer-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .layer-table tr:last-child td { border:none; }
+  .layer-table tr:hover td { background: rgba(255,255,255,.03); }
+  .layer-num {
+    font-size: 11px;
+    font-weight: 900;
+    color: rgba(255,255,255,.25);
+    font-family: monospace;
+  }
+  .layer-name { color: #fff; font-weight: 700; }
+  .layer-type {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: rgba(79,195,247,.15);
+    color: #4FC3F7;
+  }
+  .layer-type.rect { background: rgba(233,30,140,.15); color: #E91E8C; }
+  .layer-type.img  { background: rgba(255,214,0,.15);  color: #FFD600; }
+  .layer-type.text { background: rgba(46,204,113,.15); color: #2ECC71; }
+  .layer-type.btn  { background: rgba(255,112,67,.15); color: #FF7043; }
+  .layer-details { color: rgba(255,255,255,.45); font-size: 11.5px; line-height: 1.7; }
+  .layer-val { color: #fff; font-family: monospace; font-size: 11px; }
+
+  /* ── Spacing ── */
+  .spacing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+    gap: 12px;
+  }
+  .spacing-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .spacing-bar-wrap {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .spacing-bar {
+    background: linear-gradient(90deg,#2ECC71,#4FC3F7);
+    border-radius: 3px;
+    width: 4px;
+  }
+  .spacing-info {}
+  .spacing-val {
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+  .spacing-name {
+    font-size: 10px;
+    color: rgba(255,255,255,.4);
+    margin-top: 2px;
+  }
+
+  /* ── Border radius ── */
+  .radius-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+    gap: 12px;
+  }
+  .radius-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .radius-demo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg,#2ECC71,#4FC3F7);
+    margin: 0 auto 10px;
+    opacity: .8;
+  }
+  .radius-val { font-size: 18px; font-weight: 900; color: #fff; }
+  .radius-use { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 3px; }
+
+  /* ── Effect table ── */
+  .effect-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .effect-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .effect-code {
+    font-family: monospace;
+    font-size: 12px;
+    color: #4FC3F7;
+    background: rgba(79,195,247,.08);
+    padding: 10px 14px;
+    border-radius: 8px;
+    line-height: 1.8;
+  }
+  .effect-note {
+    font-size: 11px;
+    color: rgba(255,255,255,.35);
+    margin-top: 8px;
+  }
+
+  /* ── Step instructions ── */
+  .steps { display: grid; gap: 14px; }
+  .step {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-left: 3px solid #4FC3F7;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#2ECC71,#4FC3F7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .step-content {}
+  .step-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .step-desc { font-size: 12.5px; color: rgba(255,255,255,.55); line-height: 1.6; }
+  .step-code {
+    font-family: monospace;
+    font-size: 11px;
+    color: #FFD600;
+    background: rgba(255,214,0,.08);
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: inline-block;
+  }
+
+  /* ── Plugin cards ── */
+  .plugin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    gap: 14px;
+  }
+  .plugin-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .plugin-icon { font-size: 28px; margin-bottom: 10px; }
+  .plugin-name { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .plugin-desc { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.6; }
+  .plugin-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: rgba(46,204,113,.15);
+    color: #2ECC71;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    max-width: 900px;
+    margin: 0 auto;
+    color: rgba(255,255,255,.3);
+    font-size: 12px;
+  }
+  .footer strong { color: #FFD600; }
+
+  /* ── Tip box ── */
+  .tip {
+    background: rgba(255,214,0,.07);
+    border: 1px solid rgba(255,214,0,.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,.6);
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 16px; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Guía de Diseño Oficial</div>
+  <h1>Salu<span>NiC</span></h1>
+  <p>Todo lo que necesitas para recrear la pantalla de inicio en Figma</p>
+</div>
+
+
+<!-- 1. CANVAS / FRAME -->
+<div class="section">
+  <div class="section-title">01 — Frame del Canvas</div>
+  <div class="info-box">
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Tamaño del Frame</div>
+        <div class="info-value">375 × 812</div>
+        <div class="info-sub">Ancho × Alto (px)</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Preset en Figma</div>
+        <div class="info-value">iPhone 14 Pro</div>
+        <div class="info-sub">Mobile → iPhone 14</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Orientación</div>
+        <div class="info-value">Portrait</div>
+        <div class="info-sub">Vertical</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Clip Content</div>
+        <div class="info-value">✅ Activado</div>
+        <div class="info-sub">En las propiedades del Frame</div>
+      </div>
+    </div>
+  </div>
+  <div class="tip">
+    <span class="tip-icon">💡</span>
+    En Figma: <strong>F</strong> para crear frame → elige <strong>iPhone 14 Pro</strong> en el panel derecho → activa <strong>"Clip content"</strong>.
+  </div>
+</div>
+
+
+<!-- 2. PALETA DE COLORES -->
+<div class="section">
+  <div class="section-title">02 — Paleta de Colores</div>
+  <div class="colors-grid">
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#2ECC71;">
+        <div class="color-swatch-inner"><div class="color-info">#2ECC71</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Verde Principal</div>
+        <div class="color-usage">Botón primario, pills, cards</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#E91E8C;">
+        <div class="color-swatch-inner"><div class="color-info">#E91E8C</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Fucsia</div>
+        <div class="color-usage">Blobs, gradiente título, acento</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#F48FB1;">
+        <div class="color-swatch-inner"><div class="color-info">#F48FB1</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Rosado</div>
+        <div class="color-usage">Enlace "Ingresa aquí"</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#1565C0;">
+        <div class="color-swatch-inner"><div class="color-info">#1565C0</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Azul</div>
+        <div class="color-usage">Fondo gradiente (capa media)</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#4FC3F7;">
+        <div class="color-swatch-inner"><div class="color-info">#4FC3F7</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Celeste</div>
+        <div class="color-usage">Botón primario, blobs, glow logo</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#FFD600;">
+        <div class="color-swatch-inner"><div class="color-info">#FFD600</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Amarillo</div>
+        <div class="color-usage">Gradiente título, pills, blobs</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#FF7043;">
+        <div class="color-swatch-inner"><div class="color-info">#FF7043</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Naranja</div>
+        <div class="color-usage">Gradiente título, blobs, acento</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#FFFFFF; border:1px solid rgba(255,255,255,.2)">
+        <div class="color-swatch-inner"><div class="color-info" style="color:#333;">#FFFFFF</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Blanco</div>
+        <div class="color-usage">Textos, bordes, logo bg</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#0A2342;">
+        <div class="color-swatch-inner"><div class="color-info">#0A2342</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Azul Noche</div>
+        <div class="color-usage">Fondo gradiente inicio</div>
+      </div>
+    </div>
+
+    <div class="color-card">
+      <div class="color-swatch" style="background:#062A1A;">
+        <div class="color-swatch-inner"><div class="color-info">#062A1A</div></div>
+      </div>
+      <div class="color-meta">
+        <div class="color-name">Verde Oscuro</div>
+        <div class="color-usage">Fondo gradiente final</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tip" style="margin-top:16px;">
+    <span class="tip-icon">💡</span>
+    En Figma: Panel derecho → <strong>Fill</strong> → ícono de gotas → pega el HEX. Guarda cada color como <strong>Local Style</strong> (Ctrl+Alt+S) para reutilizarlo.
+  </div>
+</div>
+
+
+<!-- 3. GRADIENTES -->
+<div class="section">
+  <div class="section-title">03 — Gradientes</div>
+  <div class="gradient-grid">
+
+    <div class="gradient-card">
+      <div class="gradient-swatch" style="background:linear-gradient(175deg,#0a2342 0%,#0d3b7a 25%,#0a4d2e 65%,#062a1a 100%);"></div>
+      <div class="gradient-meta">
+        <div class="gradient-name">🎨 Fondo Principal</div>
+        <div class="gradient-code">Tipo: Linear · Ángulo: 175°<br>
+#0A2342 → 0%<br>
+#0D3B7A → 25%<br>
+#0A4D2E → 65%<br>
+#062A1A → 100%</div>
+        <div class="gradient-usage">Aplica en el rectángulo base del frame (375×812)</div>
+      </div>
+    </div>
+
+    <div class="gradient-card">
+      <div class="gradient-swatch" style="background:linear-gradient(90deg,#2ECC71,#4FC3F7);"></div>
+      <div class="gradient-meta">
+        <div class="gradient-name">🟢 Botón Primario</div>
+        <div class="gradient-code">Tipo: Linear · Ángulo: 90°<br>
+#2ECC71 → 0%<br>
+#4FC3F7 → 100%</div>
+        <div class="gradient-usage">Rectángulo del botón "Comenzar mi bienestar"</div>
+      </div>
+    </div>
+
+    <div class="gradient-card">
+      <div class="gradient-swatch" style="background:linear-gradient(90deg,#FFD600,#FF7043,#E91E8C);"></div>
+      <div class="gradient-meta">
+        <div class="gradient-name">✨ Texto Especial</div>
+        <div class="gradient-code">Tipo: Linear · Ángulo: 90°<br>
+#FFD600 → 0%<br>
+#FF7043 → 50%<br>
+#E91E8C → 100%</div>
+        <div class="gradient-usage">Texto "nueva esperanza" — usar plugin Figma Colorize o Text Clip</div>
+      </div>
+    </div>
+
+    <div class="gradient-card">
+      <div class="gradient-swatch" style="background:radial-gradient(circle,rgba(79,195,247,0.5),transparent 70%);"></div>
+      <div class="gradient-meta">
+        <div class="gradient-name">💫 Glow del Logo</div>
+        <div class="gradient-code">Tipo: Radial · Centro: 50% 50%<br>
+rgba(79,195,247, 0.35) → 0%<br>
+transparent → 70%</div>
+        <div class="gradient-usage">Elipse detrás del logo (160×160), Blend: Screen</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- 4. TIPOGRAFÍA -->
+<div class="section">
+  <div class="section-title">04 — Tipografías</div>
+  <div class="type-grid">
+
+    <div class="type-card">
+      <div>
+        <div class="type-preview display" style="font-size:36px;">SaluNiC</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.3);margin-top:6px;">Playfair Display</div>
+      </div>
+      <div class="type-specs">
+        <div class="type-spec-row"><span class="spec-key">Familia</span><span class="spec-val">Playfair Display</span></div>
+        <div class="type-spec-row"><span class="spec-key">Peso</span><span class="spec-val">Bold (700)</span></div>
+        <div class="type-spec-row"><span class="spec-key">Estilo</span><span class="spec-val">Regular / Italic</span></div>
+        <div class="type-spec-row"><span class="spec-key">Uso</span><span class="spec-val">Nombre de la App</span></div>
+        <div class="type-spec-row"><span class="spec-key">Google Fonts</span><span class="spec-val">✅ Gratuita</span></div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div>
+        <div class="type-preview" style="font-size:28px;font-weight:900;">Bienvenido</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.3);margin-top:6px;">Nunito Black</div>
+      </div>
+      <div class="type-specs">
+        <div class="type-spec-row"><span class="spec-key">Familia</span><span class="spec-val">Nunito</span></div>
+        <div class="type-spec-row"><span class="spec-key">Pesos</span><span class="spec-val">400 / 600 / 700 / 900</span></div>
+        <div class="type-spec-row"><span class="spec-key">Uso</span><span class="spec-val">Títulos, botones, etiquetas</span></div>
+        <div class="type-spec-row"><span class="spec-key">Google Fonts</span><span class="spec-val">✅ Gratuita</span></div>
+        <div class="type-spec-row"><span class="spec-key">URL</span><span class="spec-val" style="font-size:9px;">fonts.google.com/specimen/Nunito</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tamaños de texto -->
+  <div class="info-box" style="margin-top:14px;">
+    <div style="margin-bottom:14px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);">Jerarquía de Texto</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);">Elemento</th>
+          <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);">Fuente</th>
+          <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);">Tamaño</th>
+          <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);">Peso</th>
+          <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);">Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">Tagline / Badge</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">11px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">800</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">#FFF 65%</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">Título Principal</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">21px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">900</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">#FFFFFF</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">"nueva esperanza"</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">21px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">900</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">Gradiente 🟡→🟠→💗</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">Subtítulo</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">12.5px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">400</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">#FFF 60%</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">Labels de Cards</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">10px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">700</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">#FFFFFF</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;border-bottom:1px solid rgba(255,255,255,.05);">Botón Primario</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.05);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">16px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">800</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;border-bottom:1px solid rgba(255,255,255,.05);">#FFFFFF</td></tr>
+        <tr><td style="padding:9px 12px;font-size:12px;color:#fff;">Botón Secundario</td><td style="padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);">Nunito</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;">15px</td><td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#4FC3F7;">700</td><td style="padding:9px 12px;font-family:monospace;font-size:11px;color:#4FC3F7;">#FFF 90%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- 5. ESTRUCTURA DE CAPAS -->
+<div class="section">
+  <div class="section-title">05 — Estructura de Capas (de abajo a arriba)</div>
+  <div class="info-box" style="padding:0;overflow:hidden;">
+    <table class="layer-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre de Capa</th>
+          <th>Tipo</th>
+          <th>Detalles Clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="layer-num">01</span></td>
+          <td><span class="layer-name">bg-gradient</span></td>
+          <td><span class="layer-type rect">Rectangle</span></td>
+          <td><span class="layer-details">375×812 · Gradiente fondo principal (175°) · sin borde</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">02</span></td>
+          <td><span class="layer-name">blob-fuchsia</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">220×220 · <span class="layer-val">#E91E8C</span> · Opacidad 45% · Blur 60 · Posición: top:-60 right:-50</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">03</span></td>
+          <td><span class="layer-name">blob-green</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">180×180 · <span class="layer-val">#2ECC71</span> · Opacidad 45% · Blur 60 · Posición: bottom izquierda</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">04</span></td>
+          <td><span class="layer-name">blob-orange</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">130×130 · <span class="layer-val">#FF7043</span> · Opacidad 45% · Blur 60 · Posición: medio derecha</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">05</span></td>
+          <td><span class="layer-name">blob-yellow</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">110×110 · <span class="layer-val">#FFD600</span> · Opacidad 45% · Blur 60 · Posición: centro izquierda</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">06</span></td>
+          <td><span class="layer-name">blob-sky</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">100×100 · <span class="layer-val">#4FC3F7</span> · Opacidad 45% · Blur 60 · Posición: superior derecha</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">07</span></td>
+          <td><span class="layer-name">status-bar</span></td>
+          <td><span class="layer-type text">Frame</span></td>
+          <td><span class="layer-details">375×28 · "9:41" izq · "📶🔋" der · Nunito 700 12px · #FFF 80%</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">08</span></td>
+          <td><span class="layer-name">logo-glow</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">160×160 · Radial gradient celeste · Opacidad 60% · Blend: Screen</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">09</span></td>
+          <td><span class="layer-name">logo-ring-1</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">164×164 · Sin relleno · Stroke #FFF 20% · 2px · Opacidad 40%</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">10</span></td>
+          <td><span class="layer-name">logo-ring-2</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">180×180 · Sin relleno · Stroke #FFF 12% · 1.5px</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">11</span></td>
+          <td><span class="layer-name">logo-bg</span></td>
+          <td><span class="layer-type rect">Ellipse</span></td>
+          <td><span class="layer-details">148×148 · Fill <span class="layer-val">#FFFFFF</span> · Padding interno 6px · Corner radius 50%</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">12</span></td>
+          <td><span class="layer-name">logo-img</span></td>
+          <td><span class="layer-type img">Image</span></td>
+          <td><span class="layer-details">136×136 · Logo oficial SaluNiC · Fill: dentro del círculo blanco · Drop shadow 0 8 24 #000 35%</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">13</span></td>
+          <td><span class="layer-name">tagline-text</span></td>
+          <td><span class="layer-type text">Text</span></td>
+          <td><span class="layer-details">"Salud y Bienestar • Nicaragua" · 11px · 800 · #FFF 65% · Letra-espaciado 2.5 · MAYÚSCULAS</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">14</span></td>
+          <td><span class="layer-name">pills-divider</span></td>
+          <td><span class="layer-type rect">Frame</span></td>
+          <td><span class="layer-details">5 rectángulos 24×4px · R:99 · Colores: verde, celeste, amarillo, fucsia, naranja · Gap 7px</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">15</span></td>
+          <td><span class="layer-name">cards-row</span></td>
+          <td><span class="layer-type rect">Frame</span></td>
+          <td><span class="layer-details">319×90 · AutoLayout horizontal · Gap 10px · 3 tarjetas iguales</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">16</span></td>
+          <td><span class="layer-name">card (x3)</span></td>
+          <td><span class="layer-type rect">Frame</span></td>
+          <td><span class="layer-details">~99×90 · Fill #FFF 10% · Stroke #FFF 18% 1px · Corner 16px · Blur: 14 · Padding 12×6</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">17</span></td>
+          <td><span class="layer-name">welcome-title</span></td>
+          <td><span class="layer-type text">Text</span></td>
+          <td><span class="layer-details">"Cada día es una nueva esperanza" · 21px · 900 · Line height 1.25 · Center</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">18</span></td>
+          <td><span class="layer-name">welcome-sub</span></td>
+          <td><span class="layer-type text">Text</span></td>
+          <td><span class="layer-details">12.5px · 400 · #FFF 60% · Line height 1.6 · Center</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">19</span></td>
+          <td><span class="layer-name">nicaragua-badge</span></td>
+          <td><span class="layer-type rect">Frame</span></td>
+          <td><span class="layer-details">Fill #FFF 10% · Stroke #FFF 20% 1px · Corner 99px · Pad 5×14 · "🇳🇮 Nicaragua"</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">20</span></td>
+          <td><span class="layer-name">btn-primary</span></td>
+          <td><span class="layer-type btn">Frame</span></td>
+          <td><span class="layer-details">319×50 · Gradiente verde→celeste 90° · Corner 18px · Shadow verde · Texto 16px 800</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">21</span></td>
+          <td><span class="layer-name">btn-secondary</span></td>
+          <td><span class="layer-type btn">Frame</span></td>
+          <td><span class="layer-details">319×46 · Fill #FFF 8% · Stroke #FFF 30% 1.5px · Corner 18px · Blur 8 · Texto 15px 700</span></td>
+        </tr>
+        <tr>
+          <td><span class="layer-num">22</span></td>
+          <td><span class="layer-name">login-hint</span></td>
+          <td><span class="layer-type text">Text</span></td>
+          <td><span class="layer-details">12px · #FFF 40% · "Ingresa aquí" en <span class="layer-val">#F48FB1</span> · Center</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- 6. ESPACIADOS -->
+<div class="section">
+  <div class="section-title">06 — Espaciados y Posicionamiento</div>
+  <div class="spacing-grid">
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:52px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">52px</div><div class="spacing-name">Padding top frame</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:44px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">44px</div><div class="spacing-name">Padding bottom frame</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:28px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">28px</div><div class="spacing-name">Padding left/right</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:24px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">24px</div><div class="spacing-name">Status bar → Logo</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:14px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">14px</div><div class="spacing-name">Logo → Tagline</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:10px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">10px</div><div class="spacing-name">Tagline → Pills</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:24px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">24px</div><div class="spacing-name">Pills → Cards</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:22px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">22px</div><div class="spacing-name">Cards → Título</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:10px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">10px</div><div class="spacing-name">Título → Badge NI</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:10px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">10px</div><div class="spacing-name">Entre botones</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:7px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">7px</div><div class="spacing-name">Gap entre pills</div></div>
+    </div>
+    <div class="spacing-card">
+      <div class="spacing-bar-wrap"><div class="spacing-bar" style="height:10px;"></div></div>
+      <div class="spacing-info"><div class="spacing-val">10px</div><div class="spacing-name">Gap entre cards</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 7. BORDER RADIUS -->
+<div class="section">
+  <div class="section-title">07 — Bordes Redondeados (Corner Radius)</div>
+  <div class="radius-grid">
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:99px;"></div>
+      <div class="radius-val">50% / 999</div>
+      <div class="radius-use">Logo, blobs, pills, badge Nicaragua</div>
+    </div>
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:18px;"></div>
+      <div class="radius-val">18px</div>
+      <div class="radius-use">Botones primario y secundario</div>
+    </div>
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:16px;"></div>
+      <div class="radius-val">16px</div>
+      <div class="radius-use">Cards de funciones</div>
+    </div>
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:8px;"></div>
+      <div class="radius-val">8px</div>
+      <div class="radius-use">Elementos pequeños, tooltips</div>
+    </div>
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:4px;"></div>
+      <div class="radius-val">4px</div>
+      <div class="radius-use">Pills del divisor (24×4px)</div>
+    </div>
+    <div class="radius-card">
+      <div class="radius-demo" style="border-radius:48px;"></div>
+      <div class="radius-val">48px</div>
+      <div class="radius-use">Carcasa del teléfono (si la incluyes)</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 8. EFECTOS Y SOMBRAS -->
+<div class="section">
+  <div class="section-title">08 — Efectos, Blur y Sombras</div>
+
+  <div class="effect-card">
+    <div class="effect-title">🌫️ Background Blur — Cards y Botón Secundario</div>
+    <div class="effect-code">Figma → Layer panel → Effect → Background Blur<br>
+Cards:           Blur = 14<br>
+Botón secundario: Blur = 8<br>
+Badge Nicaragua:  Blur = 6</div>
+    <div class="effect-note">En Figma: selecciona el frame → panel derecho → "Effects" → "+" → "Background blur"</div>
+  </div>
+
+  <div class="effect-card">
+    <div class="effect-title">💧 Layer Blur — Blobs de color</div>
+    <div class="effect-code">Figma → Effects → Layer Blur<br>
+Todos los blobs: Blur = 60<br>
+Opacidad de cada blob: 45%</div>
+    <div class="effect-note">Activa "Pass through" en el blend mode de cada blob para que se mezclen correctamente con el fondo.</div>
+  </div>
+
+  <div class="effect-card">
+    <div class="effect-title">🌟 Drop Shadow — Logo imagen</div>
+    <div class="effect-code">Figma → Effects → Drop Shadow<br>
+X: 0  |  Y: 8  |  Blur: 24  |  Spread: 0<br>
+Color: #000000  |  Opacidad: 35%</div>
+    <div class="effect-note">Aplica sobre la imagen del logo circular.</div>
+  </div>
+
+  <div class="effect-card">
+    <div class="effect-title">💚 Drop Shadow — Botón Primario (verde)</div>
+    <div class="effect-code">Figma → Effects → Drop Shadow<br>
+X: 0  |  Y: 8  |  Blur: 32  |  Spread: 0<br>
+Color: #2ECC71  |  Opacidad: 40%</div>
+    <div class="effect-note">Le da el efecto de "glow verde" al botón principal.</div>
+  </div>
+
+  <div class="effect-card">
+    <div class="effect-title">🔲 Stroke (Borde) — Cards y Botones</div>
+    <div class="effect-code">Cards:            Stroke #FFFFFF · Opacidad 18% · 1px · Inside<br>
+Botón secundario: Stroke #FFFFFF · Opacidad 30% · 1.5px · Inside<br>
+Badge Nicaragua:  Stroke #FFFFFF · Opacidad 20% · 1px · Inside<br>
+Anillos logo:     Stroke #FFFFFF · Opacidad 20% · 2px / 12% · 1.5px</div>
+  </div>
+</div>
+
+
+<!-- 9. PASOS EN FIGMA -->
+<div class="section">
+  <div class="section-title">09 — Pasos para Construirlo en Figma</div>
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Instalar las fuentes</div>
+        <div class="step-desc">Descarga <strong>Nunito</strong> y <strong>Playfair Display</strong> desde Google Fonts e instálalas en tu computadora. Figma las detectará automáticamente.</div>
+        <div class="step-code">fonts.google.com → busca "Nunito" y "Playfair Display" → Download family</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Crear el Frame base</div>
+        <div class="step-desc">Presiona <strong>F</strong> → en el panel derecho selecciona <strong>iPhone 14 Pro (390×844)</strong> o crea uno manual de <strong>375×812px</strong>. Activa "Clip content".</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Agregar el fondo gradiente</div>
+        <div class="step-desc">Crea un rectángulo 375×812. En Fill → cambia a <strong>Linear gradient</strong> → ángulo 175° → agrega los 4 stops del fondo principal.</div>
+        <div class="step-code">#0A2342 · #0D3B7A · #0A4D2E · #062A1A</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Crear los blobs de color</div>
+        <div class="step-desc">Dibuja 5 elipses con los colores indicados. A cada una: Fill con el color sólido, opacidad 45%, y en Effects → Layer Blur → valor 60. Posicionalas parcialmente fuera del frame.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-title">Colocar el logo oficial</div>
+        <div class="step-desc">Crea una elipse blanca 148×148px. Importa la imagen del logo (Ctrl+Shift+K) y ponla dentro del círculo. Agrega el glow celeste detrás (elipse 160×160, radial gradient, blend: Screen).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <div class="step-title">Añadir los textos</div>
+        <div class="step-desc">Usa la herramienta <strong>T</strong>. Para el texto "nueva esperanza" con gradiente: crea el texto, luego agrega el fill con gradiente y usa <strong>Clip Text</strong> (en plugins: Figma Colorize o Chromatic Figma).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-content">
+        <div class="step-title">Crear las 3 cards de funciones</div>
+        <div class="step-desc">Frame 99×90px cada una. Fill: #FFFFFF 10%. Stroke: #FFFFFF 18% 1px Inside. Background Blur: 14. Corner radius: 16px. Contenido: emoji 24px + texto 10px 700.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-content">
+        <div class="step-title">Crear los botones CTA</div>
+        <div class="step-desc">Botón primario: Frame 319×50, gradiente verde→celeste 90°, corner 18px, shadow verde. Botón secundario: Frame 319×46, Fill #FFF 8%, Stroke #FFF 30%, Background blur 8.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">9</div>
+      <div class="step-content">
+        <div class="step-title">Organizar con Auto Layout</div>
+        <div class="step-desc">Selecciona todos los elementos del contenido → Shift+A para Auto Layout vertical → alinea al centro → ajusta los gaps entre secciones según la tabla de espaciados.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">10</div>
+      <div class="step-content">
+        <div class="step-title">Exportar</div>
+        <div class="step-desc">Frame → Export → PNG 2x para presentación. Para entregar al desarrollador: exporta en SVG los íconos, PNG los assets, y comparte el link de Figma con permisos de "View".</div>
+        <div class="step-code">Ctrl+Shift+E → PNG @2x → Export</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- 10. PLUGINS RECOMENDADOS -->
+<div class="section">
+  <div class="section-title">10 — Plugins de Figma Recomendados</div>
+  <div class="plugin-grid">
+
+    <div class="plugin-card">
+      <div class="plugin-icon">🎨</div>
+      <div class="plugin-name">Chromatic Figma</div>
+      <div class="plugin-desc">Aplica gradientes de color directamente sobre textos. Ideal para el efecto del texto "nueva esperanza".</div>
+      <div class="plugin-tag">Gratis</div>
+    </div>
+
+    <div class="plugin-card">
+      <div class="plugin-icon">🔷</div>
+      <div class="plugin-name">Figma Tokens</div>
+      <div class="plugin-desc">Gestiona todos los colores, tipografías y espaciados como tokens reutilizables. Perfecto para mantener la consistencia.</div>
+      <div class="plugin-tag">Gratis</div>
+    </div>
+
+    <div class="plugin-card">
+      <div class="plugin-icon">📐</div>
+      <div class="plugin-name">Autoflow</div>
+      <div class="plugin-desc">Dibuja flechas de flujo entre pantallas para documentar la navegación de la app.</div>
+      <div class="plugin-tag">Gratis</div>
+    </div>
+
+    <div class="plugin-card">
+      <div class="plugin-icon">🌟</div>
+      <div class="plugin-name">Noise & Texture</div>
+      <div class="plugin-desc">Agrega una textura de ruido sutil sobre el fondo para darle más profundidad y un look premium.</div>
+      <div class="plugin-tag">Gratis</div>
+    </div>
+
+    <div class="plugin-card">
+      <div class="plugin-icon">📱</div>
+      <div class="plugin-name">Mockup Plugin</div>
+      <div class="plugin-desc">Inserta tu diseño dentro de una maqueta de iPhone real para presentaciones profesionales.</div>
+      <div class="plugin-tag">Gratis</div>
+    </div>
+
+    <div class="plugin-card">
+      <div class="plugin-icon">🔄</div>
+      <div class="plugin-name">Builder.io</div>
+      <div class="plugin-desc">Importa HTML/CSS a Figma como capas editables. Puedes pegar el código HTML de SaluNiC aquí.</div>
+      <div class="plugin-tag">Freemium</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Guía de Diseño para Figma · <strong>SaluNiC</strong> — Salud y Bienestar · Nicaragua</p>
+  <p style="margin-top:6px;">Fuentes: <strong>Nunito + Playfair Display</strong> (Google Fonts, gratuitas)</p>
+</div>
+
+</body>
+</html>

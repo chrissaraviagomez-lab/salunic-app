@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SaluNiC — Home / Menú Principal</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0f0f1a,#1a1a2e);
+  font-family:'Nunito',sans-serif;gap:36px;flex-wrap:wrap;padding:48px 24px;}
+.phone{width:375px;height:812px;border-radius:52px;
+  box-shadow:0 0 0 12px #1a1a1a,0 0 0 14px #2a2a2a,0 48px 96px rgba(0,0,0,.55);
+  overflow:hidden;position:relative;background:#f4f6fb;flex-shrink:0;}
+.hdr-bg{position:absolute;top:0;left:0;right:0;height:230px;
+  background:linear-gradient(155deg,#0a2342,#0d3b7a 55%,#0a4d2e);z-index:0;}
+.blob{position:absolute;border-radius:50%;filter:blur(55px);z-index:1;}
+.b1{width:190px;height:190px;background:#E91E8C;opacity:.28;top:-65px;right:-55px;}
+.b2{width:150px;height:150px;background:#4FC3F7;opacity:.22;top:55px;left:-40px;}
+.content{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
+.sb{display:flex;justify-content:space-between;padding:14px 22px 0;font-size:12px;color:rgba(255,255,255,.85);font-weight:700;}
+/* greeting */
+.greet{display:flex;justify-content:space-between;align-items:center;padding:13px 22px 0;}
+.g-hello{font-size:13px;color:rgba(255,255,255,.62);font-weight:600;}
+.g-name{font-size:20px;font-weight:900;color:#fff;line-height:1.2;}
+.g-name span{color:#FFD600;}
+.avatar{width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,#2ECC71,#4FC3F7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;color:#fff;border:2.5px solid rgba(255,255,255,.28);}
+/* health card */
+.hcard{margin:13px 18px 0;background:rgba(255,255,255,.13);
+  backdrop-filter:blur(16px);border-radius:20px;
+  border:1px solid rgba(255,255,255,.2);
+  padding:14px 16px;display:flex;justify-content:space-around;align-items:center;}
+.hci{text-align:center;}
+.hci-v{font-size:20px;font-weight:900;color:#fff;line-height:1;}
+.hci-l{font-size:9px;font-weight:700;color:rgba(255,255,255,.52);
+  letter-spacing:.8px;text-transform:uppercase;margin-top:3px;}
+.hc-div{width:1px;height:34px;background:rgba(255,255,255,.18);}
+/* scroll */
+.scroll{flex:1;overflow-y:auto;padding:18px 18px 82px;
+  background:#f4f6fb;border-radius:26px 26px 0 0;margin-top:14px;}
+.scroll::-webkit-scrollbar{display:none;}
+.sec-lbl{font-size:10.5px;font-weight:800;color:#9aa0b2;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:11px;margin-top:2px;}
+/* menu grid */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.mcard{border-radius:20px;padding:18px 14px;display:flex;
+  flex-direction:column;gap:8px;position:relative;overflow:hidden;cursor:pointer;}
+.mcard::after{content:"";position:absolute;bottom:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.07);}
+.mc1{background:linear-gradient(135deg,#1565C0,#4FC3F7);}
+.mc2{background:linear-gradient(135deg,#0a4d2e,#2ECC71);}
+.mc3{background:linear-gradient(135deg,#7b1fa2,#E91E8C);}
+.mc4{background:linear-gradient(135deg,#bf360c,#FF7043);}
+.mi{font-size:28px;}
+.mt{font-size:14px;font-weight:800;color:#fff;line-height:1.2;}
+.mc{font-size:11px;color:rgba(255,255,255,.68);font-weight:600;}
+.mb{position:absolute;top:11px;right:11px;background:rgba(255,255,255,.22);
+  border-radius:99px;padding:2px 8px;font-size:10px;font-weight:800;color:#fff;}
+/* citas */
+.acard{background:#fff;border-radius:18px;padding:13px 15px;
+  margin-bottom:10px;box-shadow:0 2px 12px rgba(0,0,0,.06);
+  display:flex;gap:13px;align-items:center;}
+.adate{width:46px;height:46px;border-radius:13px;
+  background:linear-gradient(135deg,#1565C0,#4FC3F7);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex-shrink:0;}
+.ad{font-size:16px;font-weight:900;color:#fff;line-height:1;}
+.am{font-size:9px;font-weight:700;color:rgba(255,255,255,.78);text-transform:uppercase;}
+.ai-doc{font-size:13px;font-weight:800;color:#1a1a2e;}
+.ai-sp{font-size:11px;color:#9aa0b2;margin-top:2px;}
+.ai-hr{font-size:11px;font-weight:700;color:#4FC3F7;margin-top:3px;}
+.aa{margin-left:auto;font-size:20px;color:#ddd;flex-shrink:0;}
+/* meds */
+.mcard2{background:#fff;border-radius:18px;padding:11px 14px;
+  margin-bottom:10px;box-shadow:0 2px 12px rgba(0,0,0,.06);
+  display:flex;align-items:center;gap:11px;}
+.mdot{width:42px;height:42px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.md-g{background:rgba(46,204,113,.1);}
+.md-b{background:rgba(21,101,192,.08);}
+.mn{font-size:13px;font-weight:800;color:#1a1a2e;}
+.ms{font-size:11px;color:#9aa0b2;margin-top:2px;}
+.mtime{margin-left:auto;font-size:11px;font-weight:700;color:#2ECC71;
+  background:rgba(46,204,113,.1);padding:3px 9px;border-radius:99px;flex-shrink:0;}
+/* bottom nav */
+.bnav{position:absolute;bottom:0;left:0;right:0;height:74px;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;justify-content:space-around;
+  padding:0 4px 10px;border-radius:0 0 52px 52px;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:0 10px;}
+.nicon{font-size:22px;opacity:.38;}
+.nicon.act{opacity:1;}
+.nlbl{font-size:9px;font-weight:700;color:#bbb;letter-spacing:.5px;}
+.nlbl.act{color:#1565C0;}
+.ndot{width:5px;height:5px;border-radius:50%;background:#1565C0;margin-top:1px;}
+/* guide */
+.guide-panel{width:300px;display:flex;flex-direction:column;gap:18px;flex-shrink:0;}
+.g-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px;}
+.g-title{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#4FC3F7;margin-bottom:13px;}
+.g-step{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.g-step:last-child{border:none;}
+.g-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#2ECC71,#4FC3F7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0;}
+.g-ttl{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;}
+.g-desc{font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.6;}
+.g-code{font-family:monospace;font-size:10px;color:#FFD600;background:rgba(255,214,0,.08);padding:6px 9px;border-radius:7px;margin-top:5px;line-height:1.7;}
+.spec-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px;}
+.spec-row:last-child{border:none;}
+.sk{color:rgba(255,255,255,.4);} .sv{color:#fff;font-weight:700;font-family:monospace;font-size:11px;}
+.color-row{display:flex;align-items:center;gap:9px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.color-row:last-child{border:none;}
+.csw{width:26px;height:26px;border-radius:6px;flex-shrink:0;}
+.cname{font-size:12px;font-weight:700;color:#fff;} .chex{font-family:monospace;font-size:10px;color:#4FC3F7;}
+.tip-box{background:rgba(255,214,0,.07);border:1px solid rgba(255,214,0,.2);border-radius:10px;padding:9px 12px;font-size:11px;color:rgba(255,255,255,.5);margin-top:12px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME SCREEN ══ -->
+<div class="phone">
+  <div class="hdr-bg"></div>
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="content">
+    <div class="sb"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="greet">
+      <div><div class="g-hello">Buenos días 👋</div><div class="g-name">María <span>González</span></div></div>
+      <div class="avatar">MG</div>
+    </div>
+    <div class="hcard">
+      <div class="hci"><div class="hci-v">98°</div><div class="hci-l">Temp</div></div>
+      <div class="hc-div"></div>
+      <div class="hci"><div class="hci-v">72</div><div class="hci-l">Pulso</div></div>
+      <div class="hc-div"></div>
+      <div class="hci"><div class="hci-v">3</div><div class="hci-l">Citas</div></div>
+      <div class="hc-div"></div>
+      <div class="hci"><div class="hci-v">2</div><div class="hci-l">Medic.</div></div>
+    </div>
+    <div class="scroll">
+      <div class="sec-lbl">Servicios principales</div>
+      <div class="mgrid">
+        <div class="mcard mc1"><div class="mb">3</div><div class="mi">🗓️</div><div class="mt">Citas Médicas</div><div class="mc">3 próximas citas</div></div>
+        <div class="mcard mc2"><div class="mb">2</div><div class="mi">💊</div><div class="mt">Medicamentos</div><div class="mc">2 tomas hoy</div></div>
+        <div class="mcard mc3"><div class="mi">📋</div><div class="mt">Historial Médico</div><div class="mc">Ver registros</div></div>
+        <div class="mcard mc4"><div class="mi">👤</div><div class="mt">Mi Perfil</div><div class="mc">Editar datos</div></div>
+      </div>
+      <div class="sec-lbl">Próximas citas</div>
+      <div class="acard">
+        <div class="adate"><div class="ad">15</div><div class="am">Jun</div></div>
+        <div><div class="ai-doc">Dr. Carlos Ruiz</div><div class="ai-sp">Medicina General</div><div class="ai-hr">🕐 10:30 AM · Hospital Metropolitano</div></div>
+        <div class="aa">›</div>
+      </div>
+      <div class="acard">
+        <div class="adate"><div class="ad">22</div><div class="am">Jun</div></div>
+        <div><div class="ai-doc">Dra. Ana López</div><div class="ai-sp">Cardiología</div><div class="ai-hr">🕐 2:00 PM · Clínica Santa Fe</div></div>
+        <div class="aa">›</div>
+      </div>
+      <div class="sec-lbl" style="margin-top:6px;">Medicamentos de hoy</div>
+      <div class="mcard2"><div class="mdot md-g">💊</div><div><div class="mn">Metformina 500mg</div><div class="ms">1 tableta · Con desayuno</div></div><div class="mtime">8:00 AM</div></div>
+      <div class="mcard2"><div class="mdot md-b">🔵</div><div><div class="mn">Enalapril 10mg</div><div class="ms">1 tableta · Con almuerzo</div></div><div class="mtime">1:00 PM</div></div>
+    </div>
+    <div class="bnav">
+      <div class="ni"><div class="nicon act">🏠</div><div class="nlbl act">Inicio</div><div class="ndot"></div></div>
+      <div class="ni"><div class="nicon">🗓️</div><div class="nlbl">Citas</div></div>
+      <div class="ni"><div class="nicon">💊</div><div class="nlbl">Medic.</div></div>
+      <div class="ni"><div class="nicon">📋</div><div class="nlbl">Historial</div></div>
+      <div class="ni"><div class="nicon">👤</div><div class="nlbl">Perfil</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GUÍA FIGMA ══ -->
+<div class="guide-panel">
+  <div class="g-card">
+    <div class="g-title">📐 Especificaciones</div>
+    <div class="spec-row"><span class="sk">Frame</span><span class="sv">375 × 812 px</span></div>
+    <div class="spec-row"><span class="sk">Header bg</span><span class="sv">h:230px gradiente</span></div>
+    <div class="spec-row"><span class="sk">Cuerpo bg</span><span class="sv">#F4F6FB</span></div>
+    <div class="spec-row"><span class="sk">Health card blur</span><span class="sv">Background blur 16</span></div>
+    <div class="spec-row"><span class="sk">Health card fill</span><span class="sv">#FFF 13% · r:20</span></div>
+    <div class="spec-row"><span class="sk">Menu card radius</span><span class="sv">20px</span></div>
+    <div class="spec-row"><span class="sk">Bottom nav h</span><span class="sv">74px · blur:20</span></div>
+    <div class="spec-row"><span class="sk">Citas card radius</span><span class="sv">18px · shadow 0 2 12</span></div>
+  </div>
+  <div class="g-card">
+    <div class="g-title">🎨 Gradientes Menú</div>
+    <div class="color-row"><div class="csw" style="background:linear-gradient(135deg,#1565C0,#4FC3F7);"></div><div><div class="cname">Citas Médicas</div><div class="chex">#1565C0 → #4FC3F7</div></div></div>
+    <div class="color-row"><div class="csw" style="background:linear-gradient(135deg,#0a4d2e,#2ECC71);"></div><div><div class="cname">Medicamentos</div><div class="chex">#0A4D2E → #2ECC71</div></div></div>
+    <div class="color-row"><div class="csw" style="background:linear-gradient(135deg,#7b1fa2,#E91E8C);"></div><div><div class="cname">Historial</div><div class="chex">#7B1FA2 → #E91E8C</div></div></div>
+    <div class="color-row"><div class="csw" style="background:linear-gradient(135deg,#bf360c,#FF7043);"></div><div><div class="cname">Perfil</div><div class="chex">#BF360C → #FF7043</div></div></div>
+  </div>
+  <div class="g-card">
+    <div class="g-title">🪜 Pasos en Figma</div>
+    <div class="g-step"><div class="g-num">1</div><div><div class="g-ttl">Frame y fondo</div><div class="g-desc">Frame 375×812. Rect header 375×230 con gradiente oscuro. Cuerpo rect #F4F6FB.</div></div></div>
+    <div class="g-step"><div class="g-num">2</div><div><div class="g-ttl">Health summary card</div><div class="g-desc">Frame fill #FFF 13%, Background Blur 16, r:20. Dentro: 4 ítems con auto layout H. Divisores: rect 1×34px #FFF 18%.</div></div></div>
+    <div class="g-step"><div class="g-num">3</div><div><div class="g-ttl">Grid 2×2 de menú</div><div class="g-desc">Frame con Auto Layout wrap o Grid 2 columnas, gap:12. Cada card: r:20, gradiente, overflow:hidden.</div><div class="g-code">Shift+A → Grid layout → 2 cols · gap 12</div></div></div>
+    <div class="g-step"><div class="g-num">4</div><div><div class="g-ttl">Scroll body</div><div class="g-desc">Frame bg:#F4F6FB r:26px (solo superior). Clip content ✅. Auto layout vertical · overflow: scroll.</div></div></div>
+    <div class="g-step"><div class="g-num">5</div><div><div class="g-ttl">Bottom navigation</div><div class="g-desc">Frame 375×74 fijo al fondo. Fill #FFF 96%, blur:20, border top 1px #000 6%. 5 ítems con icono+label+dot activo.</div></div></div>
+    <div class="tip-box">💡 Fija la bottom nav usando "Fix position when scrolling" en el panel derecho de Figma.</div>
+  </div>
+</div>
+
+</body></html>

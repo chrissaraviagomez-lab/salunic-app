@@ -1,0 +1,1103 @@
+﻿Universidad Nacional Autónoma de Nicaragua, Managua (UNAN-Managua)
+Área de Conocimiento de Ciencias Básicas y Tecnología
+Departamento Docente de Computación
+
+
+
+
+INFORME TÉCNICO
+“SaluNic: Aplicación Tecnológica que Facilita el Tratamiento y Seguimiento Médico a las Familias que Padecen de Enfermedades”
+
+
+Integrantes:
+649D7486 – Br. Cristian Jose Saravia Gomez.
+6BBF4068 – Br. Rodrigo Antonio Rosales Reyes
+6BF33711 – Br. Jesus Adrian Sánchez Urbina
+
+Docentes:
+Introducción a la Programación – Eleskier Sánchez
+Diseño de Interfaces de Usuario – Álvaro Sandoval
+Ingeniería de Sistemas – Alvaro Sandoval
+Precálculo – Marcy Parrales
+Integrador I – William Rivas
+
+
+
+
+
+
+
+
+
+
+Managua, junio 2026.
+
+
+
+
+
+
+
+Contenido
+
+I.  Introducción3
+II. Estructuración de la Idea4
+III. Antecedentes6
+IV. Objetivos7
+I.Objetivo General:7
+II.Objetivos Específicos:7
+V. Marco Teórico8
+I.Programación en Python8
+II.Interfaces gráficas8
+III.Sistemas de información8
+IV.Usabilidad8
+V.Algoritmos8
+VI.Bases de datos8
+VII.Tecnologías utilizadas9
+VI. Requerimientos funcionales y no funcionales10
+VII. Funciones de la Aplicación11
+I. Horario de Medicamento11
+II.  Renovación de Cita Médica.14
+III. Recordatorio de Cita Médica.17
+IV. Ingresar usuario y contraseña.20
+V. Perfil Medico.25
+VIII. Traducción del Lenguaje Coloquial al Lógico30
+I.Gestión de tomar medicamento en horarios establecidos.30
+II.Revisión de cita medicas30
+III.App activa30
+IV.Validación de contraseña30
+IX.  Aplicación de Lógica Proposicional a SaluNic31
+I.Definición del problema31
+II.Definición de proposiciones lógicas31
+III.Modelo lógico31
+IV.Expresión lógica31
+V.Tabla de verdad31
+VI.Pseudocódigo32
+X. Identidad Visual34
+I. SaluNic34
+II.Logotipo.34
+III.Paleta de colores.35
+IV.Tipografía.37
+V.Justificación del diseño.37
+XI.Diseño de Pantallas en Figma38
+I.Splashscreem o pantalla de carga38
+II.Pantalla de inicio de sesión.39
+III.Pantalla de recuperación de contraseña40
+V.Menú principal del usuario o pantalla home del usuario42
+XII. Evaluación de Usabilidad Método SUS43
+I.Evaluación de Usabilidad (Método SUS)43
+II.Resultados43
+III.Cuadro de Observaciones y Mejoras43
+IV.Desglose del Cálculo Matemático (Soporte Técnico)44
+XIII. Diagrama de Datos y Flujo de Datos46
+I.Diagrama de flujo de datos (DFD).46
+II.Entradas y salidas.46
+VIII.Procesos principales.47
+IX.Entidades relacionadas.47
+XIV. Roles establecidos según metodología de desarrollo aplicada48
+XV. Presentación del prototipo en Python49
+XVI. Conclusiones o lecciones aprendidas53
+XVII. Bibliografía54
+a.Libro54
+
+
+I.  Introducción
+
+En la actualidad, el avance de la tecnología ha permitido desarrollar herramientas innovadoras que contribuyen a mejorar la calidad de vida de las personas, especialmente en el sector de la salud. Sin embargo, existen muchas familias que enfrentan dificultades para llevar un control adecuado de sus citas médicas y de los horarios establecidos para la toma de medicamentos, lo que puede ocasionar complicaciones en los tratamientos y afectar el bienestar de los pacientes.
+
+En este contexto, surge la idea de desarrollar la aplicación SaluNic, una propuesta tecnológica novedosa que está orientada a brindar apoyo a la población en lo que respecta a la organización de su medicamento y el seguimiento médico.
+
+A través de la esta aplicación, los usuarios o pacientes podrán recibir recordatorios de citas médicas, controlar los horarios de sus medicamentos y llevar un mejor registro de su estado de salud. De esta manera, se busca reducir el olvido de actividades importantes relacionadas con el cuidado de la salud y prevenir posibles complicaciones médicas.
+
+La importancia de este proyecto radica en que representa una alternativa práctica y accesible a la población para fortalecer la prevención y el autocuidado de la salud. Tiene como objetivo, Además, pretende facilitar el bienestar beneficiar a las personas de todas las edades, especialmente a las que padecen enfermedades crónicas o requieren de un seguimiento constante de sus tratamientos médicos, contribuyendo a mejorar la salud del paciente.
+
+Por consiguiente, el presente informe tiene como propósito dar a conocer el desarrollo de la aplicación SaluNic, describiendo la problemática identificada, la importancia del proyecto y la solución tecnológica propuesta. Finalmente, se presentan las principales características y beneficios de la aplicación, destacando su aporte al sector salud y su impacto positivo en la población.
+
+II. Estructuración de la Idea
+
+Elemento
+Descripción
+Argumento de persuasión
+La aplicación se desarrollará con el propósito de apoyar a la población en general en la gestión de su salud, permitiendo programar recordatorios automáticos para citas médicas, horarios de medicamentos y dosis prescritas.
+De esta manera, se contribuirá al cumplimiento oportuno de los tratamientos.
+Área
+El proyecto se enmarca en el área de Salud, orientado a mejorar la calidad de vida de las personas mediante el uso de herramientas tecnológicas que faciliten el cuidado y monitoreo de su bienestar.
+Problema
+Muchas personas olvidan asistir a sus citas médicas o tomar sus medicamentos en los horarios y dosis indicados por los profesionales de la salud.
+Esta situación puede disminuir la efectividad de los tratamientos, provocar descontrol de enfermedades y generar complicaciones que afecten la salud y el bienestar de los pacientes.
+Ideas de solución
+Se propone desarrollar una aplicación móvil que permita registrar y gestionar citas médicas, medicamentos y tratamientos, enviando recordatorios oportunos y personalizados. Esto facilitará una mejor organización personal y promoverá la adherencia a las indicaciones médicas.
+Impacto
+La aplicación contribuirá a mejorar el control y seguimiento de la salud de los usuarios, reduciendo el riesgo de olvidos relacionados con citas y tratamientos. Asimismo, favorecerá la prevención de complicaciones médicas y apoyará especialmente a personas con enfermedades crónicas en el manejo de su condición.
+
+
+
+
+
+
+
+
+
+
+
+Preguntas
+Respuestas
+¿Qué ocurre?
+Con frecuencia, las personas olvidan asistir a sus citas médicas o cumplir oportunamente con la toma de sus medicamentos.
+¿Quién está involucrado?
+En esta situación intervienen los pacientes, sus familiares o cuidadores y el personal de salud encargado de su seguimiento
+¿Dónde ocurre?
+Esta problemática se presenta tanto en los hogares como en centros de atención médica y hospitales.
+¿Cuándo ocurre?
+Generalmente, ocurre cuando no existe una adecuada planificación, organización o seguimiento de las citas y tratamientos médicos.
+¿Por qué ocurre?
+Se debe principalmente al olvido, las múltiples ocupaciones diarias, la falta de recordatorios efectivos y la ausencia de herramientas de apoyo para la gestión de la salud.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+III. Antecedentes
+
+En el ámbito de la salud, existen muchas aplicaciones como Medisafe, que han sido diseñadas para ayudar a las personas a recordar sus medicamentos.
+
+La propuesta SaluNic busca ofrecer una alternativa práctica y accesible que ayude a organizar las citas médicas y los medicamentos, contribuyendo al bienestar de las familias.
+
+En Nicaragua, existe un sólido compromiso con la transformación digital del sector salud para optimizar la atención ciudadana. Con este propósito, el Ministerio de Salud (MINSA) implementa estrategias orientadas a simplificar la gestión de citas y el monitoreo de los pacientes.
+
+Para ello, la institución dispone de plataformas y herramientas informáticas, como el SIMOSAFC, que facilitan el registro y control de la información de los usuarios. Asimismo, estos sistemas optimizan de forma directa la comunicación entre el personal médico y la población.
+
+Cabe destacar que dichas iniciativas aprovechan la tecnología móvil, el uso de bases de datos y sistemas de mensajería automatizada. El objetivo principal de integrar estas herramientas es elevar la eficiencia y la calidad de los servicios asistenciales del país.
+
+En este contexto, surge el proyecto SaluNic, una propuesta diseñada para fortalecer el cuidado del paciente. A diferencia de los sistemas globales, este desarrollo se enfoca en brindar una aplicación móvil accesible e intuitiva para el control de citas y recordatorios de tratamiento, promoviendo así el bienestar diario.
+
+
+
+
+
+
+IV. Objetivos
+
+Objetivo General:
+
+Desarrollar una aplicación móvil que facilite a las personas y/o familias con padecimientos de salud a gestionar sus citas médicas, la dosificación y la toma de sus medicamentos mediante recordatorios automáticos programados, lo que generará un bienestar saludable.
+
+Objetivos Específicos:
+
+Identificar los requerimientos necesarios para el desarrollo de la aplicación móvil.
+Analizar los requerimientos de los pacientes para el desarrollo de la programación automática que guiará el control de su salud.
+Diseñar una interfaz intuitiva que facilite el acceso a las funciones de la aplicación.
+Desarrollar un sistema de alertas automáticas que facilite el cumplimiento oportuno de las citas médicas programadas.
+
+Evaluar el desempeño de la aplicación para asegurar su eficiencia y utilidad.
+
+
+V. Marco Teórico
+
+Programación en Python
+Python es un lenguaje de programación avanzado y clave en el desarrollo de software. Su sintaxis clara y simple facilita tanto el aprendizaje como la creación rápida de soluciones informáticas. Además, cuenta con una amplia variedad de bibliotecas y marcos (frameworks) que expanden su funcionalidad, convirtiéndolo en una herramienta versátil para todo tipo de proyectos tecnológicos.
+Interfaces gráficas
+Las interfaces gráficas de usuario (GUI) son el entorno visual con el que las personas interactúan con un sistema. Deben diseñarse bajo principios de claridad, coherencia y accesibilidad para optimizar la experiencia del usuario, facilitando la navegación y reduciendo la complejidad de la aplicación.
+Sistemas de información
+Son conjuntos de elementos interrelacionados que recolectan, procesan, almacenan y distribuyen datos para transformarlos en información útil. Su objetivo es optimizar procesos, mejorar la eficiencia y apoyar la toma de decisiones dentro de una organización.
+Usabilidad
+Es el grado de facilidad con el que las personas pueden comprender y utilizar un sistema. Una aplicación usable debe ser intuitiva, eficiente y fácil de manejar (incluso con poca experiencia tecnológica), garantizando una mayor satisfacción del usuario.
+Algoritmos
+Son conjuntos finitos y ordenados de instrucciones lógicas diseñadas para resolver un problema específico. Representan la base de la programación al estructurar soluciones de forma sistemática, y pueden expresarse mediante pseudocódigo, diagramas de flujo o lenguajes de programación para facilitar su análisis.
+Bases de datos
+Las bases de datos son sistemas estructurados que almacenan, organizan y gestionan grandes volúmenes de información de forma eficiente y segura. Son un componente esencial en el desarrollo de aplicaciones, ya que facilitan el acceso a los datos y garantizan su integridad y disponibilidad.
+Tecnologías utilizadas
+El desarrollo de SaluNic se basa en tecnologías clave: el lenguaje Python por su flexibilidad y potencia, sistemas de bases de datos para el almacenamiento estructurado de la información, y herramientas de diseño de interfaces para crear un entorno visual funcional, intuitivo y adaptado al usuario.
+VI. Requerimientos funcionales y no funcionales
+
+Nº
+Requerimientos funcionales
+
+Registro de usuario y contraseña
+
+Inicio de sesión seguro
+
+Registro de medicamento y dosificación
+
+Gestión de horarios de medicamento
+
+Recordatorio de toma de medicamento
+
+Programación y renovación de citas médicas
+
+Notificación de la próxima cita
+
+Nº
+Requerimientos No funcionales
+
+Seguridad de la información (protección de los datos personales)
+
+Interfaz fácil del usuario (amigable e intuitiva)
+
+Disponibilidad de la aplicación (funcionamiento en todo momento)
+
+Rapidez en el envío de notificaciones
+
+Compatibilidad con dispositivo móviles
+
+Confiabilidad en el almacenamiento de datos
+
+Buen rendimiento (sin fallas, ni lentitud)
+
+
+VII. Funciones de la Aplicación
+
+I. Horario de Medicamento
+
+Algoritmo Horario_Medicamento
+
+Definir nombreMedicamento, dosis, frecuencia, horaInicio Como Caracter;
+Definir duracionDias Como Entero;
+Definir confirmar Como Caracter;
+Escribir "Introduce el nombre del medicamento: ";
+Leer nombreMedicamento;
+Escribir "Introduce la dosis (1 pastilla 5ml):";
+Leer dosis;
+Escribir "Introduce la frecuencia (cada 8 horas, una vez al día): ";
+Leer frecuencia;
+Escribir "Introduce la hora de la primera toma (HH:MM): ";
+Leer horaInicio;
+Escribir "Introduce la duración del tratamiento en días: ";Leer duracionDias;
+// Validación de datos
+Si nombreMedicamento <> "" Y dosis <> "" Y frecuencia <> "" Y horaInicio <> "" Y duracionDias > 0 Entonces
+
+Escribir "--- HORARIO DE MEDICAMENTOS ---";
+Escribir "Medicamento: ", nombreMedicamento;
+Escribir "Dosis: ", dosis;
+Escribir "Frecuencia: ", frecuencia;
+Escribir "Primera toma: ", horaInicio;
+Escribir "Duración del tratamiento: ", duracionDias, " días.";
+Escribir "¿Desea confirmar el horario? (SI/NO): ";
+Leer confirmar;
+Si confirmar = "SI" Entonces
+Escribir "Horario registrado correctamente.";
+Sino
+Escribir "El registro ha sido cancelado.";
+FinSi
+Sino
+Escribir "Error: Datos incompletos o duración inválida.";
+FinSi
+FinAlgoritmo
+
+
+
+
+
+
+
+II.  Renovación de Cita Médica.
+
+Algoritmo RenovarCitaMedica
+
+Definir nombrePaciente, nombreDoctorActual, especialidadActual Como Cadena
+Definir fechaUltimaCita, fechaNuevaCita, horaNuevaCita Como Cadena
+
+Escribir '--- SOLICITUD DE RENOVACIÓN DE CITA MÉDICA ---'
+
+Escribir 'Introduce el nombre del paciente: '
+Leer nombrePaciente
+
+Escribir'Introduce el nombre del Dr./Dra. de su última cita: '
+Leer nombreDoctorActual
+
+Escribir 'Introduce la especialidad médica: '
+Leer especialidadActual
+
+// Validación de datos
+Si nombrePaciente <> "" Y nombreDoctorActual <> "" Y especialidadActual <> "" Entonces
+
+Escribir 'Introduce la fecha de su última cita (DD/MM/AAAA): '
+Leer fechaUltimaCita
+
+Escribir 'Buscando disponibilidad para ', especialidadActual, ' con el Dr./Dra. ', nombreDoctorActual, '...'
+Escribir 'Se ha encontrado disponibilidad.'
+
+Escribir 'Introduce la fecha deseada para la nueva cita (DD/MM/AAAA): '
+Leer fechaNuevaCita
+
+Escribir 'Introduce la hora deseada para la nueva cita (HH:MM): '
+Leer horaNuevaCita
+
+// Validación de nueva cita
+Si fechaNuevaCita = "" O horaNuevaCita = "" Entonces
+Escribir 'Error: Debe ingresar una fecha y hora válidas.'
+Sino
+
+// Confirmación
+Escribir 'Confirmación de Renovación de Cita:'
+Escribir 'Paciente: ', nombrePaciente
+Escribir 'Especialidad: ', especialidadActual
+Escribir 'Dr./Dra.: ', nombreDoctorActual
+Escribir 'Nueva Fecha: ', fechaNuevaCita
+Escribir 'Nueva Hora: ', horaNuevaCita
+
+Escribir '¿Desea confirmar la cita? (SI/NO): '
+Definir confirmar Como Cadena
+Leer confirmar
+
+Si confirmar = "SI" Entonces
+Escribir 'Su cita ha sido renovada exitosamente.'
+Sino
+Escribir 'La renovación de la cita ha sido cancelada.'
+FinSi
+
+FinSi
+
+Sino
+Escribir 'Error: Todos los campos iniciales son obligatorios.'
+FinSi
+
+FinAlgoritmo
+
+
+
+
+III. Recordatorio de Cita Médica.
+
+Algoritmo recordatorio_cita_medica
+
+Definir fechaCita, horaCita, nombrePaciente, nombreDoctor, especialidad Como Caracter;
+Escribir "Introduce la fecha de la cita (DD/MM/AAAA): ";
+Leer fechaCita;
+Repetir
+Escribir "Introduce la hora de la cita (HH:MM): ";
+Leer horaCita;
+Si (horaCita < "08:00" O horaCita > "17:00") Entonces
+Escribir "Horario fuera de atención. Por favor, introduce una hora entre 08:00 a.m. y 05:00 p.m. (HH:MM).";
+FinSi
+Hasta Que (horaCita >= "08:00" Y horaCita <= "17:00");
+Escribir "Introduce el nombre del paciente: ";
+Leer nombrePaciente;
+Escribir "Introduce el nombre del doctor: ";
+Leer nombreDoctor;
+Escribir "Introduce la especialidad médica: ";
+Leer especialidad;
+
+Escribir "--- RECORDATORIO DE CITA MÉDICA ---";
+Escribir "Estimado/a ", nombrePaciente, ",";
+Escribir "Le recordamos su cita con el Dr./Dra. ", nombreDoctor, " (", especialidad, ").";
+Escribir "Fecha: ", fechaCita;
+Escribir "Hora: ", horaCita;
+Escribir "Por favor, llegue 15 minutos antes de su cita.";
+FinAlgoritmo
+
+IV. Ingresar usuario y contraseña.
+
+Algoritmo RegistroYLoginUsuarioSalud
+
+// Definición de variables
+Definir usuarioRegistrado, contraseniaRegistrada, contraseniaConfirmacion Como Caracter;
+Definir usuarioIngresado, contraseniaIngresada Como Caracter;
+Definir medicamentoUsuario, dosificacionUsuario Como Caracter;
+Definir longitudContrasenia Como Entero;
+Definir contraseniaValida, loginExitoso Como Logico;
+Definir contadorIntentosLogin Como Entero;
+Definir espacio Como Real
+
+// Inicialización
+usuarioRegistrado = "";
+contraseniaRegistrada = "";
+medicamentoUsuario = "";
+dosificacionUsuario = "";
+contadorIntentosLogin = 0;
+loginExitoso = Falso;
+
+// --- SECCIÓN DE REGISTRO DE NUEVO USUARIO ---
+Escribir "--- REGISTRO DE NUEVO USUARIO ---";
+
+// Solicitar nombre de usuario
+Escribir "Ingrese su nombre de Usuario:";
+Leer usuarioRegistrado;
+
+// Solicitar y validar contraseña
+Repetir
+contraseniaValida = Verdadero;
+Escribir "\nIngrese su Contraseña:";
+Escribir "  (Requisitos: Mínimo 8 caracteres, sin espacios. Se recomienda incluir mayúsculas, minúsculas y números para mayor seguridad)";
+Leer contraseniaRegistrada;
+
+longitudContrasenia = Longitud(contraseniaRegistrada);
+
+Si longitudContrasenia < 8 Entonces
+Escribir "ERROR: La contraseña debe tener al menos 8 caracteres.";
+contraseniaValida = Falso;
+FinSi
+Si No contraseniaValida Entonces
+Escribir "Por favor, inténtelo de nuevo con una contraseña que cumpla los requisitos.";
+FinSi
+Hasta Que contraseniaValida;
+// Confirmar contraseña
+Repetir
+Escribir "Confirme su Contraseña:";
+Leer contraseniaConfirmacion;
+Si contraseniaConfirmacion <> contraseniaRegistrada Entonces
+Escribir "ERROR: Las contraseñas no coinciden. Por favor, inténtelo de nuevo.";
+FinSi
+Hasta Que contraseniaConfirmacion = contraseniaRegistrada;
+
+// Solicitar información del medicamento
+Escribir "\n--- REGISTRO DE MEDICAMENTOS ---";
+Escribir "Ingrese el nombre de su medicamento principal:";
+Leer medicamentoUsuario;
+Escribir "Ingrese la dosificación de su medicamento cada 8 horas: ";
+Leer dosificacionUsuario;
+
+Escribir "\n¡Usuario registrado y medicamento guardado exitosamente!";
+Escribir "=======================================";
+
+// --- SECCIÓN DE INICIO DE SESIÓN ---
+Escribir "\n--- INICIO DE SESIÓN ---";
+
+Mientras No loginExitoso Y contadorIntentosLogin < 3 Hacer // Permitir hasta 3 intentos fallidos
+Escribir "Usuario:";
+Leer usuarioIngresado;
+Escribir "Contraseña:";
+Leer contraseniaIngresada;
+Si usuarioIngresado = usuarioRegistrado Y contraseniaIngresada = contraseniaRegistrada Entonces
+loginExitoso = Verdadero;
+Escribir "\n¡Inicio de sesión exitoso! ¡Bienvenido/a, ", usuarioRegistrado, "!";
+Escribir "Su Medicamento Registrado: ", medicamentoUsuario;
+Escribir "Su Dosificación Registrada: ", dosificacionUsuario;
+Sino
+contadorIntentosLogin = contadorIntentosLogin + 1;
+Escribir "ERROR: Usuario o contraseña incorrectos. (Intento ", contadorIntentosLogin, "/3)";
+Si contadorIntentosLogin = 3 Entonces
+Escribir "Ha excedido el número máximo de intentos. Su cuenta ha sido bloqueada temporalmente.";
+FinSi
+FinSi
+FinMientras
+
+FinAlgoritmo
+
+
+
+
+
+
+
+
+
+V. Perfil Medico.
+
+Algoritmo PerfilMedico
+
+// Declaración de variables para el Perfil Médico
+Definir nombrePaciente, apellidoPaciente, fechaNacimiento Como Caracter;
+Definir grupoSanguineo, alergias, antecedentesMedicos Como Caracter;
+Definir contactoEmergenciaNombre, contactoEmergenciaTelefono Como Caracter;
+Definir confirmacionDatos Como Caracter; // Para simular la confirmación antes de pasar al siguiente subproceso
+Escribir "--- REGISTRO DEL PERFIL MÉDICO ---";
+// Registro de Datos Personales
+Escribir "Ingrese el nombre del paciente:";
+Leer nombrePaciente;
+Escribir "Ingrese el apellido del paciente:";
+Leer apellidoPaciente;
+Escribir "Ingrese la fecha de nacimiento (DD/MM/AAAA):";
+Leer fechaNacimiento;
+
+// Grupo Sanguíneo
+Escribir "Ingrese el grupo sanguíneo (ej. A+, O-):";
+Leer grupoSanguineo;
+// Alergias
+Escribir "Ingrese las alergias (separadas por coma, si no tiene escriba Ninguna): ";
+Leer alergias;
+// Antecedentes Médicos
+Escribir "Ingrese los antecedentes médicos relevantes (ej. Hipertensión, Diabetes, Cirugías): ";
+Leer antecedentesMedicos;
+// Contactos de Emergencia
+Escribir "--- CONTACTO DE EMERGENCIA ---";
+Escribir "Ingrese el nombre del contacto de emergencia:";
+Leer contactoEmergenciaNombre;
+Escribir "Ingrese el teléfono del contacto de emergencia:";
+Leer contactoEmergenciaTelefono;
+
+Escribir "\n--- FICHA MÉDICA (PANTALLA DE BLOQUEO) ---";
+Escribir "Nombre: ", nombrePaciente, " ", apellidoPaciente;
+Escribir "Fecha de Nacimiento: ", fechaNacimiento;
+Escribir "Grupo Sanguíneo: ", grupoSanguineo;
+Escribir "Alergias: ", alergias;
+Escribir "Antecedentes Médicos: ", antecedentesMedicos;
+Escribir "Contacto de Emergencia: ", contactoEmergenciaNombre, " - ", contactoEmergenciaTelefono;
+Escribir "-----------------------------------------";
+
+Escribir "\n ¿Los datos mostrados son correctos para proceder al monitoreo de salud? (Si/No)";
+Leer confirmacionDatos;
+
+Si Minusculas(confirmacionDatos) = "Si" Entonces
+Escribir "Procediendo a Monitoreo de Salud...";
+// Aquí, en un sistema real, se llamaría al subproceso o función de monitoreo.
+// En PSeInt, por simplicidad, se continuaría con el siguiente algoritmo.
+Sino
+Escribir "Por favor, revise y edite su perfil médico si es necesario.";
+FinSi
+
+FinAlgoritmo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VIII. Traducción del Lenguaje Coloquial al Lógico
+
+Gestión de tomar medicamento en horarios establecidos.
+
+Lenguaje coloquial: “Si el paciente tiene un horario para tomar medicamento registrado y el usuario indica que la pastilla no es la correcta, entonces el sistema indicara un error.”
+Traducción lógica: p ∧ q (conjunción: “p y q”)
+p: El paciente tiene un horario registrado
+q: La pastilla es correcta
+r: El horario y la pastilla es correcta.
+
+Revisión de cita medicas
+
+Lenguaje coloquial: “La aplicación emite una alarma para indicar que se aproxima una cita médica dentro de la semana si y solo si la semana es la correcta”
+Traducción lógica: p <--> q
+p: La aplicación emite una alarma.
+q: La semana es la correcta.
+r: se emite la alarma que avisa al usuario
+
+App activa
+
+Lenguaje coloquial Conexión: “La app está en línea y el servidor de SaluNic está activo.”
+Lenguaje coloquial: (p ∧ q)
+
+Validación de contraseña
+Lenguaje coloquial: Validación: “No se permite el acceso si la contraseña es incorrecta.”
+Traducción lógica: (¬p ¬q)
+
+
+IX.  Aplicación de Lógica Proposicional a SaluNic
+
+Definición del problema
+
+El inicio de sesión en SaludNic se realiza con éxito si y solo si el usuario ingresa un nombre de usuario válido y una contraseña correcta.
+
+Definición de proposiciones lógicas
+
+p: El usuario ingresa un nombre de usuario válido.q: El usuario ingresa una contraseña correcta.s: El inicio de sesión en SaludNic se realiza con éxito.
+
+Modelo lógico
+
+- El acceso al sistema se permite únicamente cuando el usuario y la contraseña son correctos.- El usuario debe ingresar un nombre de usuario válido.- El usuario debe ingresar una contraseña correcta.- El cumplimiento de ambas condiciones permite el acceso exitoso al sistema.
+
+Expresión lógica
+
+(p, q y s)
+Recuerde que existen 2² = 8 combinaciones posibles de valores de verdad, ya que se trabajan únicamente dos proposiciones lógicas (p y q). Por lo tanto, "p" tiene 2 valores verdaderos y 2 valores falsos.
+
+Tabla de verdad
+
+p
+q
+s
+p ^ q
+(p ∧ q)<-->s
+V
+V
+V
+V
+V
+V
+V
+F
+V
+F
+V
+F
+V
+F
+F
+V
+F
+F
+F
+V
+F
+V
+V
+F
+F
+F
+V
+F
+F
+V
+F
+F
+V
+F
+F
+F
+F
+F
+F
+V
+
+
+Pseudocódigo
+
+ALGORITMO IniciarSesionSaludNicVARIABLESp, q, accesoExitoso : BOOLEANOINICIOaccesoExitoso <- FalsoMIENTRAS (accesoExitoso = Falso) HACER   p <- VerificarUsuario()   q <- VerificarContrasena()   SI (p = Verdadero Y q = Verdadero) ENTONCES      accesoExitoso <- Verdadero      MostrarMensaje("¡Inicio de sesión exitoso!")      RedirigirAlMenuPrincipal()   SINO      MostrarMensaje("Error: Usuario o contraseña incorrectos.")      SI (p = Falso) ENTONCES         MostrarMensaje("- Usuario inválido.")      FIN SI      SI (q = Falso) ENTONCES         MostrarMensaje("- Contraseña incorrecta.")      FIN SI   FIN SIFIN MIENTRASFIN
+
+
+
+
+
+
+
+Diagrama de flujo
+
+
+X. Identidad Visual
+
+I. SaluNic
+
+SaluNic surge de la unión de las palabras Salud y Nicaragua, por lo que representa una plataforma tecnológica destinada a mejorar el acceso, la gestión y el seguimiento de los servicios de salud en el país.
+
+Logotipo.
+
+El logotipo de SaluNic integra una hoja verde que simboliza la vida y el bienestar, una figura humana naranja que representa al paciente, una cruz médica rosada asociada a la atención sanitaria y anillos azules que reflejan la tecnología, la conectividad y la seguridad de la información médica.
+
+Paleta de colores.
+
+
+Verde - #2ECC71
+Fucsia - #E91E8C
+Rosado - #F48FB1
+Azul - #1565C0
+Celeste - #4FC3F7
+Amarillo - #FFD600
+Naranja - #FF7043
+Blanco - #FFFFFF
+Azul Noche - #0A2342
+Verde Oscuro - #062ª1A
+
+
+
+
+
+
+
+
+
+Tipografía.
+
+Se utiliza Nunito en los títulos por su apariencia formal y profesional. Asimismo, para el contenido se emplea nunito, debido a su claridad y fácil lectura en formatos digitales e impresos.
+
+Justificación del diseño.
+
+La identidad visual de SaluNic fue desarrollada con el propósito de proyectar una imagen moderna, confiable y accesible, aunado a que cada elemento gráfico fue seleccionado estratégicamente para comunicar valores fundamentales como la innovación, la seguridad, la transparencia y la atención centrada en el usuario.
+
+En este mismo sentido, la combinación de colores permite generar una experiencia visual agradable y armoniosa, favoreciendo la interacción del público con la plataforma, al tiempo que su diseño institucional integra conceptos relacionados con la salud, la tecnología y el bienestar para fortalecer el reconocimiento de la marca.
+
+En síntesis, esta línea gráfica no solo contribuye a mejorar la reputación del ecosistema digital, sino que también facilita una comunicación clara y efectiva, proyectando certeza, profesionalismo y compromiso con la salud de la población nicaragüense.
+
+
+
+
+Diseño de Pantallas en Figma
+
+
+Splashscreem o pantalla de carga
+
+
+
+
+
+
+
+
+
+
+
+Pantalla de inicio de sesión.
+
+
+
+
+
+
+
+
+
+
+
+Pantalla de recuperación de contraseña
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Principales formularios del sistema.
+
+
+
+
+
+Menú principal del usuario o pantalla home del usuario
+
+Link a proyecto de Figma
+
+https://www.figma.com/design/Ov5DQqa34QuutcQxQXc3YF/Cristian-Saravia-s-team-library?node-id=0-1&p=f&t=phhdpuSfdDQXyjnh-0
+
+
+XII. Evaluación de Usabilidad Método SUS
+Evaluación de Usabilidad (Método SUS)
+Para evaluar la facilidad de uso de SaludNic, se aplicó el método SUS (System Usability Scale), que consiste en una encuesta estándar de 10 preguntas sobre la experiencia de navegación. La evaluación se realizó basándose en los prototipos y pantallas diseñadas en Figma.
+Resultados
+Tras procesar los datos, la aplicación obtuvo una calificación de 77.5 / 100. En la escala SUS, cualquier puntaje superior a 68 se considera Aceptable y Bueno, lo que demuestra que la interfaz es intuitiva para los pacientes, aunque posee puntos de mejora.
+Cuadro de Observaciones y Mejoras
+Componente / Pantalla
+Observación (Falla)
+Impacto
+Mejora Propuesta (Solución)
+Agendamiento de Citas
+El proceso requiere pasar por demasiadas pantallas consecutivas.
+Medio
+Unificar los pasos en un solo formulario dinámico más rápido.
+Interfaz General
+El tamaño de la letra es muy pequeño para usuarios de la tercera edad.
+Alto
+Incrementar la tipografía a mínimo 14pt para mejorar la accesibilidad.
+Botón de Confirmación
+Al presionar "Guardar", la app no avisa que está procesando la información.
+Bajo
+Mostrar un icono de carga (Spinner) mientras se guardan los datos.
+
+
+Desglose del Cálculo Matemático (Soporte Técnico)
+A continuación se presenta la matriz de datos de control del cuestionario estándar SUS. Este desglose sirve como evidencia del origen exacto de la calificación final de 77.5.
+#
+Tipo
+Pregunta Estándar SUS
+Voto
+Operación
+Puntos
+1
+Positiva
+Creo que usaré esta aplicación con frecuencia.
+4
+4 - 1
+3
+2
+Negativa
+Encontré la aplicación innecesariamente compleja.
+2
+5 - 2
+3
+3
+Positiva
+Pensé que la aplicación era fácil de usar.
+4
+4 - 1
+3
+4
+Negativa
+Creo que necesitaría el apoyo de un técnico para usarla.
+1
+5 - 1
+4
+5
+Positiva
+Encontré que las funciones de la app están bien integradas.
+4
+4 - 1
+3
+6
+Negativa
+Pensé que había demasiada inconsistencia en el sistema.
+2
+5 - 2
+3
+7
+Positiva
+Imagino que la mayoría de la gente aprendería a usarla muy rápido.
+5
+5 - 1
+4
+8
+Negativa
+Encontré la aplicación muy incómoda o pesada de usar.
+2
+5 - 2
+3
+9
+Positiva
+Me sentí muy seguro al utilizar la aplicación.
+4
+4 - 1
+3
+10
+Negativa
+Necesité aprender muchas cosas antes de poder usarla.
+3
+5 - 3
+2
+Cálculo Final:1. Suma de puntos obtenidos = 3 + 3 + 3 + 4 + 3 + 3 + 4 + 3 + 3 + 2 = 31 puntos.2. Multiplicación de normalización: 31 x 2.5 = 77.5 / 100.
+
+
+XIII. Diagrama de Datos y Flujo de Datos
+
+Diagrama de flujo de datos (DFD).
+
+Entradas y salidas.
+Entradas:
+Registro de usuario y contraseña.
+Datos de medicamento (nombre, dosis, frecuencia).
+Solicitud de cita médica.
+Perfil médico (grupo sanguíneo, alergias, antecedentes).
+Salidas:
+Confirmación de registro.
+Recordatorio de cita médica.
+Horario de medicamentos.
+Renovación de citas.
+Ficha médica de emergencia.
+
+Procesos principales.
+
+Registro e inicio de sesión
+Gestión de medicamentos
+Gestión de citas médicas
+Generación de recordatorios
+Administración de perfil médico
+
+Entidades relacionadas.
+
+Paciente: usuario principal de la aplicación.
+Médico: fuente de información sobre citas y tratamientos.
+Sistema SaluNic: encargado de procesar y almacenar datos.
+Base de datos: repositorio de información médica y de usuario.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+XIV. Roles establecidos según metodología de desarrollo aplicada
+
+El proyecto SaluNic se desarrolló bajo una metodología ágil y colaborativa, lo que permitió distribuir las actividades de forma organizada y eficiente entre los integrantes. Asimismo, este enfoque optimizó el proceso de desarrollo y garantizó el cumplimiento de los objetivos al fomentar la comunicación constante, la cooperación y el seguimiento continuo de las tareas.
+Debe incluir:
+Integrante
+Rol
+Responsabilidades
+I
+Coordinador del Proyecto
+Planificar, organizar y dirigir las actividades del proyecto. Además, supervisar el progreso de las tareas, coordinar la comunicación entre los miembros del equipo y asegurar el cumplimiento de los objetivos propuestos dentro de los plazos establecidos.
+
+Analista y Diseñador
+Identificar y documentar los requerimientos del sistema. Del mismo modo, elaborar los prototipos, definir los elementos visuales de la aplicación y contribuir al diseño de una interfaz funcional, intuitiva y centrada en las necesidades de los usuarios.
+
+Documentador y Control de Calidad
+Redactar, estructurar y revisar la documentación del proyecto. Asimismo, verificar la calidad de los entregables, corregir posibles inconsistencias y garantizar que la información presentada sea clara, precisa y coherente.
+
+Por consiguiente, la distribución de roles optimizó la coordinación y el trabajo en equipo, lo que resultó clave para el desarrollo exitoso de SaluNic.
+
+
+XV. Presentación del prototipo en Python
+
+Capturas del sistema.
+
+
+
+Explicación de funcionalidades.
+SALUNIC - Salud y Bienestar Nicaragua
+Aplicación de salud y bienestar desarrollada con Python y Tkinter.
+
+🚀 Características
+
+Splash Screen: Pantalla de inicio animada
+Autenticación: Sistema de login y registro de usuarios
+Panel de Control: Interfaz principal con datos vitales
+Servicios Principales: Citas médicas, medicamentos, historial médico y perfil
+Próximas Citas: Visualización de citas programadas
+Menú Navegación: Acceso rápido a todas las secciones
+
+
+
+📋 Requisitos
+
+Python 3.6 o superior
+Tkinter (incluido por defecto en Python)
+
+🎨 Pantallas
+
+1. Splash Screen
+Animación de círculos rotativos
+Duración: 3 segundos
+Transición automática a la pantalla de inicio
+2. Inicio
+Bienvenida al usuario
+Botones para comenzar o iniciar sesión
+Interfaz intuitiva
+3. Login
+Inicio de sesión con email y contraseña
+Enlace para registrar nueva cuenta
+Validación de campos
+4. Registro
+Formulario para crear nueva cuenta
+Confirmación de contraseña
+Validación de datos
+5. Home (Panel de Control)
+Datos vitales: Temperatura, Pulso, Citas, Medicinas
+Avatar del usuario
+Servicios principales: Citas, Medicamentos, Historial, Perfil
+Próximas citas con detalles del médico
+Menú inferior de navegación
+
+🎯 Credenciales de Prueba
+
+Email: usuario@salunic.com
+Contraseña: 123456
+
+🛠️ Desarrollo
+Colores Utilizados
+Azul Primario: #1565c0
+Verde Secundario: #2ecc71
+Rojo Alertas: #e74c3c
+Blanco: #ffffff
+Gris Fondo: #f5f5f5
+Fuentes
+Font: Nunito
+
+Código relevante.
+
+
+
+Uso de Tkinter.
+
+XVI. Conclusiones o lecciones aprendidas
+
+Esta aplicación de SaluNic que hemos elaborado será muy útil para las personas que olvidan sus citas médicas, sus fechas y horarios en los que deben tomarse su medicamento en la dosis y frecuencia que prescribe el médico, lo que genera poca efectividad del medicamento y el descontrol de la enfermedad.
+La aplicación SaluNic es una propuesta práctica para el sector salud ya que ayudará a mejorar la calidad de vida de las personas enfermas que viven con tratamientos médicos, ya que su interfaz le proveerá avisos, alertas, alarmas de horario para la toma de los medicamentos, por lo que, puede ser de gran utilidad para los pacientes y en los hogares con personas enfermas.
+
+El desarrollo de los algoritmos muestra que es posible transformar necesidades cotidianas de la población en soluciones tecnológicas accesibles, contribuyendo a la prevención de complicaciones de la salud.
+
+La identidad visual y la organización que tendrá la aplicación transmitirá confianza, seguridad y cercanía al usuario.
+
+En conjunto, este trabajo evidencia que la integración de programación básica con un enfoque social puede generar impactos positivos en la salud pública.
+Porque es importante crear esta App o Aplicación.
+
+Existen muchas personas que olvidan sus citas médicas, sus fechas y horarios en los que deben tomarse su medicamento en la dosis y frecuencia que prescribe el médico (por diferentes razones), lo que genera la efectividad del medicamento y descontrolan la enfermedad, lo que puede complicar la condición de salud del paciente.
+
+Esta App, les servirá mucho a las personas enfermas ya que su interfaz le proveerá avisos, alertas, alarmas de horario para la toma de los medicamentos, por lo que, consideramos que es de gran utilidad para los pacientes y en los hogares con personas enfermas.
+XVII. Bibliografía
+
+Libro
+
+Sommerville, I. (2016). Ingeniería de software (10.ª ed.). Pearson.
+Sitio web
+GitHub. (s. f.). GitHub: Build
+and ship software on a single, collaborative platform. https://github.com⁠
+Artículo
+Brooke, J. (1996). SUS: A quick and dirty usability scale. En P. W. Jordan, B. Thomas, B. A. Weerdmeester y A. L. McClelland (Eds.), Usability Evaluation in Industry (pp. 189–194). Taylor & Francis.
+Video
+Figma. (2024). Getting started with Figma [Video]. YouTube. https://www.youtube.com⁠
+Documentación técnica
+Python Software Foundation. (s. f.). Tkinter — Python interface to Tcl/Tk. https://docs.python.org/3/library/tkinter.html⁠
+Sitio web
+Canva. (s. f.). Canva: Plataforma de diseño gráfico en línea. https://www.canva.com⁠
+Herramienta de inteligencia artificial
+Google. (s. f.). Stitch: AI-powered UI design tool. https://stitch.withgoogle.com⁠
+

@@ -1,91 +1,106 @@
 import tkinter as tk
-from tkinter import Canvas
+from tkinter import messagebox
+from screens.styles import (VERDE, AZUL_NOCHE, BLANCO,
+                            TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
+                            create_rounded_rect)
 
 class Screen2OTP(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, bg="#ffffff")
+        tk.Frame.__init__(self, parent, bg=AZUL_NOCHE)
         self.controller = controller
-        self.canvas = Canvas(self, width=375, height=812, bg="#ffffff", highlightthickness=0)
+        self.otp_values = [tk.StringVar() for _ in range(6)]
+        self.otp_entries = []
+        self._build_ui()
+
+    def _build_ui(self):
+        self.canvas = tk.Canvas(self, width=WIDTH, height=HEIGHT, highlightthickness=0, bg=AZUL_NOCHE)
         self.canvas.pack()
-        
-        self.create_background()
-        self.create_blur_circles()
-        self.create_status_bar()
-        self.create_header()
-        self.create_progress_bar()
-        self.create_title()
-        self.create_description()
-        self.create_otp_inputs()
-        self.create_resend_text()
-        self.create_info_box()
-        self.create_buttons()
-    
-    def create_background(self):
-        self.canvas.create_rectangle(0, 0, 375, 812, fill="#ffffff", outline="")
-    
-    def create_blur_circles(self):
-        circles = [(205, -70, 115, "#e91e8c"), (-55, 557, 92.5, "#2ecc71"),
-                   (275, 341, 67.5, "#4fc3f7"), (-15, 373, 55, "#ffd600")]
-        for x, y, radius, color in circles:
-            self.canvas.create_oval(x-radius, y-radius, x+radius, y+radius, fill=color, outline="")
-    
-    def create_status_bar(self):
-        self.canvas.create_text(24, 30, text="9:41 AM", font=("Nunito", 12, "bold"),
-                               fill="rgba(255, 255, 255, 0.82)", anchor="w")
-        self.canvas.create_text(351, 30, text="100%", font=("Nunito", 12, "bold"),
-                               fill="rgba(255, 255, 255, 0.82)", anchor="e")
-    
-    def create_header(self):
-        self.canvas.create_oval(24, 43, 62, 81, fill="#ffffff", outline="")
-        self.canvas.create_oval(26, 45, 60, 79, fill="#34c759", outline="")
-        self.canvas.create_text(43, 62, text="S", font=("Arial", 20, "bold"), fill="#ffffff")
-        self.canvas.create_text(85, 62, text="SALUNIC", font=("Nunito", 15, "bold"),
-                               fill="#ffffff", anchor="w")
-    
-    def create_progress_bar(self):
-        self.canvas.create_rectangle(22, 127, 127.66, 132, fill="#2ecc71", outline="")
-        self.canvas.create_rectangle(134.66, 127, 240.33, 132, fill="#2ecc71", outline="")
-        self.canvas.create_rectangle(247.33, 127, 353, 132, fill="rgba(255, 255, 255, 0.14)", outline="")
-        self.canvas.create_rectangle(22, 152, 126.39, 176, fill="rgba(79, 195, 247, 0.14)", outline="", width=0)
-        self.canvas.create_text(35, 164, text="PASO 2 DE 3", font=("Nunito", 10, "bold"),
-                               fill="#4fc3f7", anchor="w")
-    
-    def create_title(self):
-        self.canvas.create_text(22, 114, text="Revisa tu correo", font=("Nunito", 21, "bold"),
-                               fill="#ffffff", anchor="nw")
-    
-    def create_description(self):
-        self.canvas.create_text(22, 179, text="Ingresa el código de 6 dígitos enviado a maria@gmail.com",
-                               font=("Nunito", 12.5), fill="rgba(255, 255, 255, 0.5)", anchor="nw", width=339)
-    
-    def create_otp_inputs(self):
-        otp_positions = [(22, 212.55), (78.83, 212.55), (135.66, 212.55),
-                        (192.52, 212.55), (249.33, 212.55), (306.17, 212.55)]
-        colors = ["rgba(46, 204, 113, 0.1)", "rgba(46, 204, 113, 0.1)", "rgba(79, 195, 247, 0.08)",
-                 "rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.1)"]
-        numbers = ["5", "8", "", "", "", ""]
-        
-        for (x, y), color, num in zip(otp_positions, colors, numbers):
-            self.canvas.create_rectangle(x, y, x + 46.84, y + 56, fill=color,
-                                       outline="rgba(255, 255, 255, 0.2)" if "white" in color else "",
-                                       width=1 if "white" in color else 0)
-            if num:
-                self.canvas.create_text(x + 23.42, y + 28, text=num, font=("Nunito", 22, "bold"),
-                                       fill="#ffffff")
-    
-    def create_resend_text(self):
-        self.canvas.create_text(187.5, 284.55, text="¿No recibiste el código? Reenviar 02:45",
-                               font=("Nunito", 12), fill="rgba(255, 255, 255, 0.6)", justify="center")
-    
-    def create_info_box(self):
-        self.canvas.create_rectangle(22, 310.55, 353, 393.19, fill="rgba(255, 214, 0, 0.07)", outline="", width=0)
-        self.canvas.create_text(37, 325.55, text="El código expira en 5 minutos. Revisa también la carpeta de spam. Puedes solicitar un nuevo código.",
-                               font=("Nunito", 11.5), fill="rgba(255, 255, 255, 0.6)", anchor="nw", width=194)
-    
-    def create_buttons(self):
-        self.canvas.create_rectangle(22, 415.2, 353, 465.2, fill="#2ecc71", outline="", width=0)
-        self.canvas.create_text(187.5, 440.2, text="VERIFICAR CÓDIGO", font=("Nunito", 15, "bold"),
-                               fill="#ffffff")
-        self.canvas.create_rectangle(22, 473.2, 353, 520.2, fill="rgba(255, 255, 255, 0.07)", outline="", width=0)
-        self.canvas.create_text(187.5, 496.5, text="CAMBIAR CORREO", font=("Nunito", 14, "bold"),
-                               fill="rgba(255, 255, 255, 0.82)")
+        self._draw_bg()
+        self._draw_content()
+
+    def _draw_bg(self):
+        colors = GRADIENT_COLORS
+        segs = len(colors) - 1
+        sh = HEIGHT / segs
+        for y in range(0, HEIGHT, 3):
+            s = int(y // sh)
+            if s >= segs:
+                s = segs - 1
+            r = (y - s * sh) / sh
+            c1, c2 = colors[s], colors[s + 1]
+            r1, g1, b1 = int(c1[1:3], 16), int(c1[3:5], 16), int(c1[5:7], 16)
+            r2, g2, b2 = int(c2[1:3], 16), int(c2[3:5], 16), int(c2[5:7], 16)
+            cr = int(r1 + (r2 - r1) * r)
+            cg = int(g1 + (g2 - g1) * r)
+            cb = int(b1 + (b2 - b1) * r)
+            self.canvas.create_line(0, y, WIDTH, y, fill=f"#{cr:02x}{cg:02x}{cb:02x}")
+        self.canvas.create_oval(-20, 600, 150, 770, fill=VERDE, outline="")
+        self.canvas.create_oval(230, 60, 360, 190, fill="#E91E8C", outline="")
+
+    def _draw_content(self):
+        nav = tk.Frame(self, bg=BLANCO, bd=0)
+        nav.place(relx=0.5, y=28, anchor="center", width=340, height=34)
+        back_btn = tk.Label(nav, text="←", font=("Nunito", 18, "bold"), fg="#333333", bg=BLANCO, cursor="hand2")
+        back_btn.pack(side="left", padx=8)
+        back_btn.bind("<Button-1>", lambda e: self.controller.show_screen("Login"))
+        tk.Label(nav, text="OTP", font=("Nunito", 12, "bold"), fg="#333333", bg=BLANCO
+                 ).pack(side="left", padx=(16, 0))
+        tk.Label(nav, text="100%", font=("Nunito", 11), fg=TEXTO_GRIS, bg=BLANCO
+                 ).pack(side="right", padx=8)
+
+        # Titulo sobre el gradiente
+        self.canvas.create_text(187, 128, text="Restablecer Contrasena", font=("Nunito", 20, "bold"), fill=BLANCO)
+
+        # Card redondeada con gradiente alrededor
+        card_x, card_y, card_w, card_h = 28, 185, 319, 400
+        create_rounded_rect(self.canvas, card_x, card_y, card_x + card_w, card_y + card_h,
+                            20, fill="#FFFFFF", outline="")
+
+        tk.Label(self, text="Revisa tu correo", font=("Nunito", 16, "bold"),
+                 fg=TEXTO_OSCURO, bg="#FFFFFF").place(x=card_x, y=card_y + 24, width=card_w)
+        tk.Label(self, text="Ingresa el codigo de 6 digitos\nenviado a usuario@salunic.com",
+                 font=("Nunito", 10), fg=TEXTO_GRIS, bg="#FFFFFF", justify="center"
+                 ).place(x=card_x, y=card_y + 60, width=card_w)
+
+        otp_frame = tk.Frame(self, bg="#FFFFFF")
+        otp_frame.place(x=card_x + 16, y=card_y + 118, width=card_w - 32)
+        for i in range(6):
+            entry = tk.Entry(otp_frame, textvariable=self.otp_values[i],
+                             font=("Nunito", 20, "bold"), width=2, justify="center",
+                             bg="#F5F5F5", relief="flat", bd=0, fg=TEXTO_OSCURO,
+                             highlightthickness=1, highlightbackground="#E0E0E0", highlightcolor=VERDE)
+            entry.pack(side="left", padx=4, ipady=6)
+            self.otp_entries.append(entry)
+            entry.bind("<KeyRelease>", lambda e, idx=i: self._on_key(e, idx))
+
+        tk.Label(self, text="No recibiste el codigo? Reenviar 02:45",
+                 font=("Nunito", 9), fg=TEXTO_GRIS, bg="#FFFFFF"
+                 ).place(x=card_x, y=card_y + 200, width=card_w)
+
+        # Boton VERIFICAR CODIGO
+        b_y = card_y + 250
+        create_rounded_rect(self.canvas, card_x + 44, b_y, card_x + card_w - 44, b_y + 48, 24, fill=VERDE, outline="")
+        btn = tk.Label(self, text="VERIFICAR CODIGO", font=("Nunito", 12, "bold"),
+                       fg=BLANCO, bg=VERDE, cursor="hand2")
+        btn.place(x=card_x + 46, y=b_y + 2, width=card_w - 92, height=44)
+        btn.bind("<Button-1>", lambda e: self._verificar())
+
+    def _on_key(self, event, idx):
+        if event.keysym == "BackSpace" and idx > 0:
+            self.otp_entries[idx - 1].focus()
+            self.otp_entries[idx - 1].delete(0, "end")
+        elif event.char.isdigit() and idx < 5:
+            self.otp_entries[idx + 1].focus()
+        elif event.char.isdigit() and idx == 5:
+            self.otp_entries[idx].focus_set()
+
+    def _verificar(self):
+        codigo = "".join(v.get() for v in self.otp_values)
+        if len(codigo) != 6 or not codigo.isdigit():
+            messagebox.showerror("Error", "Ingresa el codigo completo de 6 digitos")
+            return
+        if codigo == "123456":
+            messagebox.showinfo("Exito", "Codigo verificado correctamente")
+            self.controller.show_screen("Login")
+        else:
+            messagebox.showerror("Error", "Codigo incorrecto. Intenta de nuevo.")

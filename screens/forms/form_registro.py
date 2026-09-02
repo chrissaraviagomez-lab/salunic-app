@@ -1,100 +1,178 @@
 import tkinter as tk
-from tkinter import Canvas
+from tkinter import messagebox
+from data import users_data
+from screens.styles import (VERDE, CELESTE, FUCSIA, AZUL_NOCHE, BLANCO,
+                            TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
+                            create_rounded_rect)
 
 class FormRegistro(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, bg="#ffffff")
+        tk.Frame.__init__(self, parent, bg=AZUL_NOCHE)
         self.controller = controller
-        self.canvas = Canvas(self, width=375, height=812, bg="#ffffff", highlightthickness=0)
+        self.terminos_var = tk.BooleanVar(value=False)
+        self._build_ui()
+
+    def _build_ui(self):
+        self.canvas = tk.Canvas(self, width=WIDTH, height=HEIGHT, highlightthickness=0, bg=AZUL_NOCHE)
         self.canvas.pack()
-        
-        self.create_background()
-        self.create_blur_circles()
-        self.create_status_bar()
-        self.create_header()
-        self.create_progress()
-        self.create_title()
-        self.create_form_fields()
-    
-    def create_background(self):
-        self.canvas.create_rectangle(0, 0, 375, 812, fill="#ffffff", outline="")
-    
-    def create_blur_circles(self):
-        circles = [(210, -65, 110, "#e91e8c"), (-50, 577, 87.5, "#2ecc71"),
-                   (275, 341, 65, "#4fc3f7")]
-        for x, y, radius, color in circles:
-            self.canvas.create_oval(x-radius, y-radius, x+radius, y+radius, fill=color, outline="")
-    
-    def create_status_bar(self):
-        self.canvas.create_text(22, 30, text="9:41", font=("Nunito", 12, "bold"),
-                               fill="rgba(255, 255, 255, 0.82)")
-        self.canvas.create_text(345, 30, text="100%", font=("Nunito", 12, "bold"),
-                               fill="rgba(255, 255, 255, 0.82)")
-    
-    def create_header(self):
-        self.canvas.create_oval(22, 43, 60, 81, fill="#ffffff", outline="")
-        self.canvas.create_oval(24, 45, 58, 79, fill="#34c759", outline="")
-        self.canvas.create_text(41, 62, text="S", font=("Arial", 18, "bold"), fill="#ffffff")
-        self.canvas.create_text(72.5, 62, text="SALUNIC", font=("Nunito", 15, "bold"), fill="#ffffff")
-    
-    def create_progress(self):
-        self.canvas.create_rectangle(22, 127, 147.09, 132, fill="#2ecc71", outline="")
-        self.canvas.create_rectangle(154.09, 127, 279.18, 132, fill="rgba(255, 255, 255, 0.14)", outline="")
-        self.canvas.create_rectangle(286.18, 127, 411, 132, fill="rgba(255, 255, 255, 0.14)", outline="")
-    
-    def create_title(self):
-        self.canvas.create_text(22, 86, text="Crear cuenta", font=("Nunito", 20, "bold"),
-                               fill="#ffffff")
-        self.canvas.create_text(22, 120, text="Completa tu información personal para comenzar en Salunic",
-                               font=("Nunito", 12.5), fill="rgba(255, 255, 255, 0.48)")
-    
-    def create_form_fields(self):
-        # Foto de perfil
-        self.canvas.create_oval(22, 175, 82, 235, fill="rgba(255, 255, 255, 0.1)", outline="")
-        self.canvas.create_text(52, 205, text="📷", font=("Arial", 22), fill="#ffffff")
-        self.canvas.create_text(97, 190, text="Foto de perfil", font=("Nunito", 14, "bold"),
-                               fill="#ffffff", anchor="nw")
-        self.canvas.create_text(97, 210, text="Opcional: jpg o png", font=("Nunito", 11),
-                               fill="rgba(255, 255, 255, 0.45)", anchor="nw")
-        
-        # Campos de nombre y apellido
-        self.canvas.create_text(22, 262, text="NOMBRE *", font=("Nunito", 10.5, "bold"),
-                               fill="rgba(255, 255, 255, 0.5)")
-        self.canvas.create_rectangle(22, 285, 162.5, 319, fill="rgba(255, 255, 255, 0.1)", outline="",
-                                   width=0)
-        self.canvas.create_text(45, 302, text="María", font=("Nunito", 13.5),
-                               fill="rgba(255, 255, 255, 0.28)")
-        
-        self.canvas.create_text(182.5, 262, text="APELLIDO *", font=("Nunito", 10.5, "bold"),
-                               fill="rgba(255, 255, 255, 0.5)")
-        self.canvas.create_rectangle(182.5, 285, 323, 319, fill="rgba(255, 255, 255, 0.1)", outline="",
-                                   width=0)
-        self.canvas.create_text(205.5, 302, text="González", font=("Nunito", 13.5),
-                               fill="rgba(255, 255, 255, 0.28)")
-        
-        # Email
-        self.canvas.create_text(22, 334, text="CORREO ELECTRÓNICO *", font=("Nunito", 10.5, "bold"),
-                               fill="rgba(255, 255, 255, 0.5)")
-        self.canvas.create_rectangle(22, 357, 353, 391, fill="rgba(255, 255, 255, 0.13)", outline="",
-                                   width=0)
-        self.canvas.create_text(50, 374, text="tucorreo@email.com", font=("Nunito", 13.5),
-                               fill="rgba(255, 255, 255, 0.28)")
-        
-        # Teléfono
-        self.canvas.create_text(22, 416, text="TELÉFONO *", font=("Nunito", 10.5, "bold"),
-                               fill="rgba(255, 255, 255, 0.5)")
-        self.canvas.create_rectangle(22, 439, 353, 473, fill="rgba(255, 255, 255, 0.1)", outline="",
-                                   width=0)
-        self.canvas.create_text(50, 456, text="505-8888-0000", font=("Nunito", 13.5),
-                               fill="rgba(255, 255, 255, 0.28)")
-        
-        # Checksum
-        self.canvas.create_rectangle(22, 553, 42, 573, fill="#2ecc71", outline="")
-        self.canvas.create_text(32, 563, text="✓", font=("Arial", 12, "bold"), fill="#ffffff")
-        self.canvas.create_text(57, 560, text="Acepto los términos y condiciones y la política de privacidad de Salunic",
-                               font=("Nunito", 12), fill="rgba(255, 255, 255, 0.6)", anchor="nw", width=278)
-        
-        # Botón
-        self.canvas.create_rectangle(22, 620, 353, 670, fill="#2ecc71", outline="")
-        self.canvas.create_text(187.5, 645, text="CREAR MI CUENTA", font=("Nunito", 15, "bold"),
-                               fill="#ffffff")
+        self._draw_bg()
+        self._draw_content()
+
+    def _draw_bg(self):
+        colors = GRADIENT_COLORS
+        segs = len(colors) - 1
+        sh = HEIGHT / segs
+        for y in range(0, HEIGHT, 3):
+            s = int(y // sh)
+            if s >= segs:
+                s = segs - 1
+            r = (y - s * sh) / sh
+            c1, c2 = colors[s], colors[s + 1]
+            r1, g1, b1 = int(c1[1:3], 16), int(c1[3:5], 16), int(c1[5:7], 16)
+            r2, g2, b2 = int(c2[1:3], 16), int(c2[3:5], 16), int(c2[5:7], 16)
+            cr = int(r1 + (r2 - r1) * r)
+            cg = int(g1 + (g2 - g1) * r)
+            cb = int(b1 + (b2 - b1) * r)
+            self.canvas.create_line(0, y, WIDTH, y, fill=f"#{cr:02x}{cg:02x}{cb:02x}")
+        self.canvas.create_oval(230, -20, 390, 130, fill=FUCSIA, outline="")
+        self.canvas.create_oval(-20, 580, 150, 770, fill=VERDE, outline="")
+
+    def _prefill(self):
+        user = self.controller.current_user
+        nombre = ""
+        apellido = ""
+        email = ""
+        telefono = ""
+        if user and isinstance(user, dict):
+            name = user.get("name", "")
+            nombre = name.split()[0] if name.split() else ""
+            apellido = " ".join(name.split()[1:]) if len(name.split()) > 1 else ""
+            email = user.get("email", "")
+            telefono = user.get("telefono", "")
+        return nombre, apellido, email, telefono
+
+    def _draw_content(self):
+        nav = tk.Frame(self, bg=BLANCO, bd=0)
+        nav.place(relx=0.5, y=28, anchor="center", width=340, height=34)
+        back_btn = tk.Label(nav, text="←", font=("Nunito", 18, "bold"), fg="#333333", bg=BLANCO, cursor="hand2")
+        back_btn.pack(side="left", padx=8)
+        back_btn.bind("<Button-1>", lambda e: self.controller.show_screen("Home"))
+        tk.Label(nav, text="Editar Perfil", font=("Nunito", 14, "bold"),
+                 fg=AZUL_NOCHE, bg=BLANCO).pack(side="left", padx=12)
+        tk.Label(nav, text="100%", font=("Nunito", 11), fg=TEXTO_GRIS, bg=BLANCO
+                 ).pack(side="right", padx=8)
+
+        self.canvas.create_text(187, 120, text="Editar Perfil", font=("Nunito", 22, "bold"), fill=BLANCO)
+        self.canvas.create_text(187, 148, text="Actualiza tu informacion personal", font=("Nunito", 11), fill=BLANCO)
+
+        nombre, apellido, email, telefono = self._prefill()
+
+        campos = [
+            ("Nombre", nombre, "Ej: Juan"),
+            ("Apellido", apellido, "Ej: Perez"),
+            ("Correo Electronico", email, "Ej: usuario@correo.com"),
+            ("Telefono", telefono, "Ej: +505 86459285"),
+        ]
+
+        self.entries = {}
+        cy = 180
+        for i, (label, valor, ph) in enumerate(campos):
+            # Card individual que contiene el campo
+            create_rounded_rect(self.canvas, 18, cy, 18 + 340, cy + 86, 16, fill="#FFFFFF", outline="")
+            self.canvas.create_text(30, cy + 20, text=label, font=("Nunito", 9, "bold"),
+                                    fill=TEXTO_OSCURO, anchor="w")
+            e = self._entry(self, valor, ph)
+            e.place(x=30, y=cy + 34, width=316, height=38)
+            self.entries[f"campo{i}"] = {"entry": e, "label": label, "key": ("nombre", "apellido", "email", "telefono")[i], "ph": ph}
+            cy += 96
+
+        # Checkbox terminos (dentro de card blanca)
+        chk_y = cy + 2
+        create_rounded_rect(self.canvas, 18, chk_y, 18 + 340, chk_y + 44, 12, fill="#FFFFFF", outline="")
+        chk = tk.Checkbutton(self, text="Acepto los terminos y condiciones",
+                             variable=self.terminos_var, font=("Nunito", 9),
+                             fg=TEXTO_OSCURO, bg="#FFFFFF", activebackground="#FFFFFF",
+                             selectcolor="#FFFFFF", anchor="w", cursor="hand2")
+        chk.place(x=26, y=chk_y + 4, width=324, height=36)
+
+        # Boton GUARDAR CAMBIOS
+        btn_y = chk_y + 52
+        create_rounded_rect(self.canvas, 18, btn_y, 18 + 340, btn_y + 46, 23, fill=VERDE, outline="")
+        btn = tk.Label(self, text="GUARDAR CAMBIOS", font=("Nunito", 12, "bold"),
+                       fg=BLANCO, bg=VERDE, cursor="hand2")
+        btn.place(x=20, y=btn_y + 2, width=336, height=42)
+        btn.bind("<Button-1>", lambda e: self._guardar())
+
+        # Volver (dentro de card blanca)
+        v_y = btn_y + 54
+        create_rounded_rect(self.canvas, 18, v_y, 18 + 340, v_y + 40, 20, fill="#FFFFFF", outline="")
+        volver = tk.Label(self, text="Volver", font=("Nunito", 11, "bold"),
+                          fg=CELESTE, bg="#FFFFFF", cursor="hand2")
+        volver.place(x=20, y=v_y + 1, width=336, height=38)
+        volver.bind("<Button-1>", lambda e: self.controller.show_screen("Home"))
+
+    def _entry(self, parent, valor, ph):
+        e = tk.Entry(parent, font=("Nunito", 12), bg="#F5F5F5", relief="flat", bd=0, fg=TEXTO_OSCURO,
+                      highlightthickness=1, highlightbackground="#E0E0E0", highlightcolor=VERDE)
+        if valor:
+            e.insert(0, valor)
+        else:
+            e.insert(0, ph)
+            e.config(fg=TEXTO_GRIS)
+            e.bind("<FocusIn>", lambda ev: self._fi(ev, ph))
+            e.bind("<FocusOut>", lambda ev: self._fo(ev, ph))
+        return e
+
+    def _fi(self, ev, ph):
+        if ev.widget.get() == ph:
+            ev.widget.delete(0, "end")
+            ev.widget.config(fg=TEXTO_OSCURO)
+
+    def _fo(self, ev, ph):
+        if ev.widget.get().strip() == "":
+            ev.widget.insert(0, ph)
+            ev.widget.config(fg=TEXTO_GRIS)
+
+    def _val(self, campo):
+        e = campo["entry"].get().strip()
+        ph = campo["ph"]
+        if e == ph or e == "":
+            return ""
+        return e
+
+    def _guardar(self):
+        ph_map = {"nombre": "Ej: Juan", "apellido": "Ej: Perez",
+                  "email": "Ej: usuario@correo.com", "telefono": "Ej: +505 86459285"}
+        nombre = self._val(self.entries["campo0"])
+        apellido = self._val(self.entries["campo1"])
+        email = self._val(self.entries["campo2"])
+        telefono = self._val(self.entries["campo3"])
+
+        if not nombre:
+            messagebox.showerror("Error", "Por favor ingresa tu nombre")
+            return
+        if not email:
+            messagebox.showerror("Error", "Por favor ingresa tu correo")
+            return
+        if "@" not in email or "." not in email:
+            messagebox.showerror("Error", "Correo electronico invalido")
+            return
+        if not self.terminos_var.get():
+            messagebox.showerror("Error", "Debes aceptar los terminos y condiciones")
+            return
+
+        nombre_completo = " ".join([nombre, apellido]).strip()
+        email_anterior = None
+        if self.controller.current_user and isinstance(self.controller.current_user, dict):
+            email_anterior = self.controller.current_user.get("email")
+            self.controller.current_user["name"] = nombre_completo
+            self.controller.current_user["email"] = email
+            self.controller.current_user["telefono"] = telefono
+        else:
+            self.controller.current_user = {"name": nombre_completo, "email": email, "telefono": telefono}
+
+        if email_anterior:
+            users_data.update_user(email_anterior, name=nombre_completo, email_nuevo=email)
+
+        messagebox.showinfo("Perfil actualizado", "Perfil guardado exitosamente")
+        self.controller.show_screen("Home")
