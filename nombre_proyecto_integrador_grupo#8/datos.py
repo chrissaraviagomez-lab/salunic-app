@@ -1,4 +1,4 @@
-from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
+from entidades import Medicamento, AlmacenMedicamento
 
 # Listas propias de cada entidad (se guardan en memoria mientras corre el programa)
 usuarios = []

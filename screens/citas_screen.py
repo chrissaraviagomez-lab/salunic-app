@@ -61,7 +61,6 @@ class CitasScreen(tk.Frame):
         ]
 
         cy = 185
-        overlaps = self.canvas.create_oval(0, 0, 0, 0, fill="", outline="")
         for dia, mes, doctor, espec, hora, lugar, color in citas:
             # Card redondeada
             create_rounded_rect(self.canvas, 18, cy, 18 + 340, cy + 78, 16, fill="#FFFFFF", outline="")

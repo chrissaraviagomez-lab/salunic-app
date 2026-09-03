@@ -141,8 +141,6 @@ class FormRegistro(tk.Frame):
         return e
 
     def _guardar(self):
-        ph_map = {"nombre": "Ej: Juan", "apellido": "Ej: Perez",
-                  "email": "Ej: usuario@correo.com", "telefono": "Ej: +505 86459285"}
         nombre = self._val(self.entries["campo0"])
         apellido = self._val(self.entries["campo1"])
         email = self._val(self.entries["campo2"])

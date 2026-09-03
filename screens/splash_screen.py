@@ -1,6 +1,6 @@
 import tkinter as tk
 import math
-from screens.styles import CELESTE, AZUL_NOCHE, BLANCO, GRADIENT_COLORS, WIDTH, HEIGHT
+from screens.styles import AZUL_NOCHE, BLANCO, GRADIENT_COLORS, WIDTH, HEIGHT
 
 class SplashScreen(tk.Frame):
     def __init__(self, parent, controller):
@@ -38,7 +38,6 @@ class SplashScreen(tk.Frame):
         self.canvas.create_text(20, 18, text="9:41", font=("Nunito", 12, "bold"), fill=BLANCO, anchor="w")
 
     def _draw_rings(self):
-        glow = self.canvas.create_oval(107, 257, 267, 417, fill="", outline=CELESTE, width=0)
         self.canvas.create_oval(147, 297, 227, 377, fill=BLANCO, outline="")
         self.canvas.create_text(187, 337, text="S", font=("Nunito", 48, "bold"), fill=AZUL_NOCHE)
         self.ring1 = self.canvas.create_oval(137, 287, 237, 387, fill="", outline=BLANCO, width=2, dash=(4, 8))
