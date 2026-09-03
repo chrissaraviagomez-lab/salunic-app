@@ -1,648 +1,158 @@
-# Diagrama de Datos y Flujo de Datos - SaluNic
+# Diagramas de Flujo de Datos (DFD) - SALUNIC
+
+> Prototipo de consola - 1er corte evolutivo - Grupo 8
+> Programacion Estructurada - II Semestre 2026
+
+Este documento describe los Diagramas de Flujo de Datos (DFD) de SALUNIC,
+correspondientes al **prototipo de consola** que se desarrolla durante el 1er corte.
+
+Las imagenes generadas se encuentran en la carpeta `diagramas_img/`:
+
+| Archivo | Descripcion |
+|---------|-------------|
+| `DFD_Documento_1.png` | Nivel 0 (contexto) + Nivel 1 (procesos principales) |
+| `DFD_Documento_2.png` | Nivel 2: P1 Usuarios + P2 Citas medicas |
+| `DFD_Documento_3.png` | Nivel 2: P3 Medicamentos + P4 Almacen/Inventario |
+| `DFD_Documento_4.png` | Modelo de entidades @dataclass y operaciones CRUD |
+
+> Para regenerar las imagenes: `python generar_dfd_svg.py`
+> (usa Pillow, no requiere librerias externas adicionales).
 
 ---
 
-## Nivel 0 - Diagrama de Contexto
+## Entidades del sistema
+
+El sistema usa 4 entidades definidas con `@dataclass` en `entidades.py`:
+
+| Entidad | Campos | Lista (datos.py) |
+|---------|--------|------------------|
+| `Usuario` | id, nombre, email, password, telefono | `usuarios = []` |
+| `CitaMedica` | id, paciente_id, medico_id, especialidad, fecha, hora, lugar | `citas = []` |
+| `Medicamento` | id, nombre, dosis, frecuencia, presentacion | `medicamentos = []` |
+| `AlmacenMedicamento` | id, medicamento_id, cantidad, fecha_vencimiento | `almacen = []` |
+
+### Relacion entre entidades
+
+- `AlmacenMedicamento.medicamento_id` se relaciona con `Medicamento.id`:
+  cada registro del almacen indica el medicamento al que corresponde su stock.
+- `CitaMedica.paciente_id` y `CitaMedica.medico_id` se relacionan con `Usuario.id`.
+
+---
+
+## Nivel 0 - Diagrama de contexto
 
 ```
-                          ┌─────────────────────┐
-                          │                     │
-                          │    APLICACIÓN       │
-                          │      SaluNic        │
-                          │                     │
-                          └─────────────────────┘
-                               ▲           ▲
-                               │           │
-              ┌────────────────┘           └───────────────┐
-              │                                              │
-              │                                              │
-              ▼                                              ▼
-   ┌─────────────────────┐                     ┌─────────────────────┐
-   │                     │                     │                     │
-   │      PACIENTE       │◄───────────────────▶│      MÉDICO         │
-   │                     │                     │                     │
-   └─────────────────────┘                     └─────────────────────┘
+                      ┌─────────────────────┐
+                      │      USUARIO        │
+                      └──────────┬──────────┘
+                                 │
+                        datos, opciones
+                                 │
+                                 ▼
+                      ┌─────────────────────┐
+                      │       SALUNIC       │
+                      │  Sistema de Salud   │
+                      │  (consola / texto)  │
+                      └──────────┬──────────┘
+                                 │
+                      resultados, mensajes
+                                 │
+                                 ▼
+                      ┌─────────────────────┐
+                      │       ADMIN         │
+                      └─────────────────────┘
 ```
-
-### Flujo de Datos - Nivel 0
 
 | Flujo | Origen | Destino | Datos |
 |-------|--------|---------|-------|
-| F1 | Paciente | SaluNic | Datos de registro, credenciales, datos de medicamentos, solicitud de citas, datos de perfil médico |
-| F2 | SaluNic | Paciente | Confirmación de registro, acceso al sistema, horarios de medicamentos, recordatorios, fichas médicas |
-| F3 | Médico | SaluNic | Información de citas, diagnósticos, prescripciones, especialidades |
-| F4 | SaluNic | Médico | Confirmación de citas, datos del paciente (con autorización) |
+| F1 | Usuario | SALUNIC | Datos de las entidades, opciones del menu |
+| F2 | SALUNIC | Usuario | Resultados, mensajes de exito o error |
+| F3 | Admin | SALUNIC | Gestion de datos del sistema |
+| F4 | SALUNIC | Admin | Respuesta / confirmacion |
 
 ---
 
-## Nivel 1 - Diagrama de Flujo de Datos
+## Nivel 1 - Procesos principales
 
-```
-                         ┌─────────────────────┐
-                         │                     │
-                    ┌────│      PACIENTE       │────┐
-                    │    │                     │    │
-                    │    └─────────────────────┘    │
-                    │                               │
-              F1, F3, F5, F7                  F2, F4, F6, F8
-                    │                               │
-                    │                               │
-                    ▼                               ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│                                                                       │
-│                       SISTEMA SALUNIC                                 │
-│                                                                       │
-│  ┌──────────────────────┐  ┌──────────────────────┐                  │
-│  │                       │  │                       │                  │
-│  │  1. Registro e       │  │  2. Gestión de        │                  │
-│  │     Inicio de Sesión │  │     Medicamentos       │                  │
-│  │                       │  │                       │                  │
-│  │  Entrada:            │  │  Entrada:              │                  │
-│  │  - usuario, contraseña│  │  - nombre medicamento │                  │
-│  │  - nombre completo   │  │  - dosis               │                  │
-│  │                       │  │  - frecuencia          │                  │
-│  │  Salida:             │  │  - horaInicio          │                  │
-│  │  - acceso al sistema │  │  - duracionDias        │                  │
-│  │  - mensajes de error │  │                        │                  │
-│  └───────────┬──────────┘  │  Salida:               │                  │
-│              │             │  - horario registrado  │                  │
-│              │             └───────────┬────────────┘                  │
-│              │                         │                               │
-│              │                         │                               │
-│              ▼                         ▼                               │
-│  ┌──────────────────────┐  ┌──────────────────────┐                  │
-│  │                       │  │                       │                  │
-│  │  3. Gestión de       │  │  4. Generación de    │                  │
-│  │     Citas Médicas    │  │     Recordatorios     │                  │
-│  │                       │  │                       │                  │
-│  │  Entrada:            │  │  Entrada:              │                  │
-│  │  - nombre paciente   │  │  - fechas de citas    │                  │
-│  │  - nombre doctor     │  │  - horas de citas     │                  │
-│  │  - especialidad      │  │  - horarios de meds   │                  │
-│  │  - fecha última cita │  │                        │                  │
-│  │  - fecha nueva cita  │  │  Salida:              │                  │
-│  │  - hora nueva cita   │  │  - alerta cita médica │                  │
-│  │                       │  │  - alarma medicamento│                  │
-│  │  Salida:             │  └───────────┬────────────┘                  │
-│  │  - cita renovada     │              │                               │
-│  └───────────┬──────────┘              │                               │
-│              │                         │                               │
-│              ▼                         ▼                               │
-│  ┌──────────────────────┐  ┌──────────────────────┐                  │
-│  │                       │  │                       │                  │
-│  │  5. Administración   │  │    BASE DE DATOS      │                  │
-│  │     Perfil Médico    │  │                       │                  │
-│  │                       │  │  ┌────────────────┐  │                  │
-│  │  Entrada:            │  │  │  Usuarios      │  │                  │
-│  │  - datos personales  │◀─┼──│  Medicamentos  │  │                  │
-│  │  - grupo sanguíneo   │  │  │  Citas         │  │                  │
-│  │  - alergias          │  │  │  Perfiles Méd  │  │                  │
-│  │  - antecedentes      │  │  └────────────────┘  │                  │
-│  │  - contacto emergencia│  └──────────────────────┘                  │
-│  │                       │                                            │
-│  │  Salida:             │                                            │
-│  │  - ficha médica      │                                            │
-│  └──────────────────────┘                                            │
-│                                                                       │
-└───────────────────────────────────────────────────────────────────────┘
-                               ▲
-                               │
-                               │
-                         ┌─────┴────────────┐
-                         │                  │
-                         │     MÉDICO       │
-                         │                  │
-                         └──────────────────┘
-```
+| Proceso | Nombre | Operaciones (CRUD) |
+|---------|--------|--------------------|
+| P1 | Gestion de Usuarios | registrar, buscar, actualizar, eliminar, contar, listar |
+| P2 | Gestion de Citas Medicas | registrar, buscar, actualizar, eliminar, contar, listar |
+| P3 | Gestion de Medicamentos | registrar, buscar, actualizar, eliminar, contar, listar |
+| P4 | Gestion de Almacen / Inventario | registrar stock, buscar, actualizar, eliminar, contar, listar |
 
-### Diccionario de Datos - Nivel 1
-
-| Flujo | Origen | Destino | Descripción |
-|-------|--------|---------|-------------|
-| F1 | Paciente | Proceso 1 | usuario, contraseña, nombre completo |
-| F2 | Proceso 1 | Paciente | confirmación de registro, error de validación |
-| F3 | Paciente | Proceso 2 | nombreMedicamento, dosis, frecuencia, horaInicio, duracionDias |
-| F4 | Proceso 2 | Paciente | horario registrado, error de datos |
-| F5 | Paciente | Proceso 3 | nombrePaciente, nombreDoctor, especialidad, fechas |
-| F6 | Proceso 3 | Paciente | cita agendada, renovación exitosa |
-| F7 | Paciente | Proceso 5 | datos personales, clínicos y emergencia |
-| F8 | Proceso 5 | Paciente | ficha médica completa |
-| F9 | Médico | Proceso 3 | disponibilidad, especialidades, horarios |
-| F10 | Proceso 3 | Médico | confirmación de cita, datos del paciente |
+Los 4 procesos escriben y leen de un Almacen de Datos unico que contiene las
+listas: `usuarios`, `citas`, `medicamentos` y `almacen`.
 
 ---
 
-## Nivel 2 - Diagrama de Flujo de Datos (Subprocesos)
+## Nivel 2 - Detalle de cada proceso
 
-### 2.1 Subproceso: Registro e Inicio de Sesión
+### P1. Gestion de Usuarios
 
-```
-                    ┌─────────────────────┐
-                    │                     │
-                    │     PACIENTE        │
-                    │                     │
-                    └──────┬──────────────┘
-                           │
-                  F1.1     │     F1.2
-            (registro)     │     (login)
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  1. Registro e Inicio de Sesión                                      │
-│                                                                      │
-│  ┌────────────────────┐    ┌────────────────────┐                    │
-│  │                    │    │                    │                    │
-│  │ 1.1 Registro      │───▶│ 1.2 Validación    │                    │
-│  │ de Usuario        │    │ de Datos          │                    │
-│  │                    │    │                    │                    │
-│  │ Datos entrada:     │    │ Validación:        │                    │
-│  │ - nombre           │    │ - campos no vacíos │                    │
-│  │ - email            │    │ - contraseña >=6   │                    │
-│  │ - contraseña       │    │ - contraseñas      │                    │
-│  │ - confirmación     │    │   coinciden        │                    │
-│  └─────────┬──────────┘    └────────┬───────────┘                    │
-│            │                        │                                │
-│            │                        ▼                                │
-│            │               ┌────────────────┐                       │
-│            │               │  ¿Datos        │                       │
-│            │               │  válidos?      │                       │
-│            │               │ ┌────┐ ┌────┐ │                       │
-│            │               │ │ Sí │ │ No │ │                       │
-│            │               │ └─┬──┘ └─┬──┘ │                       │
-│            │               └───┼──────┼────┘                       │
-│            │                   │      │                              │
-│            ▼                   ▼      ▼                              │
-│  ┌────────────────┐   ┌──────────┐  ┌────────────────┐              │
-│  │ Almacenar      │   │ 1.3      │  │ Mostrar error  │              │
-│  │ en BD         │   │ Verificar │  │ (campos        │              │
-│  └────────┬───────┘   │ Login    │  │ inválidos)     │              │
-│           │           └────┬─────┘  └────────────────┘              │
-│           │                │                                         │
-│           ▼                ▼                                         │
-│  ┌────────────────────────────────────────────┐                     │
-│  │              BD Usuarios                   │                     │
-│  │  ┌──────────────┐  ┌──────────────────┐    │                     │
-│  │  │ Credenciales │  │  Perfiles        │    │                     │
-│  │  └──────────────┘  └──────────────────┘    │                     │
-│  └──────────────────────┬─────────────────────┘                     │
-│                         │                                            │
-│                         ▼                                            │
-│              ┌────────────────────┐                                 │
-│              │ ¿Credenciales      │                                 │
-│              │ correctas?         │                                 │
-│              │ ┌────┐ ┌────┐      │                                 │
-│              │ │ Sí │ │ No │      │                                 │
-│              │ └─┬──┘ └─┬──┘      │                                 │
-│              └───┼──────┼────────┘                                 │
-│                  │      │                                            │
-│                  ▼      ▼                                            │
-│           ┌────────┐ ┌──────────────────────┐                      │
-│           │ Acceso │ │ ¿Intentos < 3?       │                      │
-│           │ al     │ │ ┌────┐ ┌───────────┐ │                      │
-│           │ Menú   │ │ │ Sí │ │ No         │ │                      │
-│           └────────┘ │ └─┬──┘ │ Bloquear  │ │                      │
-│                      └───┼────┼───────────┘ │                      │
-│                          │    └─────────────┘                      │
-│                          ▼                                          │
-│                   ┌────────────┐                                   │
-│                   │ Reintentar │                                   │
-│                   └────────────┘                                   │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │ F1.3 (resultado)
-                                    ▼
-                           ┌─────────────────────┐
-                           │                     │
-                           │     PACIENTE        │
-                           │                     │
-                           └─────────────────────┘
-```
+1. **1.1 Ingresar datos**: nombre, email, password, telefono.
+2. **1.2 Validar datos**: nombre solo letras/espacios; email con formato valido;
+   password minimo 4 caracteres; telefono solo digitos. (Manejo de errores.)
+3. **1.3 Agregar a la lista**: se asigna un id unico (`max + 1`) y se hace
+   `usuarios.append(Usuario(...))`.
+4. **1.4 Buscar / Actualizar / Eliminar**: por email (usar `buscar_usuario`).
 
-### 2.2 Subproceso: Gestión de Medicamentos
+### P2. Gestion de Citas Medicas
 
-```
-                    ┌─────────────────────┐
-                    │                     │
-                    │     PACIENTE        │
-                    │                     │
-                    └──────┬──────────────┘
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  2. Gestión de Medicamentos                                          │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  2.1 Ingreso de Datos del Medicamento                        │    │
-│  │                                                              │    │
-│  │  Datos recolectados:                                         │    │
-│  │  - nombreMedicamento (texto)                                 │    │
-│  │  - dosis (ej: "1 pastilla", "5ml")                          │    │
-│  │  - frecuencia (ej: "cada 8 horas", "1 vez al día")          │    │
-│  │  - horaInicio (HH:MM)                                       │    │
-│  │  - duracionDias (entero positivo)                           │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  2.2 Validación de Datos                                     │    │
-│  │                                                              │    │
-│  │  ¿nombreMedicamento ≠ "" Y dosis ≠ "" Y frecuencia ≠ ""     │    │
-│  │   Y horaInicio ≠ "" Y duracionDias > 0?                     │    │
-│  │                                                              │    │
-│  │  ┌────────────┐               ┌────────────┐                │    │
-│  │  │   Sí       │               │   No       │                │    │
-│  │  └─────┬──────┘               └─────┬──────┘                │    │
-│  └────────┼───────────────────────────┼────────────────────────┘    │
-│           │                           │                              │
-│           ▼                           ▼                              │
-│  ┌────────────────────────┐  ┌────────────────────┐                 │
-│  │ 2.3 Mostrar Resumen    │  │ Mostrar error:     │                 │
-│  │                        │  │ "Datos incompletos │                 │
-│  │  - Medicamento: [nom]  │  │ o duración         │                 │
-│  │  - Dosis: [dosis]      │  │ inválida"          │                 │
-│  │  - Frecuencia: [frec]  │  └────────────────────┘                 │
-│  │  - Primera toma: [hora]│                                        │
-│  │  - Duración: [días]    │                                        │
-│  └───────────┬────────────┘                                        │
-│              │                                                      │
-│              ▼                                                      │
-│  ┌──────────────────────────────────────────────────────────┐      │
-│  │  2.4 Confirmación                                        │      │
-│  │                                                          │      │
-│  │  ¿Desea confirmar el horario?                            │      │
-│  │                                                          │      │
-│  │  ┌────────────┐               ┌────────────┐            │      │
-│  │  │   SI       │               │   NO       │            │      │
-│  │  └─────┬──────┘               └─────┬──────┘            │      │
-│  └────────┼───────────────────────────┼────────────────────┘      │
-│           │                           │                              │
-│           ▼                           ▼                              │
-│  ┌────────────────┐        ┌────────────────────┐                   │
-│  │ Guardar en BD │        │ Cancelar registro  │                   │
-│  │ Medicamentos   │        └────────────────────┘                   │
-│  └───────┬────────┘                                                │
-│          │                                                          │
-│          ▼                                                          │
-│  ┌──────────────────────────────────────────────────────────┐      │
-│  │              BD Medicamentos                              │      │
-│  │  ┌──────────────┐  ┌──────────────────┐                   │      │
-│  │  │ Medicamentos │  │  Horarios        │                   │      │
-│  │  └──────────────┘  └──────────────────┘                   │      │
-│  └──────────────────────────────────────────────────────────┘      │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │ F2.1 (resultado)
-                                    ▼
-                           ┌─────────────────────┐
-                           │                     │
-                           │     PACIENTE        │
-                           │                     │
-                           └─────────────────────┘
-```
+1. **2.1 Ingresar datos**: paciente_id, medico_id, especialidad, fecha, hora, lugar.
+2. **2.2 Validar datos**: fecha real DD/MM/AAAA; hora HH:MM.
+3. **2.3 Agregar a la lista**: `citas.append(CitaMedica(...))`.
+4. **2.4 Buscar / Actualizar / Eliminar**: por `medico_id`.
 
-### 2.3 Subproceso: Gestión de Citas Médicas
+### P3. Gestion de Medicamentos
 
-```
-                    ┌─────────────────────┐
-                    │                     │
-                    │     PACIENTE        │
-                    │                     │
-                    └──────┬──────────────┘
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  3. Gestión de Citas Médicas                                        │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  3.1 Solicitud de Renovación                                 │    │
-│  │                                                              │    │
-│  │  Datos entrada:                                              │    │
-│  │  - nombrePaciente                                            │    │
-│  │  - nombreDoctorActual (última cita)                          │    │
-│  │  - especialidadActual                                        │    │
-│  │  - fechaUltimaCita (DD/MM/AAAA)                             │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  3.2 Validación de datos iniciales                           │    │
-│  │                                                              │    │
-│  │  ¿nombrePaciente ≠ "" Y nombreDoctorActual ≠ ""             │    │
-│  │   Y especialidadActual ≠ ""?                                │    │
-│  │                                                              │    │
-│  │  ┌────────────┐               ┌────────────┐                │    │
-│  │  │   Sí       │               │   No       │                │    │
-│  │  └─────┬──────┘               └─────┬──────┘                │    │
-│  └────────┼───────────────────────────┼────────────────────────┘    │
-│           │                           │                              │
-│           ▼                           ▼                              │
-│  ┌────────────────────────┐  ┌────────────────────┐                 │
-│  │ 3.3 Consultar          │  │ Mostrar error:     │                 │
-│  │ Disponibilidad (BD)    │  │ "Campos            │                 │
-│  │                        │  │ obligatorios"      │                 │
-│  │ ┌──────────┐           │  └────────────────────┘                 │
-│  │ │Disponible│           │                                        │
-│  │ └─────┬────┘           │                                        │
-│  └───────┼────────────────┘                                        │
-│          │                                                          │
-│          ▼                                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  3.4 Ingreso de Nueva Cita                                   │    │
-│  │                                                              │    │
-│  │  - fechaNuevaCita (DD/MM/AAAA)                              │    │
-│  │  - horaNuevaCita (HH:MM)                                    │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  3.5 Validación: ¿fechaNuevaCita ≠ "" Y horaNuevaCita ≠ ""?│    │
-│  │                                                              │    │
-│  │  ┌────────────┐               ┌────────────┐                │    │
-│  │  │   Sí       │               │   No       │                │    │
-│  │  └─────┬──────┘               └─────┬──────┘                │    │
-│  └────────┼───────────────────────────┼────────────────────────┘    │
-│           │                           │                              │
-│           ▼                           ▼                              │
-│  ┌────────────────────────┐  ┌────────────────────┐                 │
-│  │ 3.6 Confirmación       │  │ Mostrar error:     │                 │
-│  │                        │  │ "Fecha y hora      │                 │
-│  │  Mostrar resumen:      │  │ inválidas"         │                 │
-│  │  - Paciente            │  └────────────────────┘                 │
-│  │  - Especialidad        │                                        │
-│  │  - Doctor              │                                        │
-│  │  - Nueva Fecha         │                                        │
-│  │  - Nueva Hora          │                                        │
-│  │                        │                                        │
-│  │  ¿Confirmar cita?      │                                        │
-│  │  ┌────┐ ┌────┐        │                                        │
-│  │  │ SI │ │ NO │        │                                        │
-│  │  └─┬──┘ └─┬──┘        │                                        │
-│  └────┼──────┼───────────┘                                        │
-│       │      │                                                      │
-│       ▼      ▼                                                      │
-│  ┌────────┐ ┌────────────────────┐                                 │
-│  │ Cita   │ │ Cancelar          │                                 │
-│  │agendada│ │ renovación        │                                 │
-│  └───┬────┘ └────────────────────┘                                 │
-│      │                                                              │
-│      ▼                                                              │
-│  ┌──────────────────────────────────────────────────────────┐      │
-│  │              BD Citas                                     │      │
-│  │  ┌──────────────┐  ┌──────────────────┐                   │      │
-│  │  │ Citas        │  │ Doctores         │                   │      │
-│  │  └──────────────┘  └──────────────────┘                   │      │
-│  └──────────────────────────────────────────────────────────┘      │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │
-                                    ▼
-                           ┌─────────────────────┐
-                           │                     │
-                           │     PACIENTE        │
-                           │                     │
-                           └─────────────────────┘
-```
+1. **3.1 Ingresar datos**: nombre, dosis, frecuencia, presentacion.
+2. **3.2 Validar datos**: nombre letras; dosis no vacia; frecuencia texto.
+3. **3.3 Agregar a la lista**: `medicamentos.append(Medicamento(...))`.
+4. **3.4 Buscar / Actualizar / Eliminar**: por nombre.
 
-### 2.4 Subproceso: Generación de Recordatorios
+> El inventario inicial se carga con medicamentos reales de la Lista Basica de
+> Medicamentos Esenciales del MINSA (Paracetamol, Ibuprofeno, Amoxicilina,
+> Omeprazol, Metformina, Losartan, Ciprofloxacina, etc.), como los disponibles
+> en el Hospital Fernando Velez Paiz y el Hospital Bautista.
 
-```
-                    ┌─────────────────────┐
-                    │                     │
-                    │     PACIENTE        │
-                    │                     │
-                    └──────┬──────────────┘
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  4. Generación de Recordatorios                                      │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  4.1 Consultar BD                                           │    │
-│  │                                                              │    │
-│  │  Consulta: Obtener todas las citas próximas y                │    │
-│  │  horarios de medicamentos activos desde la BD               │    │
-│  │                                                              │    │
-│  │  ┌────────────────────────────────────────────────────┐     │    │
-│  │  │  BD Citas        → fechasCitas, horasCitas        │     │    │
-│  │  │  BD Medicamentos  → horariosMedicamentos          │     │    │
-│  │  └────────────────────────────────────────────────────┘     │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  4.2 Evaluación de Tiempos                                   │    │
-│  │                                                              │    │
-│  │  ¿Fecha actual + 1 día >= fechaCita?                        │    │
-│  │  ¿Hora actual + 1 hora >= horaMedicamento?                  │    │
-│  │                                                              │    │
-│  │  ┌────────────┐               ┌────────────┐                │    │
-│  │  │ Próximo    │               │ No próximo │                │    │
-│  │  └─────┬──────┘               └────────────┘                │    │
-│  └────────┼────────────────────────────────────────────────────┘    │
-│           │                                                          │
-│           ▼                                                          │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  4.3 Generar Alerta                                          │    │
-│  │                                                              │    │
-│  │  ┌─────────────────────────┐  ┌──────────────────────────┐  │    │
-│  │  │ Alerta de Cita Médica  │  │ Alarma de Medicamento    │  │    │
-│  │  │                         │  │                          │  │    │
-│  │  │ "Estimado/a [nombre],   │  │ "Hora de tomar          │  │    │
-│  │  │  Le recordamos su cita  │  │  [medicamento]          │  │    │
-│  │  │  con Dr./Dra. [doctor]  │  │  Dosis: [dosis]"        │  │    │
-│  │  │  Fecha: [fecha]         │  │                          │  │    │
-│  │  │  Hora: [hora]"          │  └──────────────────────────┘  │    │
-│  │  └─────────────────────────┘                               │    │
-│  └──────────────────────────┬─────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  4.4 Envío de Notificación                                   │    │
-│  │                                                              │    │
-│  │  - Notificación push en pantalla                            │    │
-│  │  - Alarma sonora (opcional)                                 │    │
-│  │  - Visualización en panel de control (Home)                 │    │
-│  │                                                              │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │
-                                    ▼
-                           ┌─────────────────────┐
-                           │                     │
-                           │     PACIENTE        │
-                           │                     │
-                           └─────────────────────┘
-```
+### P4. Gestion de Almacen / Inventario
 
-### 2.5 Subproceso: Administración de Perfil Médico
-
-```
-                    ┌─────────────────────┐
-                    │                     │
-                    │     PACIENTE        │
-                    │                     │
-                    └──────┬──────────────┘
-                           │
-                           ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  5. Administración de Perfil Médico                                  │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.1 Datos Personales                                        │    │
-│  │                                                              │    │
-│  │  - nombrePaciente (texto)                                   │    │
-│  │  - apellidoPaciente (texto)                                 │    │
-│  │  - fechaNacimiento (DD/MM/AAAA)                             │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.2 Grupo Sanguíneo                                        │    │
-│  │                                                              │    │
-│  │  - grupoSanguineo (ej: "A+", "O-", "AB+")                  │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.3 Alergias                                               │    │
-│  │                                                              │    │
-│  │  - alergias (separadas por coma, "Ninguna" si no aplica)   │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.4 Antecedentes Médicos                                   │    │
-│  │                                                              │    │
-│  │  - antecedentesMedicos (ej: Hipertensión, Diabetes, etc.)   │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.5 Contacto de Emergencia                                  │    │
-│  │                                                              │    │
-│  │  - contactoEmergenciaNombre (texto)                         │    │
-│  │  - contactoEmergenciaTelefono (texto)                       │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.6 Generar Ficha Médica                                    │    │
-│  │                                                              │    │
-│  │  ┌────────────────────────────────────────────────────────┐ │    │
-│  │  │              FICHA MÉDICA                              │ │    │
-│  │  │                                                        │ │    │
-│  │  │  Nombre: [nombrePaciente] [apellidoPaciente]          │ │    │
-│  │  │  Fecha de Nacimiento: [fechaNacimiento]               │ │    │
-│  │  │  Grupo Sanguíneo: [grupoSanguineo]                    │ │    │
-│  │  │  Alergias: [alergias]                                  │ │    │
-│  │  │  Antecedentes Médicos: [antecedentesMedicos]          │ │    │
-│  │  │  Contacto Emergencia: [contactoEmergenciaNombre]      │ │    │
-│  │  │                     - [contactoEmergenciaTelefono]    │ │    │
-│  │  └────────────────────────────────────────────────────────┘ │    │
-│  │                                                              │    │
-│  └──────────────────────────┬──────────────────────────────────┘    │
-│                             │                                        │
-│                             ▼                                        │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │                                                              │    │
-│  │  5.7 Confirmación                                           │    │
-│  │                                                              │    │
-│  │  ¿Los datos mostrados son correctos?                        │    │
-│  │                                                              │    │
-│  │  ┌────────────┐               ┌────────────┐                │    │
-│  │  │   Sí       │               │   No       │                │    │
-│  │  └─────┬──────┘               └─────┬──────┘                │    │
-│  └────────┼───────────────────────────┼────────────────────────┘    │
-│           │                           │                              │
-│           ▼                           ▼                              │
-│  ┌────────────────┐        ┌────────────────────┐                   │
-│  │ Guardar en BD │        │ Revisar y editar   │                   │
-│  │ Perfiles Méd  │        │ perfil médico      │                   │
-│  └───────┬────────┘        └────────────────────┘                   │
-│          │                                                          │
-│          ▼                                                          │
-│  ┌──────────────────────────────────────────────────────────┐      │
-│  │              BD Perfiles Médicos                          │      │
-│  │  ┌──────────────┐  ┌──────────────────┐                   │      │
-│  │  │ Perfiles     │  │ Contactos        │                   │      │
-│  │  └──────────────┘  └──────────────────┘                   │      │
-│  └──────────────────────────────────────────────────────────┘      │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │
-                                    ▼
-                           ┌─────────────────────┐
-                           │                     │
-                           │     PACIENTE        │
-                           │                     │
-                           └─────────────────────┘
-```
+1. **4.1 Ingresar datos**: medicamento_id, cantidad, fecha_vencimiento.
+2. **4.2 Validar datos**: medicamento_id entero; cantidad entera >= 0; fecha real.
+3. **4.3 Agregar a la lista**: `almacen.append(AlmacenMedicamento(...))`.
+4. **4.4 Buscar / Actualizar / Eliminar**: por `medicamento_id`.
 
 ---
 
-## Tabla Resumen de Flujos de Datos
+## Operaciones CRUD
 
-### Nivel 0 (Contexto)
+Cada entidad soporta las siguientes operaciones (una funcion por operacion,
+en `funciones.py`):
 
-| ID Flujo | Origen | Destino | Descripción |
-|----------|--------|---------|-------------|
-| F0-1 | Paciente | SaluNic | Datos de registro, login, medicamentos, citas, perfil |
-| F0-2 | SaluNic | Paciente | Confirmaciones, accesos, horarios, recordatorios, ficha |
-| F0-3 | Médico | SaluNic | Información de citas, diagnósticos, prescripciones |
-| F0-4 | SaluNic | Médico | Confirmaciones, datos de pacientes autorizados |
+| Operacion | Funcion (ej. Medicamento) | Descripcion |
+|-----------|----------------------------|-------------|
+| Registrar | `registrar_medicamento()` | Agrega uno nuevo a la lista |
+| Buscar | `buscar_medicamento()` | Encuentra y devuelve el(los) que coincidan |
+| Actualizar | `actualizar_medicamento()` | Modifica los datos de uno existente |
+| Eliminar | `eliminar_medicamento()` | Lo quita de la lista |
+| Contar | `contar_medicamentos()` | Devuelve cuantos hay (`len(lista)`) |
+| Listar | `listar_medicamentos()` | Muestra todos en pantalla |
 
-### Nivel 1
+---
 
-| ID Flujo | Origen | Destino | Datos |
-|----------|--------|---------|-------|
-| F1-1 | Paciente | P1-Registro | usuario, contraseña, nombre |
-| F1-2 | P1-Registro | Paciente | confirmación, error |
-| F1-3 | Paciente | P2-Medicamentos | nombreMed, dosis, frecuencia, hora, duración |
-| F1-4 | P2-Medicamentos | Paciente | horario registrado, error |
-| F1-5 | Paciente | P3-Citas | datos paciente, doctor, especialidad, fechas |
-| F1-6 | P3-Citas | Paciente | cita agendada, error |
-| F1-7 | Paciente | P5-Perfil | datos personales, clínicos, emergencia |
-| F1-8 | P5-Perfil | Paciente | ficha médica completa |
-| F1-9 | Médico | P3-Citas | disponibilidad, horarios |
-| F1-10 | P3-Citas | Médico | confirmación de cita |
+## Manejo de errores y validaciones
 
-### Nivel 2 (Subprocesos detallados en cada diagrama arriba)
+En `funciones.py` se usan validadores y `raise ValueError` cuando un dato es
+incorrecto. La funcion `pedir_campo()` envuelve la lectura de datos en un
+`try/except` y vuelve a preguntar hasta que el dato sea valido.
 
-| Proceso | Subprocesos | Almacenes de Datos |
-|---------|-------------|-------------------|
-| P1-Registro | 1.1 Registro, 1.2 Validación, 1.3 Verificar Login | BD Usuarios |
-| P2-Medicamentos | 2.1 Ingreso, 2.2 Validación, 2.3 Resumen, 2.4 Confirmación | BD Medicamentos |
-| P3-Citas | 3.1 Solicitud, 3.2 Validación, 3.3 Disponibilidad, 3.4 Nueva Cita, 3.5 Validación, 3.6 Confirmación | BD Citas |
-| P4-Recordatorios | 4.1 Consulta BD, 4.2 Evaluación, 4.3 Generar Alerta, 4.4 Envío | BD Citas, BD Medicamentos |
-| P5-Perfil | 5.1-5.5 Datos, 5.6 Generar Ficha, 5.7 Confirmación | BD Perfiles Médicos |
+Principales validadores:
+
+- `validar_nombre`: solo letras y espacios.
+- `validar_email`: formato de correo.
+- `validar_password`: minimo 4 caracteres.
+- `validar_fecha`: formato DD/MM/AAAA y fecha real.
+- `validar_hora`: formato HH:MM (24 horas).
+- `validar_cantidad`: numero entero positivo.
+- `validar_celular`: solo digitos.
