@@ -2,14 +2,20 @@ import re
 from datetime import datetime
 
 from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
-from datos import usuarios, citas, medicamentos, almacen, inventario_inicial, medicamentos_iniciales
+from datos import (usuarios, citas, medicamentos, almacen,
+                   usuarios_iniciales, citas_iniciales,
+                   inventario_inicial, medicamentos_iniciales)
 
 
 # =========================================================
 # CARGAR DATOS INICIALES
 # =========================================================
 def cargar_datos_iniciales():
-    """Carga medicamentos e inventario del MINSA si las listas estan vacias."""
+    """Carga datos de ejemplo (usuarios, citas, medicamentos e inventario) si las listas estan vacias."""
+    if not usuarios:
+        usuarios.extend(usuarios_iniciales)
+    if not citas:
+        citas.extend(citas_iniciales)
     if not medicamentos:
         medicamentos.extend(medicamentos_iniciales)
     if not almacen:

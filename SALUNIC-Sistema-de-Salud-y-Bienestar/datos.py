@@ -1,10 +1,32 @@
-from entidades import Medicamento, AlmacenMedicamento
+from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
 
 # Listas propias de cada entidad (se guardan en memoria mientras corre el programa)
 usuarios = []
 citas = []
 medicamentos = []
 almacen = []
+
+
+# =========================================================
+# USUARIOS PRE-CARGADOS (pacientes y medicos de ejemplo)
+# =========================================================
+usuarios_iniciales = [
+    Usuario(id=1, nombre="Carlos Ruiz", email="carlos@correo.com", password="1234", telefono="+505 86459285"),
+    Usuario(id=2, nombre="Ana Lopez", email="ana@correo.com", password="1234", telefono="+505 87351234"),
+    Usuario(id=3, nombre="Luis Martinez", email="luis@correo.com", password="1234", telefono="+505 84125678"),
+    Usuario(id=4, nombre="Dr. Maria Gomez", email="mgomez@hospital.com", password="1234", telefono="+505 82334455"),
+    Usuario(id=5, nombre="Dr. Pedro Sanchez", email="psanchez@hospital.com", password="1234", telefono="+505 89998877"),
+]
+
+
+# =========================================================
+# CITAS MEDICAS PRE-CARGADAS
+# =========================================================
+citas_iniciales = [
+    CitaMedica(id=1, paciente_id=1, medico_id=4, especialidad="Medicina General", fecha="15/11/2026", hora="08:30", lugar="Hospital Militar EADB"),
+    CitaMedica(id=2, paciente_id=2, medico_id=5, especialidad="Cardiologia", fecha="22/11/2026", hora="10:00", lugar="Hospital Fernando Velez Paiz"),
+    CitaMedica(id=3, paciente_id=3, medico_id=4, especialidad="Medicina General", fecha="05/12/2026", hora="14:30", lugar="Hospital Bautista"),
+]
 
 # =========================================================
 # INVENTARIO PRE-CARGADO - Medicamentos reales del MINSA
