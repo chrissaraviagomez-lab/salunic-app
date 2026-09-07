@@ -50,9 +50,9 @@ salunic-app/
 ├── generar_dfd_svg.py         # Generador de los PNG de los DFD (con Pillow)
 ├── salunic-defensa.docx       # Guía de estudio para la defensa en grupo (5 integrantes)
 ├── SALUNIC-Sistema-de-Salud-y-Bienestar/  # Prototipo por consola (1er corte - Programación Estructurada)
-│   ├── main.py                # Menú consola (24 opciones) + datos iniciales
+│   ├── main.py                # Menú principal (4 módulos) + submenús de CRUD + datos iniciales
 │   ├── entidades.py           # @dataclass: Usuario, CitaMedica, Medicamento, AlmacenMedicamento
-│   ├── datos.py               # Listas (usuarios, citas, medicamentos, almacen) + inventario inicial
+│   ├── datos.py               # Listas (usuarios, citas, medicamentos, almacen) + datos precargados
 │   └── funciones.py           # Validaciones + CRUD completo + manejo de errores
 ├── data/                      # Módulo de datos del usuario
 │   ├── __init__.py
