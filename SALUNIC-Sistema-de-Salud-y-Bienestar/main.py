@@ -1,6 +1,6 @@
 import funciones as f
 
-TITULO = "SALUNIC - Sistema de Salud y Bienestar - Grupo 8"
+TITULO = "SALUNIC - Sistema de Salud y Bienestar"
 LINEA = "=" * 55
 SUB = "-" * 55
 
