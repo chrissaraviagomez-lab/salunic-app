@@ -1,41 +1,14 @@
 import funciones as f
 
 TITULO = "SALUNIC - Sistema de Salud y Bienestar - Grupo 8"
+LINEA = "=" * 55
+SUB = "-" * 55
 
 
-def mostrar_menu():
-    print("\n" + "=" * 55)
-    print(TITULO)
-    print("=" * 55)
-    print("1. Registrar un usuario")
-    print("2. Buscar un usuario")
-    print("3. Actualizar un usuario")
-    print("4. Eliminar un usuario")
-    print("5. Contar usuarios")
-    print("6. Listar todos los usuarios")
-    print("-" * 55)
-    print("7. Registrar una cita medica")
-    print("8. Buscar una cita medica")
-    print("9. Actualizar una cita")
-    print("10. Eliminar una cita")
-    print("11. Contar citas")
-    print("12. Listar todas las citas")
-    print("-" * 55)
-    print("13. Registrar un medicamento")
-    print("14. Buscar un medicamento")
-    print("15. Actualizar un medicamento")
-    print("16. Eliminar un medicamento")
-    print("17. Contar medicamentos")
-    print("18. Listar todos los medicamentos")
-    print("-" * 55)
-    print("19. Registrar stock en almacen")
-    print("20. Buscar stock por medicamento")
-    print("21. Actualizar stock")
-    print("22. Eliminar stock")
-    print("23. Contar items en almacen")
-    print("24. Listar todo el almacen")
-    print("-" * 55)
-    print("0. Salir")
+def cabecera_modulo(nombre):
+    print("\n" + SUB)
+    print(f"  MENU {nombre}")
+    print(SUB)
 
 
 def pedir_opcion():
@@ -49,17 +22,38 @@ def pedir_opcion():
             print(f"  [Error] {e}")
 
 
-def main():
-    f.cargar_datos_iniciales()
+def mostrar_menu_principal():
+    print("\n" + LINEA)
+    print(TITULO)
+    print(LINEA)
+    print("SELECCIONE UN MODULO:")
+    print("1. Gestion de Usuarios")
+    print("2. Gestion de Citas Medicas")
+    print("3. Gestion de Medicamentos")
+    print("4. Gestion de Almacen / Inventario")
+    print(SUB)
+    print("0. Salir")
 
+
+# =========================================================
+# SUBMENU DE USUARIOS
+# =========================================================
+def submenu_usuarios():
     while True:
-        mostrar_menu()
+        cabecera_modulo("GESTION DE USUARIOS")
+        print("1. Registrar un usuario")
+        print("2. Buscar un usuario")
+        print("3. Actualizar un usuario")
+        print("4. Eliminar un usuario")
+        print("5. Contar usuarios")
+        print("6. Listar todos los usuarios")
+        print(SUB)
+        print("0. Volver al menu principal")
+
         opc = pedir_opcion()
 
         if opc == 0:
-            print("\nGracias por usar SALUNIC. Hasta pronto!")
-            break
-
+            return
         elif opc == 1:
             f.registrar_usuario()
         elif opc == 2:
@@ -76,76 +70,160 @@ def main():
             print(f"  Total de usuarios: {f.contar_usuarios()}")
         elif opc == 6:
             f.listar_usuarios()
+        else:
+            print("  [Error] Opcion invalida.")
 
-        elif opc == 7:
+
+# =========================================================
+# SUBMENU DE CITAS MEDICAS
+# =========================================================
+def submenu_citas():
+    while True:
+        cabecera_modulo("GESTION DE CITAS MEDICAS")
+        print("1. Registrar una cita medica")
+        print("2. Buscar una cita medica")
+        print("3. Actualizar una cita")
+        print("4. Eliminar una cita")
+        print("5. Contar citas")
+        print("6. Listar todas las citas")
+        print(SUB)
+        print("0. Volver al menu principal")
+
+        opc = pedir_opcion()
+
+        if opc == 0:
+            return
+        elif opc == 1:
             f.registrar_cita()
-        elif opc == 8:
+        elif opc == 2:
             medico_id = input("ID del medico a buscar: ").strip()
             if medico_id.isdigit():
-                lista = f.buscar_cita(int(medico_id))
-                f.listar_citas(lista)
+                f.listar_citas(f.buscar_cita(int(medico_id)))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 9:
+        elif opc == 3:
             medico_id = input("ID del medico de la cita a actualizar: ").strip()
             if medico_id.isdigit():
                 f.actualizar_cita(int(medico_id))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 10:
+        elif opc == 4:
             medico_id = input("ID del medico de la cita a eliminar: ").strip()
             if medico_id.isdigit():
                 f.eliminar_cita(int(medico_id))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 11:
+        elif opc == 5:
             print(f"  Total de citas: {f.contar_citas()}")
-        elif opc == 12:
+        elif opc == 6:
             f.listar_citas()
+        else:
+            print("  [Error] Opcion invalida.")
 
-        elif opc == 13:
+
+# =========================================================
+# SUBMENU DE MEDICAMENTOS
+# =========================================================
+def submenu_medicamentos():
+    while True:
+        cabecera_modulo("GESTION DE MEDICAMENTOS")
+        print("1. Registrar un medicamento")
+        print("2. Buscar un medicamento")
+        print("3. Actualizar un medicamento")
+        print("4. Eliminar un medicamento")
+        print("5. Contar medicamentos")
+        print("6. Listar todos los medicamentos")
+        print(SUB)
+        print("0. Volver al menu principal")
+
+        opc = pedir_opcion()
+
+        if opc == 0:
+            return
+        elif opc == 1:
             f.registrar_medicamento()
-        elif opc == 14:
+        elif opc == 2:
             nombre = input("Medicamento a buscar: ").strip()
-            lista = f.buscar_medicamento(nombre)
-            f.listar_medicamentos(lista)
-        elif opc == 15:
+            f.listar_medicamentos(f.buscar_medicamento(nombre))
+        elif opc == 3:
             nombre = input("Medicamento a actualizar: ").strip()
             f.actualizar_medicamento(nombre)
-        elif opc == 16:
+        elif opc == 4:
             nombre = input("Medicamento a eliminar: ").strip()
             f.eliminar_medicamento(nombre)
-        elif opc == 17:
+        elif opc == 5:
             print(f"  Total de medicamentos: {f.contar_medicamentos()}")
-        elif opc == 18:
+        elif opc == 6:
             f.listar_medicamentos()
+        else:
+            print("  [Error] Opcion invalida.")
 
-        elif opc == 19:
+
+# =========================================================
+# SUBMENU DE ALMACEN / INVENTARIO
+# =========================================================
+def submenu_almacen():
+    while True:
+        cabecera_modulo("GESTION DE ALMACEN / INVENTARIO")
+        print("1. Registrar stock en almacen")
+        print("2. Buscar stock por medicamento")
+        print("3. Actualizar stock")
+        print("4. Eliminar stock")
+        print("5. Contar items en almacen")
+        print("6. Listar todo el almacen")
+        print(SUB)
+        print("0. Volver al menu principal")
+
+        opc = pedir_opcion()
+
+        if opc == 0:
+            return
+        elif opc == 1:
             f.registrar_stock()
-        elif opc == 20:
-            medico_id = input("ID del medicamento a buscar: ").strip()
-            if medico_id.isdigit():
-                lista = f.buscar_stock(int(medico_id))
-                f.listar_stock(lista)
+        elif opc == 2:
+            med_id = input("ID del medicamento a buscar: ").strip()
+            if med_id.isdigit():
+                f.listar_stock(f.buscar_stock(int(med_id)))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 21:
-            medico_id = input("ID del medicamento del stock a actualizar: ").strip()
-            if medico_id.isdigit():
-                f.actualizar_stock(int(medico_id))
+        elif opc == 3:
+            med_id = input("ID del medicamento del stock a actualizar: ").strip()
+            if med_id.isdigit():
+                f.actualizar_stock(int(med_id))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 22:
-            medico_id = input("ID del medicamento del stock a eliminar: ").strip()
-            if medico_id.isdigit():
-                f.eliminar_stock(int(medico_id))
+        elif opc == 4:
+            med_id = input("ID del medicamento del stock a eliminar: ").strip()
+            if med_id.isdigit():
+                f.eliminar_stock(int(med_id))
             else:
                 print("  [Error] Debe ingresar un numero valido.")
-        elif opc == 23:
+        elif opc == 5:
             print(f"  Total de items en almacen: {f.contar_stock()}")
-        elif opc == 24:
+        elif opc == 6:
             f.listar_stock()
+        else:
+            print("  [Error] Opcion invalida.")
 
+
+def main():
+    f.cargar_datos_iniciales()
+
+    while True:
+        mostrar_menu_principal()
+        opc = pedir_opcion()
+
+        if opc == 0:
+            print("\nGracias por usar SALUNIC. Hasta pronto!")
+            break
+        elif opc == 1:
+            submenu_usuarios()
+        elif opc == 2:
+            submenu_citas()
+        elif opc == 3:
+            submenu_medicamentos()
+        elif opc == 4:
+            submenu_almacen()
         else:
             print("  [Error] Opcion invalida.")
 
