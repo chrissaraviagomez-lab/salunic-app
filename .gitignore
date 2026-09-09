@@ -39,3 +39,6 @@ htmlcov/
 
 # Tkinter
 *.tkm
+
+# Documentos del profesor (material ajeno, no se sube al repo)
+Documentos para la Defensa de la App/

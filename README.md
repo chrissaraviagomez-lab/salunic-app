@@ -48,7 +48,13 @@ salunic-app/
 ├── DIAGRAMAS.md               # Documentación de Diagramas de Flujo de Datos (DFD)
 ├── diagramas_img/             # Imágenes de los DFD del proyecto (DFD_Documento_1..4.png)
 ├── generar_dfd_svg.py         # Generador de los PNG de los DFD (con Pillow)
-├── salunic-defensa.docx       # Guía de estudio para la defensa en grupo (5 integrantes)
+├── salunic-defensa.docx       # Guía de estudio para la defensa (6 integrantes)
+├── II Semestre - I Corte/     # Documentos del I corte evaluativo - II semestre
+│   ├── Defensa I Corte - II Semestre SaluNic.docx      # Los 9 puntos de la defensa (con expositor por sección)
+│   ├── Lean Canvas SaluNic.docx                        # Modelo de negocio (11 bloques + mapeo a entidades)
+│   ├── Presentacion SaluNic - II Semestre I Corte.pptx # Presentación de la defensa (13 slides)
+│   └── Diseño Técnico Inicial - SaluNic.docx           # Plantilla Semana 6 rellenada
+├── Numeros de Carnet Grupo.txt  # Carnets de los 6 integrantes
 ├── SALUNIC-Sistema-de-Salud-y-Bienestar/  # Prototipo por consola (1er corte - Programación Estructurada)
 │   ├── main.py                # Menú principal (4 módulos) + submenús de CRUD + datos iniciales
 │   ├── entidades.py           # @dataclass: Usuario, CitaMedica, Medicamento, AlmacenMedicamento
@@ -174,4 +180,4 @@ Este proyecto está bajo licencia MIT.
 ---
 
 **Desarrollado por**: chrissaraviagomez-lab
-**Última actualización**: Junio 2026
+**Última actualización**: Septiembre 2026
