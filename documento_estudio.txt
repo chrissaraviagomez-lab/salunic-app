@@ -10,9 +10,12 @@ INFORME TÉCNICO
 
 
 Integrantes:
-649D7486 – Br. Cristian Jose Saravia Gomez.
-6BBF4068 – Br. Rodrigo Antonio Rosales Reyes
-6BF33711 – Br. Jesus Adrian Sánchez Urbina
+24404547 – Br. Nadiezka Del Socorro Mayorga González
+649D7486 – Br. Cristian José Saravia Gómez
+25423027 – Br. Danny Francisco Manzanarez Morales
+23051392 – Br. Luis Iván Morales Alvarado
+24745536 – Br. Allison Tatiana Urbina Mendez
+6BF121A6 – Br. María Elena Talavera Kraudys
 
 Docentes:
 Introducción a la Programación – Eleskier Sánchez

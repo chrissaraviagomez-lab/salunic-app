@@ -1,6 +1,6 @@
 # Diagramas de Flujo de Datos (DFD) - SALUNIC
 
-> Prototipo de consola - 1er corte evolutivo - Grupo 8
+> Prototipo de consola - 1er corte evaluativo
 > Programacion Estructurada - II Semestre 2026
 
 Este documento describe los Diagramas de Flujo de Datos (DFD) de SALUNIC,
