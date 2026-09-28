@@ -51,6 +51,10 @@ salunic-app/
 ├── salunic-defensa.docx       # Guía de estudio para la defensa (6 integrantes)
 ├── Documento Explicativo del Código.md    # Guía de estudio del código (no programadores)
 ├── Documento Explicativo del Código.docx  # Versión Word de la guía de estudio del código
+├── Documento Explicativo del Código/      # Copia PDF para verlo/imprimirlo en físico (no se sube al repo)
+├── scripts/                  # Scripts de mantenimiento
+│   ├── actualizar_documento.py          # Regenera el .docx y el PDF del documento explicativo
+│   └── md2docx.py                       # Convertidor Markdown → Word
 ├── II Semestre - I Corte/     # Documentos del I corte evaluativo - II semestre
 │   ├── Defensa I Corte - II Semestre SaluNic.docx      # Los 9 puntos de la defensa (con expositor por sección)
 │   ├── Lean Canvas SaluNic.docx                        # Modelo de negocio (11 bloques + mapeo a entidades)

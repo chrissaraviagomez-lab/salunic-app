@@ -42,3 +42,6 @@ htmlcov/
 
 # Documentos del profesor (material ajeno, no se sube al repo)
 Documentos para la Defensa de la App/
+
+# Copia PDF del documento explicativo (el fuente .md/.docx de la raiz si se versiona)
+Documento Explicativo del Código/
