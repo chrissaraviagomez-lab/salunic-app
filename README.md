@@ -49,6 +49,8 @@ salunic-app/
 ├── diagramas_img/             # Imágenes de los DFD del proyecto (DFD_Documento_1..4.png)
 ├── generar_dfd_svg.py         # Generador de los PNG de los DFD (con Pillow)
 ├── salunic-defensa.docx       # Guía de estudio para la defensa (6 integrantes)
+├── Documento Explicativo del Código.md    # Guía de estudio del código (no programadores)
+├── Documento Explicativo del Código.docx  # Versión Word de la guía de estudio del código
 ├── II Semestre - I Corte/     # Documentos del I corte evaluativo - II semestre
 │   ├── Defensa I Corte - II Semestre SaluNic.docx      # Los 9 puntos de la defensa (con expositor por sección)
 │   ├── Lean Canvas SaluNic.docx                        # Modelo de negocio (11 bloques + mapeo a entidades)
