@@ -1,3 +1,4 @@
+import os
 import re
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
@@ -6,8 +7,9 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 
-MD_PATH = r"C:\salunic-app\Documento Explicativo del Código.md"
-DOCX_PATH = r"C:\salunic-app\Documento Explicativo del Código.docx"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MD_PATH = os.path.join(BASE_DIR, "Documento Explicativo del Código.md")
+DOCX_PATH = os.path.join(BASE_DIR, "Documento Explicativo del Código.docx")
 
 VERDE = RGBColor(0x0A, 0x4D, 0x2E)
 AZUL = RGBColor(0x0A, 0x23, 0x42)
@@ -87,6 +89,31 @@ def add_code_block(lines):
         shade_paragraph(p, "F2F5F9")
 
 
+def add_image_paragraph(text, width_in=2.2):
+    m = re.match(r"!\[([^\]]*)\]\(([^)]+)\)", text)
+    if not m:
+        return False
+    alt, path = m.group(1), m.group(2)
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    full = path if os.path.isabs(path) else os.path.join(BASE_DIR, path)
+    if os.path.exists(full):
+        run = p.add_run()
+        run.add_picture(full, width=Inches(width_in))
+    else:
+        run = p.add_run(f"[imagen no encontrada: {path}]")
+        run.font.color.rgb = GRIS
+        run.italic = True
+    if alt:
+        cap = doc.add_paragraph()
+        cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = cap.add_run(alt)
+        r.italic = True
+        r.font.size = Pt(9)
+        r.font.color.rgb = GRIS
+    return True
+
+
 with open(MD_PATH, "r", encoding="utf-8") as f:
     lines = f.readlines()
 
@@ -147,10 +174,27 @@ while i < len(lines):
                     cell = table.cell(r, c)
                     cell.text = ""
                     p = cell.paragraphs[0]
-                    run = p.add_run(cell_text)
-                    run.font.size = Pt(9.5)
-                    if r == 0:
-                        run.bold = True
+                    img_m = re.match(r"!\[([^\]]*)\]\(([^)]+)\)", cell_text)
+                    if img_m:
+                        if r == 0:
+                            add_inline_runs(p, cell_text, base_bold=True)
+                        else:
+                            full = img_m.group(2)
+                            if not os.path.isabs(full):
+                                full = os.path.join(BASE_DIR, full)
+                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                            if os.path.exists(full):
+                                rn = p.add_run()
+                                rn.add_picture(full, width=Inches(1.3))
+                            else:
+                                run = p.add_run(f"[imagen no encontrada]")
+                                run.font.color.rgb = GRIS
+                                run.italic = True
+                    else:
+                        run = p.add_run(cell_text)
+                        run.font.size = Pt(9.5)
+                        if r == 0:
+                            run.bold = True
             in_table = False
             table_rows = []
         i += 1
@@ -237,6 +281,12 @@ while i < len(lines):
         p = doc.add_paragraph(style="List Bullet")
         p.paragraph_format.space_after = Pt(3)
         add_inline_runs(p, m_ul.group(1))
+        i += 1
+        continue
+
+    img_m = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)", line)
+    if img_m:
+        add_image_paragraph(line)
         i += 1
         continue
 

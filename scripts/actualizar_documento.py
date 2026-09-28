@@ -37,7 +37,6 @@ def convertir_docx_a_pdf():
 
 if __name__ == "__main__":
     os.makedirs(CARPETA, exist_ok=True)
-    if not os.path.exists(DOCX):
-        if not convertir_md_a_docx():
-            sys.exit(1)
+    if not convertir_md_a_docx():
+        sys.exit(1)
     convertir_docx_a_pdf()

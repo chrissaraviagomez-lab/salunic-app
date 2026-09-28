@@ -52,6 +52,7 @@ salunic-app/
 ├── Documento Explicativo del Código.md    # Guía de estudio del código (no programadores)
 ├── Documento Explicativo del Código.docx  # Versión Word de la guía de estudio del código
 ├── Documento Explicativo del Código/      # Copia PDF para verlo/imprimirlo en físico (no se sube al repo)
+├── capturas/                              # Capturas de las pantallas usadas en el documento explicativo
 ├── scripts/                  # Scripts de mantenimiento
 │   ├── actualizar_documento.py          # Regenera el .docx y el PDF del documento explicativo
 │   └── md2docx.py                       # Convertidor Markdown → Word

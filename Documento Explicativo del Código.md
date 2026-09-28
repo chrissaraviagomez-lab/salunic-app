@@ -644,6 +644,34 @@ def _load():
 > archivo. ¿Por qué? Porque fueron diseñados con propósitos distintos y en momentos
 > distintos del semestre.
 
+### 4.14 Galería de pantallas (así se ve la app)
+
+Estas son las capturas reales de la app. Usa esta galería para **identificar cada
+pantalla por su nombre** y para practicar *antes* de abrir el código. Así, cuando leas
+un archivo (`splash_screen.py`, `login_screen.py`, etc.), ya sabrás exactamente cómo se
+ve esa pantalla.
+
+| N.º | Captura | Pantalla | Archivo donde está el código |
+|-----|---------|----------|------------------------------|
+| 1 | ![Splash](capturas/01_splash.png) | Pantalla de carga con el logo animado | `screens/splash_screen.py` |
+| 2 | ![Inicio](capturas/02_inicio.png) | Bienvenida con botones | `screens/inicio_screen.py` |
+| 3 | ![Login](capturas/03_login.png) | Iniciar sesión | `screens/login_screen.py` |
+| 4 | ![Registro](capturas/04_registro.png) | Crear cuenta | `screens/registro_screen.py` |
+| 5 | ![Home](capturas/05_home.png) | Panel de control | `screens/home_screen.py` |
+| 6 | ![Citas](capturas/06_citas.png) | Citas médicas | `screens/citas_screen.py` |
+| 7 | ![Historial](capturas/07_historial.png) | Historial médico | `screens/historial_screen.py` |
+| 8 | ![FormMedicamento](capturas/08_formmed.png) | Agregar medicamento | `screens/forms/form_medicamento.py` |
+| 9 | ![FormRegistro](capturas/09_formreg.png) | Editar perfil | `screens/forms/form_registro.py` |
+| 10 | ![OTP](capturas/10_otp.png) | Restablecer contraseña (OTP) | `screens/password_reset/screen_2_otp.py` |
+
+La **ruta al código** que aparece en la tabla es la carpeta donde vive cada pantalla.
+Por ejemplo, para abrir la pantalla del login buscas el archivo `login_screen.py` dentro
+de la carpeta `screens`.
+
+> 💡 **Ejercicio para estudiar:** abre la app, navega hasta la pantalla de la captura y
+> luego abre su archivo de código. Compáralo con lo explicado en las secciones 4.4 a 4.12.
+> La pantalla real y el código van de la mano.
+
 ---
 
 ## 5. El módulo "SALUNIC — Sistema de Salud y Bienestar" (por consola) paso a paso
@@ -1150,6 +1178,116 @@ con submenús y datos precargados → Documentos del II semestre
     `styles.py` y usa `create_polygon` con `smooth=True`).
 14. ¿Qué papel juega el `id` médico/medicamento en las relaciones entre entidades?
 15. ¿Por qué la Fase 2 del historial tuvo "fixes" de colores y fuentes?
+
+---
+
+## 10. Mini-tutorial de Git (para los 6 integrantes)
+
+Git es la herramienta que **lleva el diario de cambios** del proyecto. GitHub es la
+**"nube"** donde está guardado ese proyecto en internet para que todos puedan verlo y
+trabajar juntos.
+
+> **Idea clave:** "subir los cambios" se llama *hacer push* y "traer los cambios de los
+> demás" se llama *hacer pull*. Con solo entender esas dos palabras + el commit, ya
+> tienes lo esencial.
+
+### 10.1 El repositorio (nuestra página en GitHub)
+
+El proyecto vive en esta dirección (es público, todos pueden verlo aunque no tengan
+cuenta):
+
+```
+https://github.com/chrissaraviagomez-lab/salunic-app
+```
+
+Ahí encuentras: los archivos del proyecto, el **Documento Explicativo del Código** (este
+documento), la carpeta de documentos del II semestre, y el **historial de commits**
+(cada cambio con su fecha y su mensaje).
+
+### 10.2 Cómo ver el documento explicativo desde GitHub (sin instalar nada)
+
+1. Entra a: `https://github.com/chrissaraviagomez-lab/salunic-app`
+2. En la lista de archivos, dale clic a **`Documento Explicativo del Código.md`**.
+   GitHub lo abre con formato bonito (títulos, tablas, código y capturas).
+3. Si quieres el archivo directo (para bajar el .docx o el PDF), dale clic al archivo
+   y luego al botón **`Download`** o **`Raw`**.
+
+> **Consejo:** para leer este documento en tu celular también funciona 📱 — el formato
+> se adapta solo.
+
+### 10.3 Descargar todo el proyecto (la forma más fácil)
+
+Sin instalar nada, baja el proyecto como una carpeta comprimida:
+
+1. Abre `https://github.com/chrissaraviagomez-lab/salunic-app`
+2. Clic en el botón verde **`Code`** (arriba a la derecha).
+3. Clic en **`Download ZIP`**.
+4. Descomprime el archivo donde quieras (ej: en tu carpeta de Documentos).
+
+Para **ejecutar la app** después de bajar el ZIP, abre una terminal dentro de la carpeta
+descomprimida y escribe `py main.py`. (Necesitas Python instalado; el ZIP ya trae todo
+el código.)
+
+### 10.4 Instalar Git (si quieres trabajar con los comandos)
+
+La forma *de programador* es instalar Git y clonar el proyecto. Con Git cada integrante
+puede actualizarlo sin volver a bajar el ZIP:
+
+1. Descarga e instala Git desde: `https://git-scm.com/download/win`
+   (siguiente → siguiente → instalar, con las opciones por defecto).
+2. Abre la terminal (CMD o PowerShell) y escribe:
+
+```
+git clone https://github.com/chrissaraviagomez-lab/salunic-app.git
+```
+
+Aparecerá una carpeta llamada `salunic-app` con todo el proyecto. Eso se llama
+**clonar** (descargar una copia completa que se puede sincronizar).
+
+### 10.5 Los 5 comandos que todos debemos conocer
+
+| Comando | Qué hace | Cuándo lo uso |
+|---------|----------|---------------|
+| `git status` | Muestra qué archivos cambiaron y cuáles faltan por subir. | Cuando quiero ver "qué hay pendiente". |
+| `git add .` | "Marca" todos los cambios para guardarlos. | Antes de hacer un commit. |
+| `git commit -m "mensaje"` | Guarda una "foto" (commit) de los cambios con su descripción. | Cuando terminé un cambio y quiero registrarlo. |
+| `git push` | Sube los commits al GitHub (la nube). | Para que los demás vean mis cambios. |
+| `git pull` | Trae los cambios que otros subieron al GitHub. | **Antes de empezar a trabajar** y siempre que alguien avise que subió algo. |
+
+Ejemplo de un flujo completo de trabajo:
+
+```
+git pull                                # 1. traigo lo más reciente
+# ... hago mis cambios a los archivos ...
+git status                              # 2. reviso qué cambié
+git add .                               # 3. marco los cambios
+git commit -m "Actualice el documento"  # 4. guardo la foto con su mensaje
+git push                                # 5. lo subo al GitHub
+```
+
+> ⚠️ **Reglas para no romper nada:**
+> 1. **Siempre haz `git pull`** antes de empezar a editar.
+> 2. No borres archivos que no conozcas.
+> 3. Escribe mensajes de commit **claros y en español** (ej: "Agrego validación del email").
+> 4. Si algo "no se ve bien", avisa al coordinador (Cristian) antes de forzar cambios.
+> 5. Los archivos `.docx`, `.md` y el PDF no deben abrirse a la vez que otros: si dos
+>    personas editan lo mismo al mismo tiempo, habrá conflictos.
+
+### 10.6 Cómo actualizar "el documento en físico" (el PDF)
+
+El PDF vive en la carpeta local `Documento Explicativo del Código/`. Cuando alguien
+actualice el documento fuente (`.md`), solo hay que:
+
+1. Hacer `git pull` para traer el `.md` más nuevo.
+2. Abrir la terminal en la raíz del proyecto.
+3. Ejecutar:
+
+```
+py scripts\actualizar_documento.py
+```
+
+Esto regenera el Word (`.docx`) y el PDF automáticamente. Después ya se puede imprimir
+o leer la versión nueva. *(Requiere tener instalado Word para que se genere el PDF.)*
 
 ---
 
