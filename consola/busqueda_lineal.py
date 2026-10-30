@@ -1,4 +1,4 @@
-def busqueda_lineal(lista, criterio, atributo):
+﻿def busqueda_lineal(lista, criterio, atributo):
     """
     Implementacion de BUSQUEDA LINEAL
     Recorre elemento por elemento hasta encontrar coincidencia

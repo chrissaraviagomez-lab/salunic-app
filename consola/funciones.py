@@ -1,4 +1,4 @@
-import re
+﻿import re
 from datetime import datetime
 
 from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
@@ -28,7 +28,7 @@ def cargar_datos_iniciales():
 def validar_nombre(texto):
     if not texto.strip():
         raise ValueError("El nombre no puede estar vacio.")
-    if not re.match(r"^[A-Za-záéíóúÁÉÍÓÚÑñ ]+$", texto):
+    if not re.match(r"^[A-Za-z├í├®├¡├│├║├ü├ë├ì├ô├Ü├æ├▒ ]+$", texto):
         raise ValueError("El nombre solo puede contener letras y espacios.")
     return texto.strip().title()
 

@@ -1,4 +1,4 @@
-import funciones as f
+﻿import funciones as f
 from archivo_datos import guardar_datos, cargar_datos
 from cola_atencion import cola_atencion
 from datos import usuarios, citas
@@ -205,7 +205,7 @@ def submenu_cola_atencion():
                 if u.id == cita_sel.paciente_id:
                     paciente = u
                     break
-            print("\n  ¿Es adulto mayor?")
+            print("\n  ┬┐Es adulto mayor?")
             print("  1. Si - TIENE PRIORIDAD")
             print("  2. No")
             prio = input("Seleccione: ").strip()
