@@ -1,9 +1,12 @@
-﻿import json
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import json
 from dataclasses import asdict
 
-from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
-from datos import usuarios, citas, medicamentos, almacen
+from core.entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
+from core.datos import usuarios, citas, medicamentos, almacen
 
 
 ARCHIVO_DATOS = "salunic_datos.json"

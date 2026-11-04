@@ -1,4 +1,20 @@
 import tkinter as tk
+import sys
+import os
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
+
+try:
+    from core import archivo_datos
+    try:
+        archivo_datos.cargar_datos()
+    except Exception:
+        pass
+except Exception:
+    pass
+
 from screens.splash_screen import SplashScreen
 from screens.inicio_screen import InicioScreen
 from screens.login_screen import LoginScreen
@@ -8,6 +24,7 @@ from screens.citas_screen import CitasScreen
 from screens.historial_screen import HistorialScreen
 from screens.medicamentos_screen import MedicamentosScreen
 from screens.estadisticas_screen import EstadisticasScreen
+from screens.atencion_screen import AtencionScreen
 from screens.forms.form_medicamento import FormMedicamento
 from screens.forms.form_registro import FormRegistro
 from screens.password_reset.screen_2_otp import Screen2OTP
@@ -49,6 +66,8 @@ class SalunicApp(tk.Tk):
                 frame = HomeScreen(self.container, self)
             elif name == "Citas":
                 frame = CitasScreen(self.container, self)
+            elif name == "Atencion":
+                frame = AtencionScreen(self.container, self)
             elif name == "Historial":
                 frame = HistorialScreen(self.container, self)
             elif name == "Medicamentos":

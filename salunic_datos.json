@@ -1,0 +1,16 @@
+{
+    "usuarios": [],
+    "citas": [
+        {
+            "id": 500,
+            "paciente_id": 1,
+            "medico_id": 201,
+            "especialidad": "Medicina General",
+            "fecha": "01/12/2026",
+            "hora": "09:00",
+            "lugar": "Hospital"
+        }
+    ],
+    "medicamentos": [],
+    "almacen": []
+}

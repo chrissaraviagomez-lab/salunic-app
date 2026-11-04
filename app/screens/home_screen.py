@@ -131,16 +131,27 @@ class HomeScreen(tk.Frame):
             l.bind("<Button-1>", lambda e, d=dest: self.controller.show_screen(d))
             frame.bind("<Button-1>", lambda e, d=dest: self.controller.show_screen(d))
 
-        # PROXIMAS CITAS
-        self.scroll.create_text(16, 278, text="PROXIMAS CITAS", font=("Nunito", 11, "bold"),
+        # PANEL DE ATENCION
+        self.scroll.create_text(16, 278, text="ATENCION", font=("Nunito", 11, "bold"),
                                 fill="#BDE0FE", anchor="w")
-        self.scroll.create_rectangle(16, 288, 120, 291, fill="#BDE0FE", outline="")
+        self.scroll.create_rectangle(16, 288, 80, 291, fill="#BDE0FE", outline="")
+        btn_at_y = 300
+        create_rounded_rect(self.scroll, 20, btn_at_y, 20 + 335, btn_at_y + 46, 23, fill=FUCSIA, outline="")
+        btn_at = tk.Label(self.scroll, text="IR AL PANEL DE ATENCION CON PRIORIDAD", font=("Nunito", 10, "bold"),
+                          fg=BLANCO, bg=FUCSIA, cursor="hand2")
+        self.scroll.create_window(20, btn_at_y + 2, window=btn_at, anchor="nw", width=335, height=42)
+        btn_at.bind("<Button-1>", lambda e: self.controller.show_screen("Atencion"))
+
+        # PROXIMAS CITAS
+        self.scroll.create_text(16, 368, text="PROXIMAS CITAS", font=("Nunito", 11, "bold"),
+                                fill="#BDE0FE", anchor="w")
+        self.scroll.create_rectangle(16, 378, 120, 381, fill="#BDE0FE", outline="")
 
         citas = [
             ("15", "JUN", "Dr. Carlos Ruiz", "Medicina General", "10:30 AM", "Hospital Militar EADB", VERDE),
             ("22", "JUN", "Dra. Maria Lopez", "Cardiologia", "2:00 PM", "Hospital Fernando Velez Paiz", CELESTE),
         ]
-        cy = 310
+        cy = 400
         for day, month, doc, spec, time, place, color in citas:
             create_rounded_rect(self.scroll, 20, cy, 20 + 335, cy + 84, 16, fill="#FFFFFF", outline="")
             create_rounded_rect(self.scroll, 30, cy + 14, 30 + 52, cy + 70, 12, fill=color, outline="")

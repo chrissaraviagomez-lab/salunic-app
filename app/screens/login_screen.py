@@ -1,5 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from core import busqueda_lineal
+from core import datos as core_datos
+from core import archivo_datos
 from data import users_data
 from screens.styles import (VERDE, CELESTE, FUCSIA, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, GRADIENT_COLORS, WIDTH, HEIGHT, create_rounded_rect)
@@ -99,12 +106,30 @@ class LoginScreen(tk.Frame):
             messagebox.showerror("Error", "La contrasena debe tener al menos 4 caracteres")
             return
 
-        user = users_data.find_user(email, password)
-        if not user:
-            if email == "usuario@salunic.com" and password == "123456":
-                user = {"name": "Maria Gonzalez", "email": "usuario@salunic.com", "password": "123456"}
-            else:
-                messagebox.showerror("Error", "Credenciales incorrectas")
-                return
+        # Intentar cargar datos desde core si existe archivo
+        try:
+            archivo_datos.cargar_datos()
+        except Exception:
+            pass
+
+        # Buscar usuario usando busqueda lineal (requisito del profesor)
+        user_found = busqueda_lineal.busqueda_lineal_por_email(core_datos.usuarios, email)
+        user = None
+        if user_found and getattr(user_found, 'password', None) == password:
+            # Adaptar objeto DataClass a formato compatible con la app
+            user = {
+                "name": getattr(user_found, 'nombre', ''),
+                "email": getattr(user_found, 'email', ''),
+                "password": getattr(user_found, 'password', ''),
+                "id": getattr(user_found, 'id', None)
+            }
+        else:
+            user = users_data.find_user(email, password)
+            if not user:
+                if email == "usuario@salunic.com" and password == "123456":
+                    user = {"name": "Maria Gonzalez", "email": "usuario@salunic.com", "password": "123456"}
+                else:
+                    messagebox.showerror("Error", "Credenciales incorrectas")
+                    return
         self.controller.current_user = user
         self.controller.show_screen("Home")

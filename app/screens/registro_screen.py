@@ -1,5 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from core import entidades
+from core import datos as core_datos
+from core import archivo_datos
 from data import users_data
 from screens.styles import (VERDE, CELESTE, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
@@ -83,10 +90,10 @@ class RegistroScreen(tk.Frame):
         back_lbl.bind("<Button-1>", lambda e: self.controller.show_screen("Login"))
 
     def _register(self):
-        name = self.entries["name"].get()
-        email = self.entries["email"].get()
-        pw = self.entries["password"].get()
-        cpw = self.entries["confirm"].get()
+        name = self.entries["name"].get().strip()
+        email = self.entries["email"].get().strip()
+        pw = self.entries["password"].get().strip()
+        cpw = self.entries["confirm"].get().strip()
         if not all([name, email, pw, cpw]):
             messagebox.showerror("Error", "Completa todos los campos")
             return
@@ -99,7 +106,24 @@ class RegistroScreen(tk.Frame):
         if users_data.email_exists(email):
             messagebox.showerror("Error", "El correo ya esta registrado")
             return
+        # Agregar tambien usando estructura DataClass del core
+        try:
+            archivo_datos.cargar_datos()
+        except Exception:
+            pass
+        # Verificar en core
+        for u in core_datos.usuarios:
+            if getattr(u, 'email', '').lower() == email.lower():
+                messagebox.showerror("Error", "El correo ya esta registrado")
+                return
+        new_id = len(core_datos.usuarios) + 1
+        try:
+            nuevo = entidades.Usuario(id=new_id, nombre=name, email=email, password=pw, telefono="+505 00000000")
+            core_datos.usuarios.append(nuevo)
+            archivo_datos.guardar_datos()
+        except Exception:
+            pass
         users_data.add_user(name, email, pw)
-        self.controller.current_user = users_data.find_user(email, pw)
+        self.controller.current_user = users_data.find_user(email, pw) or {"name": name, "email": email, "password": pw}
         messagebox.showinfo("Exito", "Cuenta creada correctamente")
         self.controller.show_screen("Home")

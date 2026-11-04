@@ -1,8 +1,12 @@
-﻿import re
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import re
 from datetime import datetime
 
-from entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
-from datos import (usuarios, citas, medicamentos, almacen,
+from core.entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
+from core.datos import (usuarios, citas, medicamentos, almacen,
                    usuarios_iniciales, citas_iniciales,
                    inventario_inicial, medicamentos_iniciales)
 
@@ -28,7 +32,7 @@ def cargar_datos_iniciales():
 def validar_nombre(texto):
     if not texto.strip():
         raise ValueError("El nombre no puede estar vacio.")
-    if not re.match(r"^[A-Za-z├í├®├¡├│├║├ü├ë├ì├ô├Ü├æ├▒ ]+$", texto):
+    if not re.match(r"^[A-Za-z]+$", texto):
         raise ValueError("El nombre solo puede contener letras y espacios.")
     return texto.strip().title()
 

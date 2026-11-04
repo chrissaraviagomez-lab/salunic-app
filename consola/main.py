@@ -1,7 +1,11 @@
-﻿import funciones as f
-from archivo_datos import guardar_datos, cargar_datos
-from cola_atencion import cola_atencion
-from datos import usuarios, citas
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import core.funciones as f
+from core.archivo_datos import guardar_datos, cargar_datos
+from core.cola_atencion import cola_atencion
+from core.datos import usuarios, citas
 
 TITULO = "SALUNIC - Sistema de Salud y Bienestar"
 LINEA = "=" * 55
