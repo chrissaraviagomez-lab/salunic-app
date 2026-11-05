@@ -6,12 +6,10 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
     sys.path.append(ROOT_DIR)
 
+# Precarga datos usando la estructura requerida (Funciones/Datos/Entidades)
 try:
-    from core import archivo_datos
-    try:
-        archivo_datos.cargar_datos()
-    except Exception:
-        pass
+    from Funciones import sistema
+    sistema.iniciar_sistema()
 except Exception:
     pass
 

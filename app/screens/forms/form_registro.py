@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
-from data import users_data
+import sys
+import os
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from Funciones import sistema
 from screens.styles import (VERDE, CELESTE, FUCSIA, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
                             create_rounded_rect)
@@ -170,7 +176,7 @@ class FormRegistro(tk.Frame):
             self.controller.current_user = {"name": nombre_completo, "email": email, "telefono": telefono}
 
         if email_anterior:
-            users_data.update_user(email_anterior, name=nombre_completo, email_nuevo=email)
+            sistema.actualizar_usuario_app(email_anterior, nombre=nombre_completo, email_nuevo=email, telefono=telefono)
 
         messagebox.showinfo("Perfil actualizado", "Perfil guardado exitosamente")
         self.controller.show_screen("Home")

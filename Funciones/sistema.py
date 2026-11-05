@@ -50,6 +50,25 @@ def registrar_usuario_app(nombre, email, password, telefono="+505 00000000"):
     return nuevo
 
 
+def actualizar_usuario_app(email_actual, nombre=None, email_nuevo=None, telefono=None):
+    """Actualiza datos de usuario (para formularios de la app)."""
+    iniciar_sistema()
+    u = busqueda_lineal_por_email(usuarios, email_actual)
+    if not u:
+        return False
+    if email_nuevo and email_nuevo.lower() != email_actual.lower():
+        duplicado = busqueda_lineal_por_email(usuarios, email_nuevo)
+        if duplicado:
+            return False
+        u.email = email_nuevo
+    if nombre is not None:
+        u.nombre = nombre
+    if telefono is not None:
+        u.telefono = telefono
+    guardar_sistema()
+    return True
+
+
 def agregar_cita(paciente_id, medico_id, especialidad, fecha, hora, lugar="Hospital"):
     iniciar_sistema()
     new_id = max([c.id for c in citas], default=0) + 1

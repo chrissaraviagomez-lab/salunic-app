@@ -2,19 +2,15 @@ import json
 import os
 import sys
 
-# Añadir ruta del proyecto para usar core
+# Añadir ruta del proyecto para usar la estructura requerida
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if ROOT_DIR not in sys.path:
-    sys.path.append(ROOT_DIR)
+    sys.path.insert(0, ROOT_DIR)
 
-try:
-    from core import entidades
-    from core import datos as core_datos
-    from core import archivo_datos
-    from core import busqueda_lineal
-    USE_CORE = True
-except Exception:
-    USE_CORE = False
+from Datos import usuarios
+from Datos.datos import cargar_datos, guardar_datos
+from Entidades import Usuario
+from Funciones.busqueda_lineal import busqueda_lineal_por_email
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "users.json")
 
@@ -38,14 +34,12 @@ def _save_legacy(users):
 
 
 def _sync_from_core_to_legacy():
-    if not USE_CORE:
-        return
     try:
-        archivo_datos.cargar_datos()
+        cargar_datos()
     except Exception:
         pass
     users = []
-    for u in core_datos.usuarios:
+    for u in usuarios:
         users.append({
             "name": getattr(u, 'nombre', ''),
             "email": getattr(u, 'email', ''),
@@ -57,52 +51,44 @@ def _sync_from_core_to_legacy():
 
 
 def add_user(name, email, password):
-    if USE_CORE:
+    try:
+        cargar_datos()
+    except Exception:
+        pass
+    for u in usuarios:
+        if getattr(u, 'email', '').lower() == str(email).lower():
+            break
+    else:
+        new_id = len(usuarios) + 1
         try:
-            archivo_datos.cargar_datos()
+            nuevo = Usuario(id=new_id, nombre=name, email=email, password=password, telefono="+505 00000000")
+            usuarios.append(nuevo)
+            guardar_datos()
         except Exception:
             pass
-        # Evitar duplicados
-        for u in core_datos.usuarios:
-            if getattr(u, 'email', '').lower() == str(email).lower():
-                # Aun asi mantener compatibilidad con legacy
-                break
-        else:
-            new_id = len(core_datos.usuarios) + 1
-            try:
-                nuevo = entidades.Usuario(id=new_id, nombre=name, email=email, password=password, telefono="+505 00000000")
-                core_datos.usuarios.append(nuevo)
-                archivo_datos.guardar_datos()
-            except Exception:
-                pass
-        _sync_from_core_to_legacy()
-        users = _load_legacy()
-        users.append({"name": name, "email": email, "password": password})
-        _save_legacy(users)
-        return
+    _sync_from_core_to_legacy()
     users = _load_legacy()
     users.append({"name": name, "email": email, "password": password})
     _save_legacy(users)
 
 
 def find_user(email, password):
-    if USE_CORE:
-        try:
-            archivo_datos.cargar_datos()
-        except Exception:
-            pass
-        try:
-            user_found = busqueda_lineal.busqueda_lineal_por_email(core_datos.usuarios, email)
-            if user_found and getattr(user_found, 'password', None) == password:
-                return {
-                    "name": getattr(user_found, 'nombre', ''),
-                    "email": getattr(user_found, 'email', ''),
-                    "password": getattr(user_found, 'password', ''),
-                    "id": getattr(user_found, 'id', None)
-                }
-        except Exception:
-            pass
-        _sync_from_core_to_legacy()
+    try:
+        cargar_datos()
+    except Exception:
+        pass
+    try:
+        user_found = busqueda_lineal_por_email(usuarios, email)
+        if user_found and getattr(user_found, 'password', None) == password:
+            return {
+                "name": getattr(user_found, 'nombre', ''),
+                "email": getattr(user_found, 'email', ''),
+                "password": getattr(user_found, 'password', ''),
+                "id": getattr(user_found, 'id', None)
+            }
+    except Exception:
+        pass
+    _sync_from_core_to_legacy()
     users = _load_legacy()
     for u in users:
         if str(u.get("email", "")).lower() == str(email).lower() and str(u.get("password", "")) == str(password):
@@ -111,36 +97,34 @@ def find_user(email, password):
 
 
 def update_user(email_actual, name=None, email_nuevo=None):
-    if USE_CORE:
+    try:
+        cargar_datos()
+    except Exception:
+        pass
+    actualizado = False
+    for u in usuarios:
+        if getattr(u, 'email', '').lower() == str(email_actual).lower():
+            if name is not None:
+                try:
+                    u.nombre = name
+                except Exception:
+                    pass
+            if email_nuevo is not None:
+                try:
+                    u.email = email_nuevo
+                except Exception:
+                    pass
+            actualizado = True
+            break
+    if actualizado:
         try:
-            archivo_datos.cargar_datos()
+            guardar_datos()
         except Exception:
             pass
-        actualizado = False
-        for u in core_datos.usuarios:
-            if getattr(u, 'email', '').lower() == str(email_actual).lower():
-                if name is not None:
-                    try:
-                        u.nombre = name
-                    except Exception:
-                        pass
-                if email_nuevo is not None:
-                    try:
-                        u.email = email_nuevo
-                    except Exception:
-                        pass
-                actualizado = True
-                break
-        if actualizado:
-            try:
-                archivo_datos.guardar_datos()
-            except Exception:
-                pass
-        _sync_from_core_to_legacy()
-        if actualizado:
-            return True
+    _sync_from_core_to_legacy()
+    if actualizado:
+        return True
     users = _load_legacy()
-    actualizado = False
     for u in users:
         if str(u.get("email", "")).lower() == str(email_actual).lower():
             if name is not None:
@@ -155,14 +139,13 @@ def update_user(email_actual, name=None, email_nuevo=None):
 
 
 def email_exists(email):
-    if USE_CORE:
-        try:
-            archivo_datos.cargar_datos()
-        except Exception:
-            pass
-        for u in core_datos.usuarios:
-            if getattr(u, 'email', '').lower() == str(email).lower():
-                return True
-        _sync_from_core_to_legacy()
+    try:
+        cargar_datos()
+    except Exception:
+        pass
+    for u in usuarios:
+        if getattr(u, 'email', '').lower() == str(email).lower():
+            return True
+    _sync_from_core_to_legacy()
     users = _load_legacy()
     return any(str(u.get("email", "")).lower() == str(email).lower() for u in users)
