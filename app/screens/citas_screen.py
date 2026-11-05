@@ -2,13 +2,11 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
-from core import cola_atencion
-from core import datos as core_datos
-from core import entidades
-from core import archivo_datos
-from core import busqueda_lineal
+from Funciones import sistema
 from screens.styles import (VERDE, CELESTE, FUCSIA, AMARILLO, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
                             create_rounded_rect)
@@ -54,21 +52,13 @@ class CitasScreen(tk.Frame):
             paciente = current.get('name') or current.get('nombre') or current.get('full_name') or current.get('email') or paciente
         elif current is not None:
             paciente = getattr(current, 'nombre', None) or getattr(current, 'name', None) or getattr(current, 'full_name', None) or getattr(current, 'email', None) or paciente
-        if paciente in (None, '', 'Paciente'):
-            try:
-                archivo_datos.cargar_datos()
-                email = None
-                if isinstance(current, dict):
-                    email = current.get('email')
-                elif current is not None:
-                    email = getattr(current, 'email', None)
-                if email:
-                    u = busqueda_lineal.busqueda_lineal_por_email(core_datos.usuarios, email)
-                    if u:
-                        paciente = getattr(u, 'nombre', paciente)
-            except Exception:
-                pass
         return paciente
+
+    def _get_current_patient_id(self):
+        current = getattr(self.controller, 'current_user', None)
+        if isinstance(current, dict):
+            return current.get('id', 1) or 1
+        return getattr(current, 'id', 1) or 1
 
     def _draw_content(self):
         nav = tk.Frame(self, bg=BLANCO, bd=0)
@@ -82,13 +72,9 @@ class CitasScreen(tk.Frame):
         self.canvas.create_text(187, 110, text="Citas Médicas", font=("Nunito", 22, "bold"), fill=BLANCO)
         self.canvas.create_text(187, 138, text="Gestiona tus citas desde aquí", font=("Nunito", 10), fill=BLANCO)
 
-        try:
-            archivo_datos.cargar_datos()
-        except Exception:
-            pass
-
+        sistema.iniciar_sistema()
         cy = 165
-        citas_core = list(getattr(core_datos, 'citas', []))
+        citas_core = list(sistema.obtener_citas())
         if not citas_core:
             self.canvas.create_text(187, cy + 35, text="Sin citas registradas", font=("Nunito", 11), fill=BLANCO)
             cy += 80
@@ -136,30 +122,13 @@ class CitasScreen(tk.Frame):
 
     def _add_cita(self):
         try:
-            archivo_datos.cargar_datos()
             paciente = self._get_current_patient_name()
+            paciente_id = self._get_current_patient_id()
             especialidad = simpledialog.askstring("Nueva Cita", "Especialidad:") or "Medicina General"
             fecha = simpledialog.askstring("Nueva Cita", "Fecha (DD/MM/AAAA):") or "01/12/2026"
             hora = simpledialog.askstring("Nueva Cita", "Hora (HH:MM):") or "09:00"
             medico_id = simpledialog.askinteger("Nueva Cita", "ID del Médico:") or 201
-            new_id = len(core_datos.citas) + 500
-            paciente_id = 1
-            try:
-                current = getattr(self.controller, 'current_user', None)
-                email = None
-                if isinstance(current, dict):
-                    email = current.get('email')
-                elif current is not None:
-                    email = getattr(current, 'email', None)
-                if email:
-                    u = busqueda_lineal.busqueda_lineal_por_email(core_datos.usuarios, email)
-                    if u:
-                        paciente_id = getattr(u, 'id', 1)
-            except Exception:
-                pass
-            cita = entidades.CitaMedica(id=new_id, paciente_id=paciente_id, medico_id=medico_id, especialidad=especialidad, fecha=fecha, hora=hora, lugar="Hospital")
-            core_datos.citas.append(cita)
-            archivo_datos.guardar_datos()
+            sistema.agregar_cita(paciente_id, medico_id, especialidad, fecha, hora, "Hospital")
             messagebox.showinfo("Cita Agendada", f"Cita registrada correctamente.\nPaciente: {paciente}\n{especialidad} | {fecha} {hora}")
             self._build_ui()
         except Exception as ex:
@@ -168,13 +137,8 @@ class CitasScreen(tk.Frame):
     def _add_to_queue(self):
         try:
             paciente = self._get_current_patient_name()
-            item = {"paciente": paciente, "cita_id": len(cola_atencion.cola_atencion.cola) + 200, "hora": "09:00"}
             es_adulto_mayor = messagebox.askyesno("Cola con Prioridad", "¿Es Adulto Mayor?\n(Se le dará PRIORIDAD al atender con heapq)")
-            cola_atencion.cola_atencion.encolar(item, es_adulto_mayor=es_adulto_mayor)
+            sistema.agregar_a_cola(paciente, len(sistema.obtener_cola()) + 200, "09:00", es_adulto_mayor=es_adulto_mayor)
             messagebox.showinfo("Cola de Atención", f"Paciente: {paciente}\nAgregado a la cola con prioridad.")
-            try:
-                cola_atencion.cola_atencion.mostrar_cola()
-            except Exception:
-                pass
         except Exception as ex:
             messagebox.showerror("Error", str(ex))

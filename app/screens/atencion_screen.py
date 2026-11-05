@@ -2,12 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
-from core import cola_atencion
-from core import datos as core_datos
-from core import archivo_datos
-from core import busqueda_lineal
+from Funciones import sistema
 from screens.styles import (VERDE, CELESTE, FUCSIA, AMARILLO, NARANJA, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
                             create_rounded_rect)
@@ -77,18 +76,14 @@ class AtencionScreen(tk.Frame):
 
         self.canvas.create_text(18, 305, text="COLA DE ESPERA", font=("Nunito", 10, "bold"), fill=BLANCO, anchor="w")
 
-        cola = getattr(cola_atencion.cola_atencion, 'cola', [])
+        cola = sistema.obtener_cola()
         if not cola:
             create_rounded_rect(self.canvas, 18, 325, 358, 385, 16, fill="#FFFFFF", outline="")
             self.canvas.create_text(187, 355, text="No hay pacientes en espera", font=("Nunito", 11), fill=TEXTO_GRIS, justify="center")
             cy_list = 400
         else:
             cy_list = 325
-            try:
-                temp = sorted(cola, key=lambda x: (x[0], x[1]))
-            except Exception:
-                temp = list(cola)
-            for i, item in enumerate(temp[:5], 1):
+            for i, item in enumerate(cola[:5], 1):
                 try:
                     prio, turno, data = item[0], item[1], item[2]
                 except Exception:
@@ -102,8 +97,8 @@ class AtencionScreen(tk.Frame):
                 self.canvas.create_text(32, cy_list + 18, text=f"{i}. {pac}", font=("Nunito", 11, "bold"), fill=AZUL_NOCHE, anchor="w")
                 self.canvas.create_text(32, cy_list + 38, text=f"{prio_txt} | Turno #{turno} | Cita: {cid} | {hora}", font=("Nunito", 8), fill=color, anchor="w")
                 cy_list += 66
-            if len(temp) > 5:
-                self.canvas.create_text(187, cy_list + 10, text=f"+ {len(temp)-5} pacientes más en espera", font=("Nunito", 9), fill=BLANCO, justify="center")
+            if len(cola) > 5:
+                self.canvas.create_text(187, cy_list + 10, text=f"+ {len(cola)-5} pacientes más en espera", font=("Nunito", 9), fill=BLANCO, justify="center")
                 cy_list += 30
 
         btn1_y = cy_list + 20
@@ -126,12 +121,12 @@ class AtencionScreen(tk.Frame):
 
     def _atender(self):
         try:
-            if getattr(cola_atencion.cola_atencion, 'esta_vacia', lambda: True)():
+            if sistema.cola_vacia():
                 messagebox.showinfo("Atención", "No hay pacientes en espera para atender.")
                 self.en_atencion = None
                 self._build_ui()
                 return
-            atendido = cola_atencion.cola_atencion.desencolar()
+            atendido = sistema.atender_siguiente()
             self.en_atencion = atendido
             if atendido:
                 messagebox.showinfo("Atendiendo", f"Atendiendo a:\n{atendido.get('paciente')}\n{atendido.get('prioridad')} | Turno #{atendido.get('turno')}")

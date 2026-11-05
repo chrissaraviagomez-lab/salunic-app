@@ -2,12 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
-from core import entidades
-from core import datos as core_datos
-from core import archivo_datos
-from data import users_data
+from Funciones import sistema
 from screens.styles import (VERDE, CELESTE, AZUL_NOCHE, BLANCO,
                             TEXTO_OSCURO, TEXTO_GRIS, GRADIENT_COLORS, WIDTH, HEIGHT,
                             create_rounded_rect)
@@ -103,27 +102,10 @@ class RegistroScreen(tk.Frame):
         if len(pw) < 6:
             messagebox.showerror("Error", "La contrasena debe tener al menos 6 caracteres")
             return
-        if users_data.email_exists(email):
+        nuevo = sistema.registrar_usuario_app(name, email, pw)
+        if nuevo is None:
             messagebox.showerror("Error", "El correo ya esta registrado")
             return
-        # Agregar tambien usando estructura DataClass del core
-        try:
-            archivo_datos.cargar_datos()
-        except Exception:
-            pass
-        # Verificar en core
-        for u in core_datos.usuarios:
-            if getattr(u, 'email', '').lower() == email.lower():
-                messagebox.showerror("Error", "El correo ya esta registrado")
-                return
-        new_id = len(core_datos.usuarios) + 1
-        try:
-            nuevo = entidades.Usuario(id=new_id, nombre=name, email=email, password=pw, telefono="+505 00000000")
-            core_datos.usuarios.append(nuevo)
-            archivo_datos.guardar_datos()
-        except Exception:
-            pass
-        users_data.add_user(name, email, pw)
-        self.controller.current_user = users_data.find_user(email, pw) or {"name": name, "email": email, "password": pw}
+        self.controller.current_user = {"name": name, "email": email, "password": pw, "id": getattr(nuevo, 'id', None)}
         messagebox.showinfo("Exito", "Cuenta creada correctamente")
         self.controller.show_screen("Home")
