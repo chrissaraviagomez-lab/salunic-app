@@ -6,7 +6,9 @@ from .entidades import Usuario, CitaMedica, Medicamento, AlmacenMedicamento
 from .datos import usuarios, citas, medicamentos, almacen
 
 
-ARCHIVO_DATOS = "salunic_datos.json"
+# Ruta absoluta al archivo de datos (en la raíz del proyecto) para consistencia
+import os as _os
+ARCHIVO_DATOS = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "salunic_datos.json")
 
 
 def guardar_datos():
