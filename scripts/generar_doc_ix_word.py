@@ -8,6 +8,7 @@ from docx.oxml import OxmlElement
 
 REPO = "https://github.com/chrissaraviagomez-lab/salunic-app"
 CAPTURAS = Path(r"C:\salunic-app\docs\capturas")
+CODIGO = CAPTURAS / "codigo"
 
 doc = Document()
 
@@ -108,6 +109,30 @@ def screenshot_placeholder(n, title, desc, image_path=None):
     r2.font.color.rgb = RGBColor(80, 80, 80)
     doc.add_paragraph("")  # spacing
 
+
+def code_shot(label, image_path, caption):
+    img = Path(image_path)
+    if not img.exists():
+        para(f"[Falta captura de c?digo: {img.name}]")
+        return
+    p = doc.add_paragraph()
+    r = p.add_run(label)
+    r.bold = True
+    r.font.size = Pt(10)
+    pic_p = doc.add_paragraph()
+    pic_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    try:
+        pic_p.add_run().add_picture(str(img), width=Inches(6.2))
+    except Exception:
+        pic_p.add_run().add_picture(str(img), width=Inches(5.5))
+    cap = doc.add_paragraph(caption)
+    cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    if cap.runs:
+        cap.runs[0].font.size = Pt(9)
+        cap.runs[0].italic = True
+        cap.runs[0].font.color.rgb = RGBColor(70, 70, 70)
+    doc.add_paragraph("")
+
 # Portada
 add_title('SALUNIC - Sistema de Salud y Bienestar')
 add_subtitle('IX. Desarrollo del prototipo en Python')
@@ -153,6 +178,9 @@ h2('1.6 Otros módulos de apoyo')
 bullet('core/: compatibilidad que delega a Entidades/Datos/Funciones (estado unificado).')
 bullet('docs/pdfs/ y scripts/: documentación/guías y scripts auxiliares (generación de PDFs).')
 bullet('salunic_datos.json: archivo de persistencia compartido (raíz).')
+h2('1.7 Evidencia de c?digo (m?dulos)')
+code_shot('C?digo 1 - Entidades (DataClass)', CODIGO/'01_codigo_entidades_dataclass.png', 'Modelos @dataclass: Usuario, CitaMedica, Medicamento, AlmacenMedicamento.')
+code_shot('C?digo 2 - Datos y persistencia JSON', CODIGO/'02_codigo_datos_json.png', 'Listas, asdict(), cargar/guardar JSON y manejo de excepciones.')
 
 # 2
 h1('2. Validación de datos y manejo de excepciones')
@@ -181,6 +209,8 @@ def pedir_campo(etiqueta, validador):
             return validador(valor)      # puede lanzar ValueError
         except ValueError as e:
             print(f"  [Error] {e}")      # reintento controlado''')
+h2('2.3 Evidencia de c?digo (validaci?n/excepciones)')
+code_shot('C?digo 3 - Validaciones y excepciones', CODIGO/'03_codigo_validaciones_excepciones.png', 'Validadores (ValueError) y pedir_campo() con try/except/reintento.')
 
 # 3
 h1('3. Operaciones CRUD')
@@ -196,6 +226,8 @@ bullet('Crear: registrar_stock() | Leer: buscar_stock(medicamento_id), listar_st
 h2('3.5 Integración')
 bullet('Consola: submenús invocan CRUD por entidad y permiten guardar/cargar JSON.')
 bullet('App: usa Funciones.sistema/Funciones para autenticación, registro, citas y cola, respetando reglas de acceso.')
+h2('3.6 Evidencia de c?digo (CRUD)')
+code_shot('C?digo 4 - Ejemplo CRUD', CODIGO/'04_codigo_crud_usuario.png', 'Operaciones CRUD por entidad (ejemplo: Funciones/usuario.py).')
 
 # 4
 h1('4. Algoritmos de búsqueda y ordenamiento')
@@ -220,6 +252,9 @@ prioridad = 0 if es_adulto_mayor else 1
 heapq.heappush(self.cola, (prioridad, self.turno_global, item))
 prioridad, turno, atendido = heapq.heappop(self.cola)  # atiende por prioridad''')
 para('La vista de la cola se muestra ordenada con sorted por (prioridad, turno) sin alterar la extracción del heap.')
+h2('4.3 Evidencia de c?digo (b?squeda y prioridad)')
+code_shot('C?digo 5 - B?squeda lineal', CODIGO/'05_codigo_busqueda_lineal.png', 'Recorrido secuencial elemento por elemento.')
+code_shot('C?digo 6 - Cola con prioridad (heapq)', CODIGO/'06_codigo_cola_prioridad_heapq.png', 'Adulto mayor (prioridad 0) atendido primero; desempate por turno_global.')
 
 # 5
 h1('5. Interfaz en Tkinter')
@@ -233,7 +268,10 @@ bullet('Login: validación y autenticación (búsqueda lineal por email vía Fun
 bullet('Registro: crea Usuario (DataClass) y guarda en JSON.')
 bullet('Citas: listar/agregar citas y encolar indicando si es adulto mayor (prioridad).')
 bullet('Panel de Atención: muestra EN ATENCIÓN y COLA DE ESPERA ordenada por prioridad; ATENDER SIGUIENTE usa desencolado por prioridad (heapq).')
-h2('5.3 Capturas de pantalla (evidencias)')
+h2('5.3 Evidencia de c?digo (Tkinter y consola)')
+code_shot('C?digo 7 - Interfaz Tkinter', CODIGO/'07_codigo_tkinter_app.png', 'app/main.py: inicializaci?n, carga (Funciones.sistema) y navegaci?n por pantallas.')
+code_shot('C?digo 8 - Consola integrada', CODIGO/'08_codigo_consola_integrada.png', 'consola/main.py usa Entidades/Datos/Funciones (men?s, cola con prioridad, JSON).')
+h2('5.4 Capturas de pantalla de ejecuci?n (evidencias)')
 para('A continuación se incluyen las capturas disponibles. Las capturas de consola (5, 6 y 7) deben tomarse al ejecutar `py consola/main.py` (Win+Shift+S) y guardarse como docs/capturas/08_consola_menu.png, 09_consola_cola_prioridad.png y 10_consola_json.png para que se inserten automáticamente, o insertarse manualmente.')
 screenshot_placeholder(1, 'Inicio / Login (App Tkinter)', 'Ventana de la app mostrando la pantalla de inicio o login (interfaz Tkinter).', CAPTURAS / '01_inicio_login.png')
 screenshot_placeholder(2, 'Home (App Tkinter)', 'Pantalla Home con accesos del sistema (navegación).', CAPTURAS / '04_home.png')
