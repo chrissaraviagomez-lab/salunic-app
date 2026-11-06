@@ -7,6 +7,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 REPO = "https://github.com/chrissaraviagomez-lab/salunic-app"
+CAPTURAS = Path(r"C:\salunic-app\docs\capturas")
 
 doc = Document()
 
@@ -63,7 +64,33 @@ def _set_cell_border(cell, **kwargs):
             tcBorders.append(tag)
     tcPr.append(tcBorders)
 
-def screenshot_placeholder(n, title, desc):
+def screenshot_placeholder(n, title, desc, image_path=None):
+    """Inserta una imagen si existe; si no, deja un recuadro placeholder."""
+    img = None
+    if image_path:
+        pth = Path(image_path)
+        if pth.exists():
+            img = pth
+    if img:
+        p = doc.add_paragraph()
+        r = p.add_run(f"[CAPTURA {n}] {title}")
+        r.bold = True
+        r.font.size = Pt(11)
+        pic_p = doc.add_paragraph()
+        pic_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = pic_p.add_run()
+        # Ajustar ancho (app es angosta; consola puede ser más ancha)
+        try:
+            run.add_picture(str(img), width=Inches(3.2) if "panel_atencion" in img.name or "citas" in img.name or "home" in img.name or "login" in img.name or "registro" in img.name or "inicio" in img.name else Inches(5.8))
+        except Exception:
+            run.add_picture(str(img), width=Inches(4.5))
+        cap = doc.add_paragraph(desc)
+        cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if cap.runs:
+            cap.runs[0].font.size = Pt(9)
+            cap.runs[0].italic = True
+        doc.add_paragraph("")
+        return
     table = doc.add_table(rows=1, cols=1)
     cell = table.rows[0].cells[0]
     _set_cell_border(cell,
@@ -206,15 +233,15 @@ bullet('Login: validación y autenticación (búsqueda lineal por email vía Fun
 bullet('Registro: crea Usuario (DataClass) y guarda en JSON.')
 bullet('Citas: listar/agregar citas y encolar indicando si es adulto mayor (prioridad).')
 bullet('Panel de Atención: muestra EN ATENCIÓN y COLA DE ESPERA ordenada por prioridad; ATENDER SIGUIENTE usa desencolado por prioridad (heapq).')
-h2('5.3 Capturas de pantalla (insertar evidencia)')
-para('Inserte las capturas reales tomadas al ejecutar la app (py app/main.py) y la consola (py consola/main.py).')
-screenshot_placeholder(1, 'Inicio / Login (App Tkinter)', 'Ventana de la app mostrando la pantalla de inicio o login con campos de correo/contraseña y botones.')
-screenshot_placeholder(2, 'Registro de usuario o Home', 'Formulario de registro completado/confirmación o pantalla Home con accesos (Citas, Atención, etc.).')
-screenshot_placeholder(3, 'Gestión de Citas (App)', 'Pantalla de Citas mostrando listado y/o el flujo para agregar una nueva cita y la opción de agregar a cola con prioridad (adulto mayor).')
-screenshot_placeholder(4, 'Panel de Atención - Cola con prioridad (App)', 'Pantalla "Panel de Atención" con secciones EN ATENCIÓN y COLA DE ESPERA, evidenciando que un ADULTO MAYOR aparece/atiende antes; botón "ATENDER SIGUIENTE".')
-screenshot_placeholder(5, 'Módulo por consola - Menús principales', 'Terminal ejecutando `py consola/main.py`: menú principal de SALUNIC con opciones (Usuarios, Citas, Medicamentos, Almacén, Cola de Atención con Prioridad, Archivo de Datos).')
-screenshot_placeholder(6, 'Consola - Cola con prioridad (evidencia)', 'Submenú de Cola de Atención: pacientes agregados (normal y adulto mayor) y resultado de "Atender siguiente" mostrando que se atiende primero el ADULTO MAYOR (PRIORITARIO).')
-screenshot_placeholder(7, 'Consola - Archivo de Datos (JSON)', 'Submenú Archivo de Datos mostrando guardado/carga exitosa de salunic_datos.json (mensajes [OK]) o listado que evidencie persistencia.')
+h2('5.3 Capturas de pantalla (evidencias)')
+para('A continuación se incluyen las capturas disponibles. Las capturas de consola (5, 6 y 7) deben tomarse al ejecutar `py consola/main.py` (Win+Shift+S) y guardarse como docs/capturas/08_consola_menu.png, 09_consola_cola_prioridad.png y 10_consola_json.png para que se inserten automáticamente, o insertarse manualmente.')
+screenshot_placeholder(1, 'Inicio / Login (App Tkinter)', 'Ventana de la app mostrando la pantalla de inicio o login (interfaz Tkinter).', CAPTURAS / '01_inicio_login.png')
+screenshot_placeholder(2, 'Home (App Tkinter)', 'Pantalla Home con accesos del sistema (navegación).', CAPTURAS / '04_home.png')
+screenshot_placeholder(3, 'Gestión de Citas (App)', 'Pantalla de Citas: listado y/o flujo para agregar cita y agregar a cola con prioridad.', CAPTURAS / '05_citas.png')
+screenshot_placeholder(4, 'Panel de Atención - Cola con prioridad (App)', 'Panel con EN ATENCIÓN y COLA DE ESPERA; evidencia de prioridad (adulto mayor primero) y botón ATENDER SIGUIENTE.', CAPTURAS / '06_panel_atencion_prioridad.png')
+screenshot_placeholder(5, 'Módulo por consola - Menú principal', 'Terminal `py consola/main.py`: menú principal con opciones (Usuarios, Citas, Medicamentos, Almacén, Cola con Prioridad, Archivo de Datos).', CAPTURAS / '08_consola_menu.png')
+screenshot_placeholder(6, 'Consola - Cola con prioridad (evidencia)', 'Submenú Cola de Atención: adulto mayor (PRIORITARIO) atendido primero aunque llegó después.', CAPTURAS / '09_consola_cola_prioridad.png')
+screenshot_placeholder(7, 'Consola - Archivo de Datos (JSON)', 'Guardado/carga exitosa de salunic_datos.json (mensajes [OK]).', CAPTURAS / '10_consola_json.png')
 
 # 6
 h1('6. Enlace al repositorio')
