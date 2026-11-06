@@ -141,12 +141,11 @@ code('''C:\\salunic-app\\
 |-- consola/                   # Modulo por consola (usa Entidades, Datos, Funciones)
 |   `-- main.py
 |
-|-- core/                      # Compatibilidad / version previa (no requerida)
 |-- docs/                      # Documentacion y PDFs
 |-- scripts/                   # Scripts auxiliares
 |-- salunic_datos.json         # Archivo de datos compartido (persistencia)
 `-- README / .bat''')
-p('Nota: "core/" se conserva SOLO por compatibilidad y delega a Entidades/Datos/Funciones; no es la estructura principal. La estructura que se debe mostrar/defender es Entidades + Datos + Funciones, con app/screens y consola consumiendo esa logica.')
+p('La estructura que se debe mostrar/defender es Entidades + Datos + Funciones, con app/screens y consola consumiendo esa logica.')
 p('Archivos de apoyo actuales: app/data/users_data.py (adaptador de compatibilidad de la app) y scripts/ (generacion de capturas y documentos). No forman parte de la logica principal.')
 
 # 3
