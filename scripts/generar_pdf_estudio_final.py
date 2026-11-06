@@ -1,5 +1,9 @@
 from fpdf import FPDF
 from pathlib import Path
+from datetime import datetime
+from PIL import Image
+
+CODIGO = Path(r"C:\salunic-app\docs\capturas\codigo")
 
 class PDF(FPDF):
     def header(self):
@@ -58,9 +62,12 @@ pdf.set_font('Helvetica','',11)
 pdf.cell(0,6,'Entidades/  +  Datos/  +  Funciones/  +  screens/ (app)  +  consola/', align='C', ln=True)
 pdf.ln(6)
 pdf.cell(0,6,'Temas: DataClass | Cola con Prioridad (heapq) | Busqueda Lineal | Archivo JSON', align='C', ln=True)
-pdf.ln(18)
+pdf.ln(4)
+pdf.set_font('Helvetica','I',9)
+pdf.cell(0,6,f'Actualizado: {datetime.now().strftime("%d/%m/%Y")} | Codigo fuente: GitHub (salunic-app)', align='C', ln=True)
+pdf.ln(16)
 pdf.set_font('Helvetica','',10)
-pdf.multi_cell(0,5,'Objetivo de este PDF: que puedas estudiar y entender TODO el proyecto (estructura, reglas, conexion entre partes y codigo clave) para explicarlo y defenderlo con seguridad.', align='C')
+pdf.multi_cell(0,5,'Objetivo de este PDF: que puedas estudiar y entender TODO el proyecto (estructura, reglas, conexion entre partes, codigo clave y capturas del codigo real) para explicarlo y defenderlo con seguridad.', align='C')
 
 # Indice
 pdf.add_page(); h1('INDICE')
@@ -80,7 +87,8 @@ items=[
 '13. Archivos clave explicados (que hace cada uno)',
 '14. Como ejecutar y probar',
 '15. Tips para exponer y defender (guion + respuestas tipicas)',
-'16. Checklist final']
+'16. Checklist final',
+'17. Capturas del codigo real (evidencias para estudiar)']
 for it in items: pdf.set_font('Helvetica','',10); pdf.cell(0,6,it,ln=True)
 
 # 1
@@ -138,7 +146,8 @@ code('''C:\\salunic-app\\
 |-- scripts/                   # Scripts auxiliares
 |-- salunic_datos.json         # Archivo de datos compartido (persistencia)
 `-- README / .bat''')
-p('Nota: "core/" puede existir por compatibilidad con partes anteriores, pero la estructura que se debe mostrar/defender como principal es Entidades + Datos + Funciones, con app/screens y consola consumiendo esa logica.')
+p('Nota: "core/" se conserva SOLO por compatibilidad y delega a Entidades/Datos/Funciones; no es la estructura principal. La estructura que se debe mostrar/defender es Entidades + Datos + Funciones, con app/screens y consola consumiendo esa logica.')
+p('Archivos de apoyo actuales: app/data/users_data.py (adaptador de compatibilidad de la app) y scripts/ (generacion de capturas y documentos). No forman parte de la logica principal.')
 
 # 3
 pdf.add_page(); h1('3. Reglas de acceso (MUY IMPORTANTE)')
@@ -150,7 +159,8 @@ h2('Regla B - Funciones/')
 p('Los archivos de Funciones SOLO pueden usar: Datos y Entidades.')
 p('Aqui vive la logica: validaciones, CRUD, busqueda, cola, y operaciones que modifican las listas de Datos.')
 h2('Regla C - consola/')
-p('El modulo consola usa Entidades, Datos y Funciones para cumplir lo requerido y compartir la misma logica. Importa menus/acciones desde Funciones y puede leer listas de Datos cuando es necesario para flujos interactivos (ej: encolar una cita existente).')
+p('El modulo consola usa Datos y Funciones (las Entidades se crean/usan dentro de Funciones) para cumplir lo requerido y compartir la misma logica. Importa menus/acciones desde Funciones y puede leer listas de Datos para flujos interactivos (ej: encolar una cita existente).')
+p('En el codigo actual consola/main.py importa: Datos (listas y cargar/guardar), Funciones.usuario/cita_medica/medicamento/almacen_medicamento y Funciones.cola_atencion.')
 h2('Por que importa')
 p('Si la UI tocara Datos directamente, se duplicaria logica y seria mas dificil mantener. Centralizar en Funciones permite que app y consola se comporten igual y usen el mismo archivo JSON.')
 
@@ -327,10 +337,10 @@ pdf.add_page(); h1('11. Modulo Consola (consola/) - alineado a la estructura')
 p('El modulo por consola ofrece menus para gestionar Usuarios, Citas, Medicamentos, Almacen, Cola de Atencion y Archivo de Datos.')
 h2('Como cumple la estructura requerida')
 p('consola/main.py importa desde:')
-p('- Datos (listas como usuarios, citas) y Datos.datos (cargar_datos, guardar_datos, cargar_datos_iniciales).')
-p('- Funciones por dataclass: usuario, cita_medica, medicamento, almacen_medicamento.')
+p('- Datos: listas (usuarios, citas, medicamentos, almacen) y Datos.datos (cargar_datos, guardar_datos, cargar_datos_iniciales).')
+p('- Funciones por dataclass: usuario, cita_medica, medicamento, almacen_medicamento (CRUD).')
 p('- Funciones.cola_atencion (cola_atencion con heapq).')
-p('- (Puede usar Entidades si se requiere; la base ya esta alineada a la estructura requerida.)')
+p('Las Entidades se usan dentro de Funciones (por ejemplo, Funciones/usuario.py crea Usuario). La consola no duplica esa logica.')
 h2('Que demuestra la consola')
 p('- CRUD por entidad (a traves de Funciones).')
 p('- Cola con prioridad: permite marcar adulto mayor y atiende por prioridad.')
@@ -422,6 +432,39 @@ for c in checks: pdf.cell(0,6,c,ln=True)
 pdf.ln(4)
 pdf.set_font('Helvetica','B',11)
 pdf.multi_cell(0,6,'Conclusion: si entiendes la separacion Entidades-Datos-Funciones, las reglas de acceso, y los 4 temas (DataClass, cola con prioridad, busqueda lineal, JSON), puedes explicar y defender el proyecto completo con confianza.')
+
+# 17 - Capturas del codigo real
+pdf.add_page(); h1('17. Capturas del codigo real (evidencias)')
+p('Estas capturas corresponden al codigo actual del proyecto y sirven para estudiar/ensayar la defensa mostrando archivos y lineas concretas. Se generan con: py scripts/generar_capturas_codigo.py')
+p('Carpeta: docs/capturas/codigo/')
+
+def code_image(path, caption):
+    path = Path(path)
+    if not path.exists():
+        p(f'[Falta captura: {path.name}]')
+        return
+    with Image.open(path) as im:
+        iw, ih = im.size
+    max_w, max_h = 180.0, 225.0
+    scale = min(max_w / iw, max_h / ih)
+    pdf.add_page()
+    pdf.set_font('Helvetica','B',10)
+    pdf.multi_cell(0,6,caption)
+    pdf.ln(1)
+    pdf.image(str(path), x=pdf.l_margin, w=iw * scale)
+    pdf.ln(2)
+
+for img, cap in [
+    ('01_codigo_entidades_dataclass.png', 'Codigo 1 - Entidades (4 DataClass con @dataclass)'),
+    ('02_codigo_datos_json.png', 'Codigo 2 - Datos y persistencia JSON (asdict, cargar/guardar, excepciones)'),
+    ('03_codigo_validaciones_excepciones.png', 'Codigo 3 - Validaciones (ValueError) y manejo de excepciones'),
+    ('04_codigo_crud_usuario.png', 'Codigo 4 - Operaciones CRUD (ejemplo Usuario)'),
+    ('05_codigo_busqueda_lineal.png', 'Codigo 5 - Busqueda lineal (recorrido elemento por elemento)'),
+    ('06_codigo_cola_prioridad_heapq.png', 'Codigo 6 - Cola con prioridad (heapq): adulto mayor primero'),
+    ('07_codigo_tkinter_app.png', 'Codigo 7 - Interfaz Tkinter (app/main.py)'),
+    ('08_codigo_consola_integrada.png', 'Codigo 8 - Consola integrada (Entidades/Datos/Funciones)'),
+]:
+    code_image(CODIGO / img, cap)
 
 out1 = Path(r'C:\salunic-app\docs\pdfs\GUIA_COMPLETA_INTEGRACION_APP_CONSOLA_CORE_TIPS_DEFENSA.pdf')
 out2 = Path(r'C:\salunic-app\docs\pdfs\GUIA_ESTUDIO_FINAL_SALUNIC_ESTRUCTURA_REQUERIDA.pdf')
